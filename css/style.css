@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+nav {
+  background-color: orange;
+}
+
+main {
+  padding-top: 3rem;
+}
+
+.tesseraSanitaria {
+  background-image: url(../img/tessera_sanitaria_card_bg_generic.jpg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  display: none;
+  position: relative;
+}
+
+.tesseraSanitaria > span {
+  display: inline-block;
+  position: absolute;
+  font-weight: bold;
+}
+
+.tesseraSanitaria #cf {
+  top: 34.5%;
+  left: 43%;
+}
+
+.tesseraSanitaria #cognome {
+  top: 45.3%;
+  left: 43%;
+}
+
+.tesseraSanitaria #nome {
+  top: 53.3%;
+  left: 43%;
+}
+
+.tesseraSanitaria #luogoDiNascita {
+  top: 64%;
+  left: 43%;
+}
+
+.tesseraSanitaria #provincia {
+  top: 74%;
+  left: 43%;
+}
+
+.tesseraSanitaria #dataDiNascita {
+  top: 85.1%;
+  left: 43%;
+}
+
+.tesseraSanitaria #sesso {
+  top: 31.7%;
+  left: 94%;
+}
+
+.tesseraSanitaria #dataDiScadenza {
+  top: 74%;
+  left: 2%;
+}
