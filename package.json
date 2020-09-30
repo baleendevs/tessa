@@ -1,0 +1,15 @@
+{
+  "name": "tessa-web",
+  "version": "1.0.0",
+  "description": "TesSa website",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "gh-pages -d dist"
+  },
+  "author": "Baleen Developers",
+  "license": "ISC",
+  "homepage": "https://baleendevs.github.io/tessa",
+  "dependencies": {
+    "gh-pages": "^3.1.0"
+  }
+}
