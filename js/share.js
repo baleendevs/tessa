@@ -4,8 +4,12 @@ const BG_IMAGE_HEIGHT = 1410;
 window.onload = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const card = urlParams.get("card");
+  let redirect = true;
   if (card !== null) {
-    handleSharedCard(card);
+    redirect = !handleSharedCard(card);
+  }
+  if (redirect === true) {
+    window.location.replace("index.html");
   }
 };
 
@@ -26,8 +30,10 @@ const handleSharedCard = (card) => {
     setCardSize();
     console.log(tesseraSanitaria.codiceFiscale);
     setCardFields(tesseraSanitaria);
+    return true;
   } catch {
     //console.log("Invalid card");
+    return false;
   }
 };
 
