@@ -49,6 +49,10 @@ main {
   color: rgba(0, 0, 0, 0.87);
 }
 
+.footer-links {
+  display: inline-block;
+}
+
 .content-title,
 .index-content-title {
   font-weight: 300;
