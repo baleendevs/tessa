@@ -4,27 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="css/style.css" />
     <title>TesSa</title>
   </head>
   <body>
     <nav>
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo center">TesSa</a>
+        <div class="brand-logo center">
+          <a href="index.html" class="valign-wrapper"
+            ><img class="logo-img" src="img/tessa_logo_small.png" alt="" /><span
+              class="title"
+              >TesSa</span
+            ></a
+          >
+        </div>
       </div>
     </nav>
     <main class="container">
       <div class="row">
         <div class="tsContainer col s12 m12 l6 xl5">
-          <div class="tesseraSanitaria">
+          <div class="tesseraSanitaria z-depth-2">
+            <img src="img/tessera_sanitaria_card_bg_generic.jpg" alt="" />
             <span id="cf"></span>
             <span id="cognome"></span>
             <span id="nome"></span>
@@ -36,19 +43,28 @@
           </div>
         </div>
         <div class="content col s12 m12 l6 xl7">
-          <h4>
+          <h4 class="content-title">
             Aggiungi la Tessera Sanitaria di <span id="tsOwner"></span> su TesSa
           </h4>
-          <p>
+          <p class="flow-text">
             Installa TesSa e porta sempre con te le Tessere Sanitarie di cui hai
             bisogno
           </p>
-          <a href="http://play.google.com"
-            ><img src="img/google-play-badge.png" height="80" alt=""
-          /></a>
+          <div class="center-align">
+            <a href="http://play.google.com"
+              ><img src="img/google-play-badge.png" height="80" alt=""
+            /></a>
+          </div>
         </div>
       </div>
     </main>
+    <footer class="page-footer center-align">
+      &copy;
+      <script>
+        document.write(new Date().getFullYear());
+      </script>
+      Baleen Developers
+    </footer>
     <script src="js/share.js"></script>
   </body>
 </html>

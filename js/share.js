@@ -1,4 +1,4 @@
-const BG_IMAGE_WIDTH = 2240;
+const BG_IMAGE_WIDTH = 2235;
 const BG_IMAGE_HEIGHT = 1410;
 
 window.onload = () => {
@@ -23,7 +23,6 @@ const handleSharedCard = (card) => {
     if (!isValid(tesseraSanitaria)) {
       return;
     }
-    tesseraSanitaria.dataDiScadenza = "01/12/2020"; //TODO REMOVE THIS
     setCardSize();
     console.log(tesseraSanitaria.codiceFiscale);
     setCardFields(tesseraSanitaria);
@@ -49,8 +48,14 @@ const isValid = (tesseraSanitaria) => {
 const getCardSize = (width) => {
   console.log(width);
   let height = (width * BG_IMAGE_HEIGHT) / BG_IMAGE_WIDTH;
+  let borderRadius = (width * 50) / BG_IMAGE_WIDTH;
   let fontSize = (90 * height) / BG_IMAGE_HEIGHT;
-  return { width: width, height: height, fontSize: fontSize };
+  return {
+    width: width,
+    height: height,
+    borderRadius: borderRadius,
+    fontSize: fontSize,
+  };
 };
 
 const setCardSize = () => {
@@ -59,6 +64,9 @@ const setCardSize = () => {
   let cardSize = getCardSize(tsDiv.offsetWidth);
   console.log(cardSize);
   tsDiv.style.height = cardSize.height + "px";
+  let tsImg = document.querySelector(".tesseraSanitaria > img");
+  tsDiv.style.borderRadius = cardSize.borderRadius + "px";
+  tsImg.style.borderRadius = cardSize.borderRadius + "px";
   let cardFields = document.querySelectorAll(".tesseraSanitaria > span");
   for (const key in cardFields) {
     if (cardFields.hasOwnProperty(key)) {
@@ -70,28 +78,28 @@ const setCardSize = () => {
 
 const setCardFields = (tesseraSanitaria) => {
   let cf = document.querySelector(".tesseraSanitaria #cf");
-  cf.innerText = tesseraSanitaria.codiceFiscale;
+  cf.innerText = tesseraSanitaria.codiceFiscale.toUpperCase();
   let cognome = document.querySelector(".tesseraSanitaria #cognome");
-  cognome.innerText = tesseraSanitaria.cognome;
+  cognome.innerText = tesseraSanitaria.cognome.toUpperCase();
   let nome = document.querySelector(".tesseraSanitaria #nome");
-  nome.innerText = tesseraSanitaria.nome;
+  nome.innerText = tesseraSanitaria.nome.toUpperCase();
   let sesso = document.querySelector(".tesseraSanitaria #sesso");
-  sesso.innerText = tesseraSanitaria.sesso;
+  sesso.innerText = tesseraSanitaria.sesso.toUpperCase();
   let provincia = document.querySelector(".tesseraSanitaria #provincia");
-  provincia.innerText = tesseraSanitaria.provincia;
+  provincia.innerText = tesseraSanitaria.provincia.toUpperCase();
   let luogoDiNascita = document.querySelector(
     ".tesseraSanitaria #luogoDiNascita"
   );
-  luogoDiNascita.innerText = tesseraSanitaria.luogoDiNascita;
+  luogoDiNascita.innerText = tesseraSanitaria.luogoDiNascita.toUpperCase();
   let dataDiNascita = document.querySelector(
     ".tesseraSanitaria #dataDiNascita"
   );
-  dataDiNascita.innerText = tesseraSanitaria.dataDiNascita;
+  dataDiNascita.innerText = tesseraSanitaria.dataDiNascita.toUpperCase();
   if (tesseraSanitaria.dataDiScadenza !== null) {
     let dataDiScadenza = document.querySelector(
       ".tesseraSanitaria #dataDiScadenza"
     );
-    dataDiScadenza.innerText = tesseraSanitaria.dataDiScadenza;
+    dataDiScadenza.innerText = tesseraSanitaria.dataDiScadenza.toUpperCase();
   }
   let tsOwner = document.querySelector("#tsOwner");
   tsOwner.innerText = tesseraSanitaria.cognome + " " + tesseraSanitaria.nome;
