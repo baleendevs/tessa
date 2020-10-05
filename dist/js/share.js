@@ -5,7 +5,7 @@ window.onload = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const card = urlParams.get("card");
   let redirect = true;
-  if (card !== null) {
+  if (card !== null && card !== undefined) {
     redirect = !handleSharedCard(card);
   }
   if (redirect === true) {
@@ -28,7 +28,7 @@ const handleSharedCard = (card) => {
       return;
     }
     setCardSize();
-    console.log(tesseraSanitaria.codiceFiscale);
+    console.log(tesseraSanitaria.cF);
     setCardFields(tesseraSanitaria);
     return true;
   } catch {
@@ -39,13 +39,20 @@ const handleSharedCard = (card) => {
 
 const isValid = (tesseraSanitaria) => {
   if (
-    tesseraSanitaria.codiceFiscale !== null &&
-    tesseraSanitaria.cognome !== null &&
-    tesseraSanitaria.nome !== null &&
-    tesseraSanitaria.sesso !== null &&
-    tesseraSanitaria.provincia !== null &&
-    tesseraSanitaria.luogoDiNascita !== null &&
-    tesseraSanitaria.dataDiNascita != null
+    tesseraSanitaria.cF !== null &&
+    tesseraSanitaria.cF !== undefined &&
+    tesseraSanitaria.c !== null &&
+    tesseraSanitaria.c !== undefined &&
+    tesseraSanitaria.n !== null &&
+    tesseraSanitaria.n !== undefined &&
+    tesseraSanitaria.s !== null &&
+    tesseraSanitaria.s !== undefined &&
+    tesseraSanitaria.p !== null &&
+    tesseraSanitaria.p !== undefined &&
+    tesseraSanitaria.l !== null &&
+    tesseraSanitaria.l !== undefined &&
+    tesseraSanitaria.dN != null &&
+    tesseraSanitaria.dN !== undefined
   )
     return true;
   return false;
@@ -84,29 +91,29 @@ const setCardSize = () => {
 
 const setCardFields = (tesseraSanitaria) => {
   let cf = document.querySelector(".tesseraSanitaria #cf");
-  cf.innerText = tesseraSanitaria.codiceFiscale.toUpperCase();
+  cf.innerText = tesseraSanitaria.cF.toUpperCase();
   let cognome = document.querySelector(".tesseraSanitaria #cognome");
-  cognome.innerText = tesseraSanitaria.cognome.toUpperCase();
+  cognome.innerText = tesseraSanitaria.c.toUpperCase();
   let nome = document.querySelector(".tesseraSanitaria #nome");
-  nome.innerText = tesseraSanitaria.nome.toUpperCase();
+  nome.innerText = tesseraSanitaria.n.toUpperCase();
   let sesso = document.querySelector(".tesseraSanitaria #sesso");
-  sesso.innerText = tesseraSanitaria.sesso.toUpperCase();
+  sesso.innerText = tesseraSanitaria.s.toUpperCase();
   let provincia = document.querySelector(".tesseraSanitaria #provincia");
-  provincia.innerText = tesseraSanitaria.provincia.toUpperCase();
+  provincia.innerText = tesseraSanitaria.p.toUpperCase();
   let luogoDiNascita = document.querySelector(
     ".tesseraSanitaria #luogoDiNascita"
   );
-  luogoDiNascita.innerText = tesseraSanitaria.luogoDiNascita.toUpperCase();
+  luogoDiNascita.innerText = tesseraSanitaria.l.toUpperCase();
   let dataDiNascita = document.querySelector(
     ".tesseraSanitaria #dataDiNascita"
   );
-  dataDiNascita.innerText = tesseraSanitaria.dataDiNascita.toUpperCase();
-  if (tesseraSanitaria.dataDiScadenza !== null) {
+  dataDiNascita.innerText = tesseraSanitaria.dN.toUpperCase();
+  if (tesseraSanitaria.dS !== null && tesseraSanitaria.dS !== undefined) {
     let dataDiScadenza = document.querySelector(
       ".tesseraSanitaria #dataDiScadenza"
     );
-    dataDiScadenza.innerText = tesseraSanitaria.dataDiScadenza.toUpperCase();
+    dataDiScadenza.innerText = tesseraSanitaria.dS.toUpperCase();
   }
   let tsOwner = document.querySelector("#tsOwner");
-  tsOwner.innerText = tesseraSanitaria.cognome + " " + tesseraSanitaria.nome;
+  tsOwner.innerText = tesseraSanitaria.c + " " + tesseraSanitaria.n;
 };
