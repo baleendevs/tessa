@@ -122,3 +122,7 @@ main {
   top: 73%;
   left: 2%;
 }
+
+.webStats {
+  display: none;
+}
