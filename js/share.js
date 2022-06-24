@@ -82,8 +82,10 @@ const isValidCIE = (cie) => {
     cie.n !== undefined &&
     cie.s !== null &&
     cie.s !== undefined &&
-    cie.l !== null &&
-    cie.l !== undefined &&
+    cie.lN !== null &&
+    cie.lN !== undefined &&
+    cie.p !== null &&
+    cie.p !== undefined &&    
     cie.dN != null &&
     cie.dN !== undefined
   )
@@ -147,6 +149,8 @@ const setCardFieldsTS = (tesseraSanitaria) => {
     );
     dataDiScadenza.innerText = tesseraSanitaria.dS.toUpperCase();
   }
+  let cardType = document.querySelector("#cardType");
+  cardType.innerText = "Tessera Sanitaria";  
   let tsOwner = document.querySelector("#tsOwner");
   tsOwner.innerText = tesseraSanitaria.c + " " + tesseraSanitaria.n;
 };
@@ -159,10 +163,10 @@ const setCardSizeCIE = () => {
   let cardSize = getCardSize(cieDiv.offsetWidth);
   console.log(cardSize);
   cieDiv.style.height = cardSize.height + "px";
-  let tsImg = document.querySelector(".cie > img");
+  let cieImg = document.querySelector(".cie > img");
   cieDiv.style.borderRadius = cardSize.borderRadius + "px";
-  tsImg.style.borderRadius = cardSize.borderRadius + "px";
-  let cardFields = document.querySelectorAll(".tesseraSanitaria > span");
+  cieImg.style.borderRadius = cardSize.borderRadius + "px";
+  let cardFields = document.querySelectorAll(".cie > span");
   for (const key in cardFields) {
     if (cardFields.hasOwnProperty(key)) {
       const field = cardFields[key];
@@ -171,31 +175,51 @@ const setCardSizeCIE = () => {
   }
 };
 
-const setCardFieldsCIE = (tesseraSanitaria) => {
-  let cf = document.querySelector(".tesseraSanitaria #cf");
-  cf.innerText = tesseraSanitaria.cF.toUpperCase();
-  let cognome = document.querySelector(".tesseraSanitaria #cognome");
-  cognome.innerText = tesseraSanitaria.c.toUpperCase();
-  let nome = document.querySelector(".tesseraSanitaria #nome");
-  nome.innerText = tesseraSanitaria.n.toUpperCase();
-  let sesso = document.querySelector(".tesseraSanitaria #sesso");
-  sesso.innerText = tesseraSanitaria.s.toUpperCase();
-  let provincia = document.querySelector(".tesseraSanitaria #provincia");
-  provincia.innerText = tesseraSanitaria.p.toUpperCase();
-  let luogoDiNascita = document.querySelector(
-    ".tesseraSanitaria #luogoDiNascita"
-  );
-  luogoDiNascita.innerText = tesseraSanitaria.l.toUpperCase();
-  let dataDiNascita = document.querySelector(
-    ".tesseraSanitaria #dataDiNascita"
-  );
-  dataDiNascita.innerText = tesseraSanitaria.dN.toUpperCase();
-  if (tesseraSanitaria.dS !== null && tesseraSanitaria.dS !== undefined) {
-    let dataDiScadenza = document.querySelector(
-      ".tesseraSanitaria #dataDiScadenza"
-    );
-    dataDiScadenza.innerText = tesseraSanitaria.dS.toUpperCase();
+const setCardFieldsCIE = (cie) => {
+  let cf = document.querySelector(".cie #cf");
+  cf.innerText = cie.cF.toUpperCase();
+  let cognome = document.querySelector(".cie #cognome");
+  cognome.innerText = cie.c.toUpperCase();
+  let nome = document.querySelector(".cie #nome");
+  nome.innerText = cie.n.toUpperCase();
+  let sesso = document.querySelector(".cie #sesso");
+  sesso.innerText = cie.s.toUpperCase();
+  if(cie.s.toUpperCase() == "F") {
+    let img = document.querySelector(".cie #img");
+    img.src = img.src.replace("male", "female");
   }
+  if (cie.st !== null && cie.st !== undefined) {
+    let statura = document.querySelector(".cie #statura");
+    statura.innerText = cie.st.toUpperCase();
+  }               
+  let luogoEDataDiNascita = document.querySelector(".cie #luogoEDataDiNascita");
+  luogoEDataDiNascita.innerText = cie.lN.toUpperCase() + " (" + cie.lN.toUpperCase() + ") " + cie.dN.toUpperCase();
+  if (cie.dE !== null && cie.dE !== undefined) {
+    let dataDiEmissione = document.querySelector(
+      ".cie #dataDiEmissione"
+    );
+    dataDiEmissione.innerText = cie.dS.toUpperCase();
+  }
+  if (cie.nz !== null && cie.nz !== undefined) {
+    let nazionalita = document.querySelector(
+      ".cie #nazionalita"
+    );
+    nazionalita.innerText = cie.nz.toUpperCase();   
+  }  
+  if (cie.cAN !== null && cie.cAN !== undefined) {
+    let cardAccessNumber = document.querySelector(
+      ".cie #cardAccessNumber"
+    );
+    cardAccessNumber.innerText = cie.cAN.toUpperCase();  
+  }  
+  if (cie.dS !== null && cie.dS !== undefined) {
+    let dataDiScadenza = document.querySelector(
+      ".cie #dataDiScadenza"
+    );
+    dataDiScadenza.innerText = cie.dS.toUpperCase();
+  }
+  let cardType = document.querySelector("#cardType");
+  cardType.innerText = "Carta d'Idendità Elettronica";
   let tsOwner = document.querySelector("#tsOwner");
-  tsOwner.innerText = tesseraSanitaria.c + " " + tesseraSanitaria.n;
+  tsOwner.innerText = cie.c + " " + cie.n;
 };
