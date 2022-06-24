@@ -99,40 +99,49 @@
     <main class="container">
       <div class="row">
         <div class="tsContainer col s12 m12 l6 xl5">
-          <div class="tesseraSanitaria z-depth-2">
+          <div class="tessaCard ts z-depth-2">
             <img src="img/tessera_sanitaria_card_bg_generic.jpg" alt="" />
-            <span id="cf"></span>
-            <span id="cognome"></span>
-            <span id="nome"></span>
-            <span id="luogoDiNascita"></span>
-            <span id="provincia"></span>
-            <span id="dataDiNascita"></span>
-            <span id="sesso"></span>
-            <span id="dataDiScadenza"></span>
+            <span class="cF"></span>
+            <span class="c"></span>
+            <span class="n"></span>
+            <span class="l"></span>
+            <span class="p"></span>
+            <span class="dN"></span>
+            <span class="s"></span>
+            <span class="dS"></span>
           </div>
-          <div class="cie z-depth-2" style="display: none">
-            <img id="img" src="img/cie_card_bg_male.jpg" alt="" />
-            <span id="cf"></span>
-            <span id="cognome"></span>
-            <span id="nome"></span>
-            <span id="numeroDiSerie"></span>
-            <span id="luogoEDataDiNascita"></span>
-            <span id="sesso"></span>
-            <span id="statura"></span>
-            <span id="nazionalita"></span>
-            <span id="dataDiEmissione"></span>
-            <span id="dataDiScadenza"></span>
-            <span id="cardAccessNumber"></span>
-          </div>          
+          <div class="tessaCard cie z-depth-2" style="display: none">
+            <img src="img/cie_card_bg_male.jpg" alt="" />
+            <span class="com"></span>
+            <span class="nS"></span>
+            <span class="c"></span>
+            <span class="n"></span>
+            <span class="luogoEDataDiNascita">
+              <span class="l lN"></span> <span class="dN"></span>
+            </span>
+            <span class="s"></span>
+            <span class="st"></span>
+            <span class="nz"></span>
+            <span class="dE"></span>
+            <span class="dS"></span>
+            <span class="cAN"></span>
+          </div>
         </div>
         <div class="content col s12 m12 l6 xl7">
           <h4 class="content-title">
-            <span id="tsDesc">Aggiungi la Tessera Sanitaria di <span id="tsOwner"></span> su TesSa</span>
-            <span id="cieDesc" style="display: none">Aggiungi la Carta d'Identità Elettronica di <span id="cieOwner"></span> su TesSa</span>
+            <span class="tessaCardMessage" id="tsMessage"
+              >Aggiungi la Tessera Sanitaria di <span id="tsOwner"></span> su
+              TesSa</span
+            >
+            <span class="tessaCardMessage" id="cieMessage"
+              >Aggiungi la Carta d'Identità Elettronica di
+              <span id="cieOwner"></span> su TesSa</span
+            >
           </h4>
           <p class="flow-text">
-            Installa TesSa e tieni sempre a portata di mano le Tessere Sanitarie,
-            le Carte d'Identità Elettroniche ed i Green Pass di cui hai bisogno
+            Installa TesSa e tieni sempre a portata di mano le Tessere
+            Sanitarie, le Carte d'Identità Elettroniche ed i Green Pass di cui
+            hai bisogno
           </p>
           <div class="center-align">
             <a

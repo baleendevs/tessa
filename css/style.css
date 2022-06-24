@@ -64,7 +64,11 @@ main {
   }
 }
 
-.tesseraSanitaria {
+.tessaCardMessage {
+  display: none;
+}
+
+.tessaCard {
   width: 100%;
   display: none;
   position: relative;
@@ -72,55 +76,112 @@ main {
   margin: 0 auto;
 }
 
-.tesseraSanitaria > img {
+.tessaCard > img {
   width: 100%;
   height: 100%;
 }
 
-.tesseraSanitaria > span {
+.tessaCard > span {
   display: inline-block;
   position: absolute;
   font-weight: 500;
 }
 
-.tesseraSanitaria #cf {
+/* TS fields positioning */
+.ts .cF {
   top: 32.7%;
   left: 42.5%;
 }
 
-.tesseraSanitaria #cognome {
+.ts .c {
   top: 44.3%;
   left: 42.5%;
 }
 
-.tesseraSanitaria #nome {
+.ts .n {
   top: 52.3%;
   left: 42.5%;
 }
 
-.tesseraSanitaria #luogoDiNascita {
+.ts .l {
   top: 63%;
   left: 42.5%;
 }
 
-.tesseraSanitaria #provincia {
+.ts .p {
   top: 73%;
   left: 42.5%;
 }
 
-.tesseraSanitaria #dataDiNascita {
+.ts .dN {
   top: 83.5%;
   left: 42.5%;
 }
 
-.tesseraSanitaria #sesso {
+.ts .s {
   top: 30.2%;
   left: 94%;
 }
 
-.tesseraSanitaria #dataDiScadenza {
+.ts .dS {
   top: 73%;
   left: 2%;
+}
+
+/* CIE fields positioning */
+.cie .com {
+  top: 23.5%;
+  left: 19.5%;
+}
+
+.cie .nS {
+  top: 4.5%;
+  left: 74.5%;
+}
+
+.cie .c {
+  top: 31.0%;
+  left: 33.7%;
+}
+
+.cie .n {
+  top: 38.7%;
+  left: 33.7%;
+}
+
+.cie .luogoEDataDiNascita {
+  top: 49.0%;
+  left: 33.7%;
+}
+
+.cie .s {
+  top: 59.3%;
+  left: 33.7%;
+}
+
+.cie .st {
+  top: 59.3%;
+  left: 48.9%;
+}
+
+.cie .nz {
+  top: 59.3%;
+  left: 66.5%;
+}
+
+.cie .dE {
+  top: 67.3%;
+  left: 33.7%;
+}
+
+.cie .dS {
+  top: 67.3%;
+  left: 66.5%;
+}
+
+.cie .cAN {
+  top: 73.3%;
+  left: 76.7%;
 }
 
 .webStats {
