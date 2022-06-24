@@ -148,9 +148,7 @@ const setCardFieldsTS = (tesseraSanitaria) => {
       ".tesseraSanitaria #dataDiScadenza"
     );
     dataDiScadenza.innerText = tesseraSanitaria.dS.toUpperCase();
-  }
-  let cardType = document.querySelector("#cardType");
-  cardType.innerText = "Tessera Sanitaria";  
+  } 
   let tsOwner = document.querySelector("#tsOwner");
   tsOwner.innerText = tesseraSanitaria.c + " " + tesseraSanitaria.n;
 };
@@ -173,6 +171,11 @@ const setCardSizeCIE = () => {
       field.style.fontSize = cardSize.fontSize + "px";
     }
   }
+
+  let tsDesc = document.querySelector(".content-title #tsDesc");
+  tsDesc.style.display = "none";  
+  let cieDesc = document.querySelector(".content-title #cieDesc");
+  cieDesc.style.display = "block";  
 };
 
 const setCardFieldsCIE = (cie) => {
@@ -218,8 +221,6 @@ const setCardFieldsCIE = (cie) => {
     );
     dataDiScadenza.innerText = cie.dS.toUpperCase();
   }
-  let cardType = document.querySelector("#cardType");
-  cardType.innerText = "Carta d'Idendità Elettronica";
-  let tsOwner = document.querySelector("#tsOwner");
-  tsOwner.innerText = cie.c + " " + cie.n;
+  let cieOwner = document.querySelector("#cieOwner");
+  cieOwner.innerText = cie.c + " " + cie.n;
 };
