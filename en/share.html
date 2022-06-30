@@ -99,25 +99,47 @@
     <main class="container">
       <div class="row">
         <div class="tsContainer col s12 m12 l6 xl5">
-          <div class="tesseraSanitaria z-depth-2">
-            <img src="../img/tessera_sanitaria_card_bg_generic.jpg" alt="" />
-            <span id="cf"></span>
-            <span id="cognome"></span>
-            <span id="nome"></span>
-            <span id="luogoDiNascita"></span>
-            <span id="provincia"></span>
-            <span id="dataDiNascita"></span>
-            <span id="sesso"></span>
-            <span id="dataDiScadenza"></span>
+          <div class="tessaCard ts z-depth-2">
+            <img src="img/tessera_sanitaria_card_bg_generic.jpg" alt="" />
+            <span class="cF"></span>
+            <span class="c"></span>
+            <span class="n"></span>
+            <span class="l"></span>
+            <span class="p"></span>
+            <span class="dN"></span>
+            <span class="s"></span>
+            <span class="dS"></span>
+          </div>
+          <div class="tessaCard cie z-depth-2" style="display: none">
+            <img src="img/cie_card_bg_male.jpg" alt="" />
+            <span class="com"></span>
+            <span class="nS"></span>
+            <span class="c"></span>
+            <span class="n"></span>
+            <span class="luogoEDataDiNascita">
+              <span class="l lN"></span> <span class="dN"></span>
+            </span>
+            <span class="s"></span>
+            <span class="st"></span>
+            <span class="nz"></span>
+            <span class="dE"></span>
+            <span class="dS"></span>
+            <span class="cAN"></span>
           </div>
         </div>
         <div class="content col s12 m12 l6 xl7">
           <h4 class="content-title">
-            Add <span id="tsOwner"></span>'s Health Insurance Card to TesSa
+            <span class="tessaCardMessage" id="tsMessage"
+              >Add <span id="tsOwner"></span>'s Health Insurance Card to
+              TesSa</span
+            >
+            <span class="tessaCardMessage" id="cieMessage"
+              >Add <span id="cieOwner"></span>'s Identity Card to TesSa</span
+            >
           </h4>
           <p class="flow-text">
-            Install TesSa and bring all the Health Insurance Cards and Green
-            Passes you need always with you
+            Install TesSa and bring all the Health Insurance Cards, Identity
+            Cards and Green Passes you need always with you
           </p>
           <div class="center-align">
             <a
