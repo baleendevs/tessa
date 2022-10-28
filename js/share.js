@@ -25,6 +25,8 @@ window.onresize = () => {
             setCardSize("ts");
           } else if (cardDiv.classList.contains("cie")) {
             setCardSize("cie");
+          } else if (cardDiv.classList.contains("p")) {
+            setCardSize("p");
           }
         }
       } catch {}
@@ -39,7 +41,11 @@ const handleSharedCard = (card) => {
     parsedCard.t = parsedCard.t == null ? "ts" : parsedCard.t.toLowerCase();
     if (!isValid(parsedCard)) return false;
     setCardSize(parsedCard.t);
-    console.log(parsedCard.cF);
+    if (parsedCard.t === "p") {
+      console.log(parsedCard.nP);
+    } else {
+      console.log(parsedCard.cF);
+    }
     setCardFields(parsedCard);
     return true;
   } catch (e) {
@@ -83,10 +89,8 @@ const isValid = (card) => {
         card.n !== undefined &&
         card.s !== null &&
         card.s !== undefined &&
-        ((card.lN !== null &&
-          card.lN !== undefined) ||
-          (card.l !== null &&
-          card.l !== undefined)) &&
+        ((card.lN !== null && card.lN !== undefined) ||
+          (card.l !== null && card.l !== undefined)) &&
         card.p !== null &&
         card.p !== undefined &&
         card.dN != null &&
@@ -94,19 +98,34 @@ const isValid = (card) => {
       )
         return true;
       break;
+    case "p":
+      if (
+        card.t !== null &&
+        card.t !== undefined &&
+        card.nP !== null &&
+        card.nP !== undefined &&
+        card.c !== null &&
+        card.c !== undefined &&
+        card.n !== null &&
+        card.n !== undefined
+      )
+        return true;
+      break;
     default:
       break;
   }
   return false;
-}
+};
 
 const getCardSize = (width, cardType) => {
   //console.log(width);
   let height = (width * BG_IMAGE_HEIGHT) / BG_IMAGE_WIDTH;
   let borderRadius = (width * 50) / BG_IMAGE_WIDTH;
   let fontSize = (90 * height) / BG_IMAGE_HEIGHT;
-  if (cardType == "cie") {
+  if (cardType === "cie") {
     fontSize = (70 * height) / BG_IMAGE_HEIGHT;
+  } else if (cardType === "p") {
+    fontSize = (77 * height) / BG_IMAGE_HEIGHT;
   }
   let fontSizeNs = (94 * height) / BG_IMAGE_HEIGHT;
   let fontSizeCAN = (115 * height) / BG_IMAGE_HEIGHT;
@@ -116,20 +135,20 @@ const getCardSize = (width, cardType) => {
     borderRadius: borderRadius,
     fontSize: fontSize,
     fontSizeNs: fontSizeNs,
-    fontSizeCAN: fontSizeCAN
+    fontSizeCAN: fontSizeCAN,
   };
 };
 
 const setCardSize = (cardType) => {
-  let cardDiv = document.querySelector(`.${cardType}`);
+  let cardDiv = document.querySelector(`.tessaCard.${cardType}`);
   cardDiv.style.display = "block";
   let cardSize = getCardSize(cardDiv.offsetWidth, cardType);
   //console.log(cardSize);
   cardDiv.style.height = cardSize.height + "px";
-  let cardImg = document.querySelector(`.${cardType} > img`);
+  let cardImg = document.querySelector(`.tessaCard.${cardType} > img`);
   cardDiv.style.borderRadius = cardSize.borderRadius + "px";
   cardImg.style.borderRadius = cardSize.borderRadius + "px";
-  let cardFields = document.querySelectorAll(`.${cardType} > span`);
+  let cardFields = document.querySelectorAll(`.tessaCard.${cardType} > span`);
   for (const key in cardFields) {
     if (cardFields.hasOwnProperty(key)) {
       const field = cardFields[key];
@@ -143,13 +162,15 @@ const setCardSize = (cardType) => {
       }
     }
   }
-  let cardMessage = document.querySelector(`.content-title #${cardType}Message`);
+  let cardMessage = document.querySelector(
+    `.content-title #${cardType}Message`
+  );
   cardMessage.style.display = "block";
-}
+};
 
 const setCardFields = (card) => {
   if (card.t === "cie" && card.s != null && card.s.toUpperCase() === "F") {
-    let cardBg = document.querySelector(`.${card.t} img`);
+    let cardBg = document.querySelector(`.tessaCard.${card.t} img`);
     cardBg.src = cardBg.src.replace("male", "female");
   }
   let cardFields = Object.entries(card);
@@ -160,9 +181,17 @@ const setCardFields = (card) => {
       if (typeof value !== "string") {
         value = value.toString();
       }
-      let cardFieldDiv = document.querySelector(`.${card.t} .${key}`);
+      let cardFieldDiv = document.querySelector(`.tessaCard.${card.t} .${key}`);
       if (cardFieldDiv != null) {
-        cardFieldDiv.innerText = value == null ? "" : value.toUpperCase();
+        let text = value == null ? "" : value.toUpperCase();
+        if (card.t === "p") {
+          if (key === "p" && text !== "") {
+            text = "(" + text + ")";
+          } else if (key === "dP") {
+            text = getLicenseList(card);
+          }
+        }
+        cardFieldDiv.innerText = text;
       }
     }
   }
@@ -170,4 +199,27 @@ const setCardFields = (card) => {
   if (cardOwner != null) {
     cardOwner.innerText = `${card.c} ${card.n}`;
   }
-}
+};
+
+const getLicenseList = (card) => {
+  try {
+    if (
+      card.t !== "p" ||
+      card.dP === null ||
+      card.dP === undefined ||
+      card.dP === ""
+    )
+      return "";
+    let dP = JSON.parse(card.dP);
+    let licenseList = "";
+    for (let index = 0; index < dP.length; index++) {
+      const license = dP[index];
+      if (license.t != null && license.t !== "") {
+        licenseList += license.t + " ";
+      }
+    }
+    return licenseList.trim();
+  } catch (_) {
+    return "";
+  }
+};
