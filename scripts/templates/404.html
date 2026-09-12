@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="theme-color" content="#f7f9fb" />
+    <link rel="icon" href="/tessa/icons/favicon.ico" />
+    <title>Pagina non trovata — TesSa</title>
+    <script>
+      (function () {
+        var media = matchMedia("(prefers-color-scheme: dark)");
+        var preference = null;
+        try {
+          var stored = localStorage.getItem("tessa-theme");
+          preference = stored === "light" || stored === "dark" ? stored : null;
+          if (stored !== null && preference === null) {
+            localStorage.removeItem("tessa-theme");
+          }
+        } catch (_) {}
+
+        function applyTheme() {
+          var resolved = preference || (media.matches ? "dark" : "light");
+          if (preference) {
+            document.documentElement.dataset.themePreference = preference;
+          } else {
+            delete document.documentElement.dataset.themePreference;
+          }
+          document.documentElement.dataset.theme = resolved;
+          document.documentElement.style.colorScheme = resolved;
+          document.querySelector('meta[name="theme-color"]').content =
+            resolved === "dark" ? "#151515" : "#f7f9fb";
+        }
+
+        applyTheme();
+        media.addEventListener("change", function () {
+          if (preference === null) applyTheme();
+        });
+      })();
+    </script>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --background: #f7f9fb;
+        --surface: #ffffff;
+        --surface-high: #edf3f7;
+        --foreground: #17212a;
+        --muted: #52616d;
+        --primary: #006fa6;
+        --on-primary: #ffffff;
+        --secondary: #955400;
+        --outline: #a7b6c0;
+      }
+      :root[data-theme="dark"] {
+        --background: #151515;
+        --surface: #212121;
+        --surface-high: #2d2d2d;
+        --foreground: #f5f5f5;
+        --muted: #c9c9c9;
+        --primary: #ffa000;
+        --on-primary: #2a1900;
+        --secondary: #4fc3f7;
+        --outline: #777777;
+      }
+      * { box-sizing: border-box; }
+      body {
+        align-items: center;
+        background: var(--background);
+        color: var(--foreground);
+        display: flex;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        justify-content: center;
+        margin: 0;
+        min-height: 100vh;
+        padding: clamp(20px, 5vw, 48px);
+      }
+      main {
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid color-mix(in srgb, var(--outline) 42%, transparent);
+        border-radius: 36px;
+        display: grid;
+        gap: clamp(32px, 7vw, 64px);
+        grid-template-columns: minmax(0, 0.8fr) minmax(16rem, 1.2fr);
+        max-width: 880px;
+        overflow: hidden;
+        padding: clamp(28px, 7vw, 72px);
+        position: relative;
+        width: 100%;
+      }
+      .documents { height: 250px; position: relative; }
+      .document {
+        background: color-mix(in srgb, var(--colour) 16%, var(--surface));
+        border: 1px solid color-mix(in srgb, var(--colour) 48%, transparent);
+        border-radius: 24px;
+        height: 146px;
+        left: 50%;
+        padding: 22px;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(var(--rotation));
+        width: min(100%, 260px);
+      }
+      .document::before { background: var(--colour); border-radius: 999px; content: ""; display: block; height: 12px; width: 46%; }
+      .document::after { background: color-mix(in srgb, var(--colour) 34%, transparent); border-radius: 999px; content: ""; display: block; height: 9px; margin-top: 52px; width: 72%; }
+      .document:nth-child(1) { --colour: #c2185b; --rotation: 8deg; transform: translate(-47%, -37%) rotate(var(--rotation)); }
+      .document:nth-child(2) { --colour: #1976d2; --rotation: -4deg; transform: translate(-53%, -50%) rotate(var(--rotation)); }
+      .document:nth-child(3) { --colour: #039be5; --rotation: 1deg; transform: translate(-50%, -65%) rotate(var(--rotation)); }
+      .eyebrow { color: var(--primary); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.12em; margin: 0 0 14px; text-transform: uppercase; }
+      h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); letter-spacing: -0.05em; line-height: 0.98; margin: 0; }
+      .lead { color: var(--muted); font-size: 1.08rem; line-height: 1.65; margin: 22px 0 0; }
+      .translation { color: var(--muted); font-size: 0.9rem; line-height: 1.55; margin: 8px 0 0; }
+      a {
+        align-items: center;
+        background: var(--primary);
+        border-radius: 999px;
+        color: var(--on-primary);
+        display: inline-flex;
+        font-weight: 750;
+        margin-top: 28px;
+        min-height: 48px;
+        padding: 10px 20px;
+        text-decoration: none;
+      }
+      a:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; }
+      @media (max-width: 640px) {
+        main { grid-template-columns: 1fr; }
+        .documents { height: 190px; order: 2; }
+        .document { height: 116px; width: min(90%, 220px); }
+        .document::after { margin-top: 38px; }
+      }
+      @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="documents" aria-hidden="true"><span class="document"></span><span class="document"></span><span class="document"></span></div>
+      <div>
+        <p class="eyebrow">TesSa · 404</p>
+        <h1>Pagina non trovata</h1>
+        <p class="lead">La pagina richiesta non è disponibile.</p>
+        <p class="translation" lang="en-GB">The page you requested is not available.</p>
+        <a href="/tessa/">Torna a TesSa</a>
+      </div>
+    </main>
+  </body>
+</html>

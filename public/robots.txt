@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /tessa/
+Disallow: /tessa/share
+Disallow: /tessa/en/share
+
+Sitemap: https://baleendevs.github.io/tessa/sitemap.xml
