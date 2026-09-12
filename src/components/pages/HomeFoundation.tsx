@@ -22,6 +22,65 @@ import { APP_STORE_URL, assetPath, GOOGLE_PLAY_URL, SITE_URL } from "@/lib/site"
 
 type HomeFoundationProps = { locale: Locale };
 
+const DEMO_IDENTITY = {
+  birthDate: "13/01/1938",
+  birthPlace: "GENOVA",
+  birthProvince: "GE",
+  citizenship: "ITA",
+  fiscalCode: "RSSGNN38A13D969W",
+  givenName: "GIOVANNI",
+  sex: "M",
+  surname: "ROSSI",
+} as const;
+
+const DEMO_DOCUMENTS = [
+  {
+    fields: [
+      { name: "fiscal-code", value: DEMO_IDENTITY.fiscalCode },
+      { name: "surname", value: DEMO_IDENTITY.surname },
+      { name: "given-name", value: DEMO_IDENTITY.givenName },
+      { name: "birth-place", value: DEMO_IDENTITY.birthPlace },
+      { name: "birth-province", value: DEMO_IDENTITY.birthProvince },
+      { name: "birth-date", value: DEMO_IDENTITY.birthDate },
+      { name: "sex", value: DEMO_IDENTITY.sex },
+      { name: "expiry-date", value: "13/01/2023" },
+    ],
+    kind: "ts",
+    src: "/img/tessera_sanitaria_card_bg_generic.jpg",
+  },
+  {
+    fields: [
+      { name: "municipality", value: DEMO_IDENTITY.birthPlace },
+      { name: "document-number", value: "CA12345NA" },
+      { name: "surname", value: DEMO_IDENTITY.surname },
+      { name: "given-name", value: DEMO_IDENTITY.givenName },
+      { name: "birth-place-date", value: `${DEMO_IDENTITY.birthPlace} (${DEMO_IDENTITY.birthProvince}) 13.01.1938` },
+      { name: "sex", value: DEMO_IDENTITY.sex },
+      { name: "height", value: "175" },
+      { name: "citizenship", value: DEMO_IDENTITY.citizenship },
+      { name: "issue-date", value: "10.09.2023" },
+      { name: "expiry-date", value: "10.09.2033" },
+      { name: "access-number", value: "123456" },
+    ],
+    kind: "cie",
+    src: "/img/cie_card_bg_male.jpg",
+  },
+  {
+    fields: [
+      { name: "surname", value: DEMO_IDENTITY.surname },
+      { name: "given-name", value: DEMO_IDENTITY.givenName },
+      { name: "birth-place-date", value: `13.01.1938 ${DEMO_IDENTITY.birthPlace} (${DEMO_IDENTITY.birthProvince})` },
+      { name: "issue-date", value: "10.09.2024" },
+      { name: "issued-by", value: "UCO DEMO" },
+      { name: "expiry-date", value: "10.09.2034" },
+      { name: "document-number", value: "XX1234567Z" },
+      { name: "categories", value: "B" },
+    ],
+    kind: "licence",
+    src: "/img/license_card_bg_no_gender.jpg",
+  },
+] as const;
+
 function SectionHeading({ section }: { section: { eyebrow: string; title: string; description: string } }) {
   return (
     <div className="section-heading">
@@ -32,18 +91,18 @@ function SectionHeading({ section }: { section: { eyebrow: string; title: string
   );
 }
 
-function AbstractDocumentStack({ cards }: { cards: HomeContent["wallet"]["cards"] }) {
-  const kinds = ["ts", "cie", "licence"];
+function DocumentStack({ cards }: { cards: HomeContent["wallet"]["cards"] }) {
   return (
-    <div className="abstract-wallet" aria-label={cards.map((card) => card.name).join(", ")} role="img">
+    <div className="document-stack" aria-label={cards.map((card) => card.name).join(", ")} role="img">
       {cards.map((card, index) => (
-        <article className="abstract-document" data-kind={kinds[index]} key={card.short}>
-          <div className="abstract-document__top"><span>{card.short}</span><i /></div>
-          <div className="abstract-document__body">
-            <div aria-hidden="true" className="abstract-document__portrait" />
-            <div><strong>{card.name}</strong><p>{card.detail}</p><div aria-hidden="true" className="abstract-document__lines"><i /><i /><i /></div></div>
-          </div>
-        </article>
+        <span aria-hidden="true" className="document-card" data-kind={DEMO_DOCUMENTS[index].kind} key={card.short}>
+          <Image alt="" height={315} src={assetPath(DEMO_DOCUMENTS[index].src)} unoptimized width={500} />
+          <span className="document-card__fields">
+            {DEMO_DOCUMENTS[index].fields.map((field) => (
+              <span className="document-field" data-field={field.name} key={field.name}>{field.value}</span>
+            ))}
+          </span>
+        </span>
       ))}
     </div>
   );
@@ -99,7 +158,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
               <h2 id="wallet-title">{home.wallet.title}</h2>
               <p className="section-intro">{home.wallet.description}</p>
             </div>
-            <AbstractDocumentStack cards={home.wallet.cards} />
+            <DocumentStack cards={home.wallet.cards} />
           </div>
         </section>
 

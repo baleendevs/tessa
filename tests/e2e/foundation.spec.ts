@@ -290,6 +290,69 @@ test("has no horizontal overflow across the required responsive widths", async (
   ).toBe(true);
 });
 
+test("keeps populated document overlays aligned and contained across responsive widths", async ({ page }) => {
+  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/tessa/");
+
+    const stack = page.locator(".document-stack");
+    await stack.scrollIntoViewIfNeeded();
+    await expect(stack.locator(".document-card")).toHaveCount(3);
+    await expect(stack.locator('[data-kind="ts"] [data-field="fiscal-code"]')).toHaveText(
+      "RSSGNN38A13D969W",
+    );
+    await expect(stack.locator('[data-kind="cie"] [data-field="document-number"]')).toHaveText(
+      "CA12345NA",
+    );
+    await expect(stack.locator('[data-kind="licence"] [data-field="document-number"]')).toHaveText(
+      "XX1234567Z",
+    );
+
+    for (const theme of ["light", "dark"] as const) {
+      await setTheme(page, theme);
+      for (const kind of ["ts", "cie", "licence"] as const) {
+        const card = stack.locator(`[data-kind="${kind}"]`);
+        await expect(card.locator("img")).toBeVisible();
+        await expect(card.locator(".document-card__fields")).toBeVisible();
+        const cardBox = await card.boundingBox();
+        expect(cardBox?.x, `${kind} left edge in ${theme} at ${width}px`).toBeGreaterThanOrEqual(-1);
+        expect(
+          (cardBox?.x ?? 0) + (cardBox?.width ?? 0),
+          `${kind} right edge in ${theme} at ${width}px`,
+        ).toBeLessThanOrEqual(width + 1);
+        expect(
+          await card.evaluate((element) => {
+            const fields = element.querySelectorAll<HTMLElement>(".document-field");
+            return [...fields].every((field) => {
+              const container = field.parentElement;
+              if (!container) return false;
+              return (
+                field.offsetLeft >= 0 &&
+                field.offsetTop >= 0 &&
+                field.offsetLeft + field.offsetWidth <= container.clientWidth + 1 &&
+                field.offsetTop + field.offsetHeight <= container.clientHeight + 1
+              );
+            });
+          }),
+          `${kind} overlay containment in ${theme} at ${width}px`,
+        ).toBe(true);
+      }
+    }
+
+    if (width <= 768) {
+      await stack.hover();
+      for (const kind of ["ts", "cie", "licence"] as const) {
+        const cardBox = await stack.locator(`[data-kind="${kind}"]`).boundingBox();
+        expect(cardBox?.x, `${kind} hover left edge at ${width}px`).toBeGreaterThanOrEqual(-1);
+        expect(
+          (cardBox?.x ?? 0) + (cardBox?.width ?? 0),
+          `${kind} hover right edge at ${width}px`,
+        ).toBeLessThanOrEqual(width + 1);
+      }
+    }
+  }
+});
+
 test("uses the OS theme without persisting an implicit preference", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "dark" });
   await page.goto("/tessa/");
@@ -383,6 +446,15 @@ test("removes non-essential transition duration for reduced motion", async ({
   await expect
     .poll(() => phone.evaluate((element) => getComputedStyle(element).transform))
     .toBe(restingTransform);
+
+  const healthCard = page.locator('.document-card[data-kind="ts"]');
+  const restingCardTransform = await healthCard.evaluate(
+    (element) => getComputedStyle(element).transform,
+  );
+  await page.locator(".document-stack").hover();
+  await expect
+    .poll(() => healthCard.evaluate((element) => getComputedStyle(element).transform))
+    .toBe(restingCardTransform);
 });
 
 test("preserves the raw share query when switching language", async ({
