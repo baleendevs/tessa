@@ -165,12 +165,16 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
         <section className="access-story" aria-labelledby="access-title">
           <div className="section-shell access-story__inner">
             <div className="access-story__media">
-              <figure className="screenshot-crop screenshot-crop--details">
-                <ProductScreenshot alt={home.access.detailsAlt} name="details" />
+              <figure className="product-preview-card product-preview-card--details">
+                <div className="product-preview-card__viewport">
+                  <ProductScreenshot alt={home.access.detailsAlt} name="details" />
+                </div>
                 <figcaption>{home.access.detailsLabel}</figcaption>
               </figure>
-              <figure className="screenshot-crop screenshot-crop--barcode">
-                <ProductScreenshot alt={home.access.barcodeAlt} name="barcode" />
+              <figure className="product-preview-card product-preview-card--barcode">
+                <div className="product-preview-card__viewport">
+                  <ProductScreenshot alt={home.access.barcodeAlt} name="barcode" />
+                </div>
                 <figcaption>{home.access.barcodeLabel}</figcaption>
               </figure>
             </div>
@@ -183,7 +187,6 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
             <div className="section-heading"><p className="eyebrow">{home.family.eyebrow}</p><h2 id="family-title">{home.family.title}</h2><p className="section-intro">{home.family.description}</p></div>
             <figure className="family-story__media">
               <div className="screenshot-window screenshot-window--family"><ProductScreenshot alt={home.family.imageAlt} name="family" /></div>
-              <div className="family-orbits" aria-hidden="true"><span>G</span><span>T</span><span>+</span></div>
             </figure>
           </div>
         </section>
@@ -208,7 +211,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
             <div className="privacy-story__media">
               <figure className="screenshot-window screenshot-window--settings"><ProductScreenshot alt={home.privacy.settingsAlt} name="settings" /></figure>
               <figure className="screenshot-window screenshot-window--pin"><ProductScreenshot alt={home.privacy.pinAlt} name="pin" /></figure>
-              <div className="local-device" aria-hidden="true"><div><DeviceIcon /><span><LockIcon /></span></div></div>
+              <div className="privacy-connector" aria-hidden="true"><i /><span><LockIcon /></span></div>
             </div>
           </div>
         </section>
@@ -216,8 +219,8 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
         <section className="backup-story" aria-labelledby="backup-title">
           <div className="section-shell backup-story__inner">
             <div className="section-heading"><p className="eyebrow">{home.backup.eyebrow}</p><h2 id="backup-title">{home.backup.title}</h2><p className="section-intro">{home.backup.description}</p><p className="support-note">{home.backup.restoreNote}</p></div>
-            <div className="backup-flow" role="img" aria-label={`${home.backup.manual}; ${home.backup.encrypted}; ${home.backup.restore}`}>
-              <div><span><BackupIcon /></span><strong>{home.backup.manual}</strong></div><i><ArrowIcon /></i><div className="backup-file"><span><LockIcon /></span><strong>{home.backup.encrypted}</strong></div><i><ArrowIcon /></i><div><span><DeviceIcon /></span><strong>{home.backup.restore}</strong></div>
+            <div className="backup-flow" role="img" aria-label={`${home.backup.create}: ${home.backup.encrypted}; ${home.backup.manual}; ${home.backup.restore}`}>
+              <div className="backup-file"><span><LockIcon /></span><div className="backup-flow__copy"><strong>{home.backup.create}</strong><small>{home.backup.encrypted}</small></div></div><i><ArrowIcon /></i><div><span><BackupIcon /></span><strong>{home.backup.manual}</strong></div><i><ArrowIcon /></i><div><span><DeviceIcon /></span><strong>{home.backup.restore}</strong></div>
             </div>
           </div>
         </section>
@@ -246,7 +249,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
             <div className="section-heading"><p className="eyebrow">{home.faq.eyebrow}</p><h2 id="faq-title">{home.faq.title}</h2><p className="section-intro">{home.faq.description}</p></div>
             <div className="faq-list">
               {home.faq.items.map((item, index) => (
-                <details key={item.question} open={index === 0}><summary><span>{item.question}</span><i aria-hidden="true">+</i></summary><p>{item.answer}</p></details>
+                <details key={item.question} open={index === 0}><summary><span>{item.question}</span><i aria-hidden="true"><svg focusable="false" viewBox="0 0 24 24"><path d="m7 9.5 5 5 5-5" /></svg></i></summary><p>{item.answer}</p></details>
               ))}
             </div>
           </div>

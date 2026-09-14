@@ -221,6 +221,25 @@ test("reflows the homepage at 320 CSS pixels and enlarged text", async ({ page }
   await page.evaluate(() => { document.documentElement.style.fontSize = "200%"; });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
   await expect(page.getByRole("heading", { name: /Your documents, ready/i })).toBeVisible();
+  const faq = page.locator(".faq-list");
+  for (const index of [1, 4, 5, 6]) {
+    await faq.locator("summary").nth(index).click();
+  }
+  await expect(faq.locator("details[open]")).toHaveCount(5);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
+  const showcaseCards = page.locator(".showcase-card");
+  await showcaseCards.first().scrollIntoViewIfNeeded();
+  for (const card of await showcaseCards.all()) {
+    const cardBox = await card.boundingBox();
+    const captionBox = await card.locator("figcaption").boundingBox();
+    expect(captionBox?.x).toBeGreaterThanOrEqual((cardBox?.x ?? 0) - 1);
+    expect((captionBox?.x ?? 0) + (captionBox?.width ?? 0)).toBeLessThanOrEqual(
+      (cardBox?.x ?? 0) + (cardBox?.width ?? 0) + 1,
+    );
+    expect((captionBox?.y ?? 0) + (captionBox?.height ?? 0)).toBeLessThanOrEqual(
+      (cardBox?.y ?? 0) + (cardBox?.height ?? 0) + 1,
+    );
+  }
 });
 
 test("keeps the desktop header usable at 200% text enlargement", async ({ page }) => {
@@ -273,21 +292,244 @@ test("has no horizontal overflow across the required responsive widths", async (
   for (const width of [320, 390, 768, 1024, 1280, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/tessa/");
+    const faq = page.locator(".faq-list");
+    await faq.scrollIntoViewIfNeeded();
+    for (const index of [1, 4, 6]) {
+      await faq.locator("summary").nth(index).click();
+    }
+    await expect(faq.locator("details[open]")).toHaveCount(4);
+
     for (const theme of ["light", "dark"] as const) {
       await setTheme(page, theme);
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1),
         `${theme} theme at ${width}px`,
       ).toBe(true);
+
+      for (const summary of await faq.locator("summary").all()) {
+        const summaryBox = await summary.boundingBox();
+        const chevronBox = await summary.locator('i[aria-hidden="true"]').boundingBox();
+        expect(summaryBox?.height, `FAQ touch target at ${width}px`).toBeGreaterThanOrEqual(48);
+        expect(chevronBox?.x, `chevron left edge at ${width}px`).toBeGreaterThanOrEqual(
+          (summaryBox?.x ?? 0) - 1,
+        );
+        expect(
+          (chevronBox?.x ?? 0) + (chevronBox?.width ?? 0),
+          `chevron right edge at ${width}px`,
+        ).toBeLessThanOrEqual((summaryBox?.x ?? 0) + (summaryBox?.width ?? 0) + 1);
+      }
     }
   }
 
   await page.setViewportSize({ width: 320, height: 900 });
   await page.goto("/tessa/en/");
+  for (const index of [1, 4, 5, 6]) {
+    await page.locator(".faq-list summary").nth(index).click();
+  }
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1),
     "English homepage at 320px",
   ).toBe(true);
+});
+
+test("presents backup creation, manual export and restore in chronological order", async ({ page }) => {
+  for (const { path, labels, description } of [
+    {
+      path: "/tessa/",
+      labels: ["Creazione del backup", "Esportazione manuale", "Ripristino quando serve"],
+      description:
+        "Crea un backup cifrato, esportalo dove preferisci e ripristinalo quando serve. Backup e ripristino sono disponibili gratuitamente.",
+    },
+    {
+      path: "/tessa/en/",
+      labels: ["Create a backup", "Manual export", "Restore when needed"],
+      description:
+        "Create an encrypted backup, export it wherever you choose and restore it when needed. Backup and restore are available free to everyone.",
+    },
+  ]) {
+    await page.goto(path);
+    const section = page.locator(".backup-story");
+    const cards = section.locator(".backup-flow > div");
+
+    await expect(section.locator(".section-intro")).toHaveText(description);
+    await expect(cards).toHaveCount(3);
+    await expect(cards.allTextContents()).resolves.toEqual(labels.map((label, index) =>
+      index === 0
+        ? `${label}${path === "/tessa/" ? "File cifrato nell'app" : "Encrypted file stored in TesSa"}`
+        : label,
+    ));
+    await expect(cards.first()).toHaveClass(/backup-file/);
+  }
+
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/tessa/");
+    const boxes = await page.locator(".backup-flow > div").evaluateAll((cards) =>
+      cards.map((card) => {
+        const { x, y } = card.getBoundingClientRect();
+        return { x, y };
+      }),
+    );
+    const axis = width <= 768 ? "y" : "x";
+    expect(boxes[0][axis]).toBeLessThan(boxes[1][axis]);
+    expect(boxes[1][axis]).toBeLessThan(boxes[2][axis]);
+  }
+});
+
+test("keeps backup cards visually equal at rest across responsive widths", async ({ page }) => {
+  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/tessa/");
+    const cards = page.locator(".backup-flow > div");
+    await cards.first().scrollIntoViewIfNeeded();
+
+    for (const theme of ["light", "dark"] as const) {
+      await setTheme(page, theme);
+      const styles = await cards.evaluateAll((elements) =>
+        elements.map((element) => {
+          const style = getComputedStyle(element);
+          const iconStyle = getComputedStyle(element.querySelector(":scope > span")!);
+          return {
+            background: style.backgroundColor,
+            border: style.borderColor,
+            boxShadow: style.boxShadow,
+            height: element.getBoundingClientRect().height,
+            iconBackground: iconStyle.backgroundColor,
+            transform: style.transform,
+          };
+        }),
+      );
+
+      expect(new Set(styles.map(({ background }) => background)).size).toBe(1);
+      expect(new Set(styles.map(({ border }) => border)).size).toBe(1);
+      expect(new Set(styles.map(({ boxShadow }) => boxShadow)).size).toBe(1);
+      expect(new Set(styles.map(({ height }) => height)).size).toBe(1);
+      expect(new Set(styles.map(({ iconBackground }) => iconBackground)).size).toBe(1);
+      expect(new Set(styles.map(({ transform }) => transform)).size).toBe(1);
+    }
+  }
+});
+
+test("limits backup card lift to fine pointers and suppresses it for reduced motion", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/tessa/");
+  const cards = page.locator(".backup-flow > div");
+  await cards.first().scrollIntoViewIfNeeded();
+  const hasFineHover = await page.evaluate(() =>
+    matchMedia("(hover: hover) and (pointer: fine)").matches,
+  );
+
+  for (let index = 0; index < 3; index += 1) {
+    const card = cards.nth(index);
+    const restingTransform = await card.evaluate((element) => getComputedStyle(element).transform);
+    await card.hover();
+    const hoveredTransform = await card.evaluate((element) => getComputedStyle(element).transform);
+    expect(hoveredTransform === restingTransform, `card ${index + 1} fine-pointer hover`).toBe(
+      !hasFineHover,
+    );
+    await page.mouse.move(0, 0);
+  }
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const firstCard = cards.first();
+  const restingBackground = await firstCard.evaluate(
+    (element) => getComputedStyle(element).backgroundColor,
+  );
+  await firstCard.hover();
+  await expect
+    .poll(() => firstCard.evaluate((element) => getComputedStyle(element).transform))
+    .toBe("none");
+  if (hasFineHover) {
+    await expect
+      .poll(() => firstCard.evaluate((element) => getComputedStyle(element).backgroundColor))
+      .not.toBe(restingBackground);
+  }
+});
+
+test("renders the approved FAQ copy and order in both languages", async ({ page }) => {
+  for (const { path, items } of [
+    {
+      path: "/tessa/",
+      items: [
+        ["Quali documenti posso aggiungere a TesSa?", "TesSa supporta Tessera Sanitaria, Carta d'Identità Elettronica (CIE) e patente di guida."],
+        ["Posso organizzare i documenti di più persone?", "Sì. Puoi tenere sullo stesso dispositivo i documenti di più persone, per esempio quelli dei tuoi familiari. TesSa non richiede la creazione di un account."],
+        ["Dove conserva TesSa i dati dei miei documenti?", "I dati del tuo portafoglio sono memorizzati localmente sul dispositivo. TesSa non li salva su un proprio servizio cloud."],
+        ["Come condivido un documento tramite codice QR o link?", "Apri il documento in TesSa e scegli di condividerlo tramite codice QR o link. La condivisione parte sempre da una tua azione nell'app."],
+        ["Cosa devo sapere sui link condivisi?", "Il link contiene i dati del documento condiviso e non è cifrato né protetto da password. Chi riceve il link può visualizzare le informazioni condivise: invialo quindi solo alla persona giusta e trattalo come un documento personale."],
+        ["Come funzionano backup e ripristino?", "TesSa ti permette gratuitamente di creare un file di backup cifrato del tuo portafoglio. Puoi poi esportarlo manualmente per conservarne una copia dove preferisci e, quando serve, utilizzarlo per ripristinare il portafoglio. Il ripristino sostituisce i dati attuali solo dopo la tua conferma."],
+        ["Dove trovo il backup che ho creato?", "Quando crei un backup, il file rimane nello spazio interno di TesSa e non compare automaticamente tra i file del dispositivo. Per conservarne una copia fuori dall'app, usa la funzione di esportazione e scegli dove salvarlo o condividerlo."],
+        ["Come posso proteggere l'accesso ai miei documenti?", "Puoi proteggere l'accesso a TesSa con un PIN e, sui dispositivi compatibili, utilizzare anche l'autenticazione biometrica."],
+        ["TesSa è un'app ufficiale della Pubblica Amministrazione?", "No. TesSa è un'app indipendente e non è un'app ufficiale della Pubblica Amministrazione. Ti aiuta a organizzare e consultare i dati dei tuoi documenti, ma non sostituisce i documenti originali."],
+        ["Su quali dispositivi posso usare TesSa?", "TesSa è disponibile per Android e iOS."],
+      ],
+    },
+    {
+      path: "/tessa/en/",
+      items: [
+        ["Which documents can I add to TesSa?", "TesSa supports the Italian health card, Electronic Identity Card (CIE) and driving licence."],
+        ["Can I organise documents for more than one person?", "Yes. You can keep documents for several people on the same device, for example members of your family. TesSa does not require you to create an account."],
+        ["Where does TesSa store my document data?", "Your wallet data is stored locally on your device. TesSa does not store it on its own cloud service."],
+        ["How do I share a document using a QR code or link?", "Open the document in TesSa and choose to share it using a QR code or link. Sharing always starts with an action you take in the app."],
+        ["What should I know about shared links?", "The link contains the data from the shared document and is not encrypted or password-protected. Anyone who receives the link can view the shared information, so send it only to the intended person and treat it like a personal document."],
+        ["How do backup and restore work?", "TesSa lets you create an encrypted backup file of your wallet free of charge. You can then export it manually to keep a copy wherever you prefer and use it to restore your wallet when needed. Restoring replaces your current data only after you confirm."],
+        ["Where can I find the backup I created?", "When you create a backup, the file remains in TesSa's internal app storage and does not automatically appear among the files on your device. To keep a copy outside the app, use the export function and choose where to save or share it."],
+        ["How can I protect access to my documents?", "You can protect access to TesSa with a PIN and, on compatible devices, also use biometric authentication."],
+        ["Is TesSa an official Public Administration app?", "No. TesSa is an independent app and is not an official Public Administration app. It helps you organise and view your document data, but it does not replace the original documents."],
+        ["Which devices can I use TesSa on?", "TesSa is available for Android and iOS."],
+      ],
+    },
+  ]) {
+    await page.goto(path);
+    const entries = page.locator(".faq-list details");
+    await expect(entries).toHaveCount(10);
+    await expect(entries.locator("summary span")).toHaveText(items.map(([question]) => question));
+    await expect(entries.locator("p")).toHaveText(items.map(([, answer]) => answer));
+  }
+});
+
+test("keeps native FAQ disclosures independent with decorative rotating chevrons", async ({ page }) => {
+  await page.goto("/tessa/");
+  const entries = page.locator(".faq-list details");
+  const summaries = entries.locator("summary");
+  const chevronContainers = summaries.locator('i[aria-hidden="true"]');
+  const chevrons = chevronContainers.locator("svg");
+
+  await expect(entries).toHaveCount(10);
+  await expect(summaries).toHaveCount(10);
+  await expect(chevronContainers).toHaveCount(10);
+  await expect(chevrons).toHaveCount(10);
+  await expect(entries.nth(0)).toHaveAttribute("open", "");
+  await expect(entries.nth(1)).not.toHaveAttribute("open", "");
+
+  await summaries.nth(1).focus();
+  const focusStyle = await summaries.nth(1).evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { outlineStyle: style.outlineStyle, outlineWidth: Number.parseFloat(style.outlineWidth) };
+  });
+  expect(focusStyle.outlineStyle).not.toBe("none");
+  expect(focusStyle.outlineWidth).toBeGreaterThanOrEqual(3);
+  await page.keyboard.press("Enter");
+  await summaries.nth(2).focus();
+  await page.keyboard.press("Space");
+  await expect(entries.nth(0)).toHaveAttribute("open", "");
+  await expect(entries.nth(1)).toHaveAttribute("open", "");
+  await expect(entries.nth(2)).toHaveAttribute("open", "");
+
+  await summaries.nth(1).click();
+  await expect(entries.nth(0)).toHaveAttribute("open", "");
+  await expect(entries.nth(1)).not.toHaveAttribute("open", "");
+  await expect(entries.nth(2)).toHaveAttribute("open", "");
+
+  await expect
+    .poll(() =>
+      chevrons.evaluateAll((icons) =>
+        icons.slice(0, 3).map((icon) => {
+          const direction = new DOMMatrix(getComputedStyle(icon).transform).a;
+          return direction < -0.99 ? "up" : direction > 0.99 ? "down" : "moving";
+        }),
+      ),
+    )
+    .toEqual(["up", "down", "up"]);
 });
 
 test("keeps populated document overlays aligned and contained across responsive widths", async ({ page }) => {
@@ -349,6 +591,498 @@ test("keeps populated document overlays aligned and contained across responsive 
           `${kind} hover right edge at ${width}px`,
         ).toBeLessThanOrEqual(width + 1);
       }
+    }
+  }
+});
+
+test("keeps each fast-access screenshot and caption in one correctly layered preview card", async ({ page }) => {
+  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/tessa/");
+
+    const media = page.locator(".access-story__media");
+    await media.scrollIntoViewIfNeeded();
+    const details = media.locator(".product-preview-card--details");
+    const barcode = media.locator(".product-preview-card--barcode");
+
+    await expect(media.locator(".product-preview-card")).toHaveCount(2);
+    await expect(details.locator(":scope > .product-preview-card__viewport")).toHaveCount(1);
+    await expect(details.locator(":scope > figcaption")).toHaveText("Dettagli ordinati");
+    await expect(barcode.locator(":scope > .product-preview-card__viewport")).toHaveCount(1);
+    await expect(barcode.locator(":scope > figcaption")).toHaveText(
+      "Codici a barre a schermo intero",
+    );
+
+    const detailsLayer = Number.parseInt(
+      await details.evaluate((element) => getComputedStyle(element).zIndex),
+      10,
+    );
+    const barcodeLayer = Number.parseInt(
+      await barcode.evaluate((element) => getComputedStyle(element).zIndex),
+      10,
+    );
+    expect(barcodeLayer, `foreground layer at ${width}px`).toBeGreaterThan(detailsLayer);
+
+    for (const card of [details, barcode]) {
+      const cardBox = await card.boundingBox();
+      const captionBox = await card.locator(":scope > figcaption").boundingBox();
+      expect(cardBox?.x, `card left edge at ${width}px`).toBeGreaterThanOrEqual(-1);
+      expect(
+        (cardBox?.x ?? 0) + (cardBox?.width ?? 0),
+        `card right edge at ${width}px`,
+      ).toBeLessThanOrEqual(width + 1);
+      expect(captionBox?.x, `caption left edge at ${width}px`).toBeGreaterThanOrEqual(
+        (cardBox?.x ?? 0) - 1,
+      );
+      expect(
+        (captionBox?.x ?? 0) + (captionBox?.width ?? 0),
+        `caption right edge at ${width}px`,
+      ).toBeLessThanOrEqual((cardBox?.x ?? 0) + (cardBox?.width ?? 0) + 1);
+      expect(captionBox?.y, `caption top edge at ${width}px`).toBeGreaterThanOrEqual(
+        (cardBox?.y ?? 0) - 1,
+      );
+      expect(
+        (captionBox?.y ?? 0) + (captionBox?.height ?? 0),
+        `caption bottom edge at ${width}px`,
+      ).toBeLessThanOrEqual((cardBox?.y ?? 0) + (cardBox?.height ?? 0) + 1);
+    }
+
+    for (const theme of ["light", "dark"] as const) {
+      await setTheme(page, theme);
+      await expect
+        .poll(() => details.locator("img").evaluate((image) => (image as HTMLImageElement).currentSrc))
+        .toContain(theme === "dark" ? "details-dark.webp" : "details.webp");
+      await expect
+        .poll(() => barcode.locator("img").evaluate((image) => (image as HTMLImageElement).currentSrc))
+        .toContain(theme === "dark" ? "barcode-dark.webp" : "barcode.webp");
+    }
+  }
+});
+
+test("presents the family screenshot as a status-bar-free close-up without decorative controls", async ({ page }) => {
+  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/tessa/");
+
+    const media = page.locator(".family-story__media");
+    await media.scrollIntoViewIfNeeded();
+    const frame = media.locator(".screenshot-window--family");
+    const image = frame.locator("img");
+
+    await expect(media.locator(":scope > *")).toHaveCount(1);
+    await expect(page.locator(".family-orbits")).toHaveCount(0);
+    await expect(frame).toBeVisible();
+
+    const frameBox = await frame.boundingBox();
+    const imageBox = await image.boundingBox();
+    expect(frameBox?.x, `family screenshot left edge at ${width}px`).toBeGreaterThanOrEqual(-1);
+    expect(
+      (frameBox?.x ?? 0) + (frameBox?.width ?? 0),
+      `family screenshot right edge at ${width}px`,
+    ).toBeLessThanOrEqual(width + 1);
+
+    const croppedShare =
+      ((frameBox?.y ?? 0) - (imageBox?.y ?? 0)) / (imageBox?.height ?? 1);
+    expect(croppedShare, `family screenshot top crop at ${width}px`).toBeGreaterThan(0.04);
+    expect(croppedShare, `family screenshot top crop at ${width}px`).toBeLessThan(0.05);
+
+    for (const theme of ["light", "dark"] as const) {
+      await setTheme(page, theme);
+      await expect
+        .poll(() => image.evaluate((element) => (element as HTMLImageElement).currentSrc))
+        .toContain(theme === "dark" ? "family-dark.webp" : "family.webp");
+    }
+  }
+});
+
+test("removes the status bar from editorial close-ups while preserving the full-device hero", async ({ page }) => {
+  const closeUps = [
+    [".screenshot-window--sharing", "sharing"],
+    [".screenshot-window--settings", "settings"],
+    [".screenshot-window--pin", "pin"],
+  ] as const;
+
+  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/tessa/");
+
+    for (const section of [".sharing-story", ".privacy-story", ".showcase-story"]) {
+      await page.locator(section).scrollIntoViewIfNeeded();
+    }
+
+    await expect(page.locator(".share-path span")).toHaveCount(3);
+    await expect(page.locator(".share-path i")).toHaveCount(2);
+    expect(
+      await page
+        .locator(".phone-frame--hero img")
+        .evaluate((image) => getComputedStyle(image).transform),
+    ).toBe("none");
+
+    for (const [selector] of closeUps) {
+      const wrapper = page.locator(selector);
+      const image = wrapper.locator("img");
+      const wrapperBox = await wrapper.boundingBox();
+      const imageBox = await image.boundingBox();
+      expect(wrapperBox?.x, `${selector} left edge at ${width}px`).toBeGreaterThanOrEqual(-1);
+      expect(
+        (wrapperBox?.x ?? 0) + (wrapperBox?.width ?? 0),
+        `${selector} right edge at ${width}px`,
+      ).toBeLessThanOrEqual(width + 1);
+
+      const croppedShare =
+        ((wrapperBox?.y ?? 0) - (imageBox?.y ?? 0)) / (imageBox?.height ?? 1);
+      expect(croppedShare, `${selector} top crop at ${width}px`).toBeGreaterThan(0.04);
+      expect(croppedShare, `${selector} top crop at ${width}px`).toBeLessThan(0.05);
+    }
+
+    for (const theme of ["light", "dark"] as const) {
+      await setTheme(page, theme);
+      for (const [selector, name] of closeUps) {
+        await expect
+          .poll(() =>
+            page
+              .locator(`${selector} img`)
+              .evaluate((image) => (image as HTMLImageElement).currentSrc),
+          )
+          .toContain(`${name}${theme === "dark" ? "-dark" : ""}.webp`);
+      }
+    }
+  }
+});
+
+test("balances the privacy story across its feature and screenshot layouts", async ({ page }) => {
+  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/tessa/");
+
+    const section = page.locator(".privacy-story");
+    const media = section.locator(".privacy-story__media");
+    const settings = media.locator(".screenshot-window--settings");
+    const pin = media.locator(".screenshot-window--pin");
+    const connector = media.locator('.privacy-connector[aria-hidden="true"]');
+    const features = section.locator(".privacy-story__heading .feature-pill");
+    await section.scrollIntoViewIfNeeded();
+
+    await expect(media.locator(":scope > *")).toHaveCount(3);
+    await expect(page.locator(".local-device")).toHaveCount(0);
+    await expect(connector.locator(":scope > i")).toHaveCount(1);
+    await expect(connector.locator(":scope > span > svg")).toHaveCount(1);
+    await expect(features).toHaveText([
+      "Memorizzazione locale",
+      "PIN facoltativo",
+      "Accesso biometrico",
+    ]);
+
+    const mediaBox = await media.boundingBox();
+    const settingsBox = await settings.boundingBox();
+    const pinBox = await pin.boundingBox();
+    const lockBox = await connector.locator(":scope > span").boundingBox();
+    expect(Math.abs((settingsBox?.width ?? 0) - (pinBox?.width ?? 0))).toBeLessThan(1);
+    expect(Math.abs((settingsBox?.height ?? 0) - (pinBox?.height ?? 0))).toBeLessThan(1);
+    expect(
+      Math.abs(
+        ((lockBox?.x ?? 0) + (lockBox?.width ?? 0) / 2) -
+          ((mediaBox?.x ?? 0) + (mediaBox?.width ?? 0) / 2),
+      ),
+      `centred lock at ${width}px`,
+    ).toBeLessThan(1);
+    expect((settingsBox?.x ?? 0) + (settingsBox?.width ?? 0)).toBeLessThan(
+      (lockBox?.x ?? 0) + (lockBox?.width ?? 0),
+    );
+    expect(pinBox?.x ?? 0).toBeGreaterThan(lockBox?.x ?? 0);
+    expect(
+      await connector.locator(":scope > i").evaluate((element) =>
+        getComputedStyle(element).borderTopStyle,
+      ),
+    ).toBe("dashed");
+
+    const featureBoxes = await features.evaluateAll((elements) =>
+      elements.map((element) => {
+        const { height, width: itemWidth, x, y } = element.getBoundingClientRect();
+        return { height, width: itemWidth, x, y };
+      }),
+    );
+    const introBox = await section.locator(".section-intro").boundingBox();
+    if (width > 1072) {
+      expect(featureBoxes[0].x).toBeGreaterThan(
+        (introBox?.x ?? 0) + (introBox?.width ?? 0),
+      );
+      expect(Math.max(...featureBoxes.map(({ x }) => x)) - Math.min(...featureBoxes.map(({ x }) => x))).toBeLessThan(1);
+      expect(featureBoxes[1].y).toBeGreaterThan(featureBoxes[0].y);
+      expect(featureBoxes[2].y).toBeGreaterThan(featureBoxes[1].y);
+    } else if (width > 560) {
+      expect(featureBoxes[0].y).toBeGreaterThan(
+        (introBox?.y ?? 0) + (introBox?.height ?? 0),
+      );
+      expect(Math.max(...featureBoxes.map(({ y }) => y)) - Math.min(...featureBoxes.map(({ y }) => y))).toBeLessThan(1);
+      expect(featureBoxes[0].x).toBeLessThan(featureBoxes[1].x);
+      expect(featureBoxes[1].x).toBeLessThan(featureBoxes[2].x);
+    } else {
+      expect(featureBoxes[0].y).toBeGreaterThan(
+        (introBox?.y ?? 0) + (introBox?.height ?? 0),
+      );
+      expect(Math.max(...featureBoxes.map(({ x }) => x)) - Math.min(...featureBoxes.map(({ x }) => x))).toBeLessThan(1);
+      for (let index = 1; index < featureBoxes.length; index += 1) {
+        const gap = featureBoxes[index].y -
+          (featureBoxes[index - 1].y + featureBoxes[index - 1].height);
+        expect(gap, `compact feature gap at ${width}px`).toBeLessThanOrEqual(4);
+      }
+    }
+
+    for (const theme of ["light", "dark"] as const) {
+      await setTheme(page, theme);
+      const [connectorStyle, sharingStyle] = await Promise.all([
+        connector.locator(":scope > span").evaluate((element) => {
+          const style = getComputedStyle(element);
+          return { background: style.backgroundColor, colour: style.color, shadow: style.boxShadow };
+        }),
+        page.locator(".share-path span").nth(1).evaluate((element) => {
+          const style = getComputedStyle(element);
+          return { background: style.backgroundColor, colour: style.color };
+        }),
+      ]);
+      expect(connectorStyle.background).toBe(sharingStyle.background);
+      expect(connectorStyle.colour).toBe(sharingStyle.colour);
+      expect(connectorStyle.shadow).toBe("none");
+    }
+  }
+
+  await page.setViewportSize({ width: 640, height: 900 });
+  await page.goto("/tessa/en/");
+  await page.evaluate(() => { document.documentElement.style.fontSize = "200%"; });
+  await page.locator(".privacy-story").scrollIntoViewIfNeeded();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
+    ),
+  ).toBe(true);
+  await expect(page.locator(".privacy-story .feature-pill")).toHaveCount(3);
+});
+
+test("keeps the final CTA badges uniform and centres its illustration when stacked", async ({ page }) => {
+  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/tessa/");
+
+    const section = page.locator(".download-story");
+    const inner = section.locator(".download-story__inner");
+    const mark = section.locator(".download-story__mark");
+    const badges = section.locator(".store-badges a");
+    await section.scrollIntoViewIfNeeded();
+
+    await expect(badges).toHaveCount(2);
+    await expect(badges.nth(0).locator("img")).toHaveAttribute(
+      "alt",
+      "Scarica TesSa da Google Play",
+    );
+    await expect(badges.nth(1).locator("img")).toHaveAttribute(
+      "alt",
+      "Scarica TesSa dall'App Store",
+    );
+
+    const badgeBoxes = await badges.evaluateAll((elements) =>
+      elements.map((element) => {
+        const { height, width: badgeWidth } = element.getBoundingClientRect();
+        return { height, width: badgeWidth };
+      }),
+    );
+    expect(badgeBoxes[0].height).toBe(52);
+    expect(badgeBoxes[1].height).toBe(52);
+    expect(badgeBoxes[0].width).not.toBe(badgeBoxes[1].width);
+
+    const columns = await inner.evaluate((element) => getComputedStyle(element).gridTemplateColumns);
+    if (columns.split(" ").length === 1) {
+      const innerBox = await inner.boundingBox();
+      const markBox = await mark.boundingBox();
+      expect(
+        Math.abs(
+          ((markBox?.x ?? 0) + (markBox?.width ?? 0) / 2) -
+            ((innerBox?.x ?? 0) + (innerBox?.width ?? 0) / 2),
+        ),
+        `centred CTA illustration at ${width}px`,
+      ).toBeLessThan(1);
+    }
+  }
+});
+
+test("uses an intentional two-row footer below the wide desktop breakpoint", async ({ page }) => {
+  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/tessa/");
+
+    const footer = page.locator(".marketing-footer");
+    const brand = footer.locator(".marketing-footer__brand");
+    const groups = footer.locator(".marketing-footer__links > div");
+    const copyright = footer.locator(".marketing-footer__copyright");
+    await footer.scrollIntoViewIfNeeded();
+
+    await expect(groups).toHaveCount(2);
+    const brandBox = await brand.boundingBox();
+    const groupBoxes = await groups.evaluateAll((elements) =>
+      elements.map((element) => {
+        const { height, width: groupWidth, x, y } = element.getBoundingClientRect();
+        return { height, width: groupWidth, x, y };
+      }),
+    );
+    const copyrightBox = await copyright.boundingBox();
+
+    if (width <= 1072) {
+      expect(groupBoxes[0].y).toBeGreaterThan(
+        (brandBox?.y ?? 0) + (brandBox?.height ?? 0),
+      );
+      expect(Math.abs(groupBoxes[0].y - groupBoxes[1].y)).toBeLessThan(1);
+      expect(groupBoxes[0].x).toBeLessThan(groupBoxes[1].x);
+    } else {
+      expect(Math.abs((brandBox?.y ?? 0) - groupBoxes[0].y)).toBeLessThan(1);
+      expect(Math.abs(groupBoxes[0].y - groupBoxes[1].y)).toBeLessThan(1);
+    }
+    expect(copyrightBox?.y ?? 0).toBeGreaterThan(
+      Math.max(...groupBoxes.map(({ height, y }) => y + height)),
+    );
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
+      ),
+    ).toBe(true);
+  }
+
+  await page.setViewportSize({ width: 640, height: 900 });
+  await page.goto("/tessa/en/");
+  await page.evaluate(() => { document.documentElement.style.fontSize = "200%"; });
+  await page.locator(".marketing-footer").scrollIntoViewIfNeeded();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
+    ),
+  ).toBe(true);
+});
+
+test("uses feature-oriented showcase crops in the correct responsive grid", async ({ page }) => {
+  const cropSelectors = [
+    ".showcase-card__crop--top",
+    ".showcase-card__crop--middle",
+    ".showcase-card__crop--bottom",
+    ".showcase-card__crop--menu",
+  ];
+  const screenshotNames = ["wallet", "details", "sharing", "add-menu"];
+
+  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/tessa/");
+    const section = page.locator(".showcase-story");
+    const cards = section.locator(".showcase-card");
+    await section.scrollIntoViewIfNeeded();
+
+    await expect(cards).toHaveCount(4);
+    await expect(cards.locator("figcaption")).toHaveText([
+      "01Cerca e filtra",
+      "02Consulta i dettagli",
+      "03Condividi con QR o link",
+      "04Aggiungi ciò che serve",
+    ]);
+
+    const cardBoxes = await cards.evaluateAll((elements) =>
+      elements.map((element) => {
+        const { x, y } = element.getBoundingClientRect();
+        return { x, y };
+      }),
+    );
+    if (width <= 1072) {
+      expect(Math.abs(cardBoxes[0].y - cardBoxes[1].y)).toBeLessThan(1);
+      expect(Math.abs(cardBoxes[2].y - cardBoxes[3].y)).toBeLessThan(1);
+      expect(cardBoxes[0].x).toBeLessThan(cardBoxes[1].x);
+      expect(cardBoxes[2].x).toBeLessThan(cardBoxes[3].x);
+      expect(cardBoxes[2].y).toBeGreaterThan(cardBoxes[0].y);
+    } else {
+      expect(cardBoxes[0].x).toBeLessThan(cardBoxes[1].x);
+      expect(cardBoxes[1].x).toBeLessThan(cardBoxes[2].x);
+      expect(cardBoxes[2].x).toBeLessThan(cardBoxes[3].x);
+      expect(cardBoxes[1].y).toBeGreaterThan(cardBoxes[0].y);
+      expect(cardBoxes[3].y).toBeGreaterThan(cardBoxes[2].y);
+    }
+
+    const expectedCrops = width <= 560
+      ? [0.0435, 0.07, 0.32, 0.42]
+      : width <= 1072
+        ? [0.0435, 0.065, 0.34, 0.46]
+        : [0.0435, 0.065, 0.13, 0.18];
+    for (let index = 0; index < cropSelectors.length; index += 1) {
+      const wrapper = section.locator(cropSelectors[index]);
+      const image = wrapper.locator("img");
+      const wrapperBox = await wrapper.boundingBox();
+      const imageBox = await image.boundingBox();
+      const croppedShare =
+        ((wrapperBox?.y ?? 0) - (imageBox?.y ?? 0)) / (imageBox?.height ?? 1);
+      expect(
+        Math.abs(croppedShare - expectedCrops[index]),
+        `${cropSelectors[index]} crop at ${width}px`,
+      ).toBeLessThan(0.012);
+    }
+
+    for (const theme of ["light", "dark"] as const) {
+      await setTheme(page, theme);
+      for (let index = 0; index < cropSelectors.length; index += 1) {
+        await expect
+          .poll(() =>
+            section
+              .locator(`${cropSelectors[index]} img`)
+              .evaluate((image) => (image as HTMLImageElement).currentSrc),
+          )
+          .toContain(`${screenshotNames[index]}${theme === "dark" ? "-dark" : ""}.webp`);
+      }
+    }
+  }
+
+  await page.setViewportSize({ width: 320, height: 900 });
+  await page.goto("/tessa/en/");
+  await expect(page.locator(".showcase-card figcaption")).toHaveText([
+    "01Search and filter",
+    "02View the details",
+    "03Share by QR code or link",
+    "04Add what you need",
+  ]);
+});
+
+test("moves every showcase card upward by the same hover delta", async ({ page }) => {
+  for (const width of [1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/tessa/");
+    const cards = page.locator(".showcase-card");
+    await cards.first().scrollIntoViewIfNeeded();
+    const hasFineHover = await page.evaluate(() =>
+      matchMedia("(hover: hover) and (pointer: fine)").matches,
+    );
+    const restingLayoutTranslations = await cards.evaluateAll((elements) =>
+      elements.map((element) => getComputedStyle(element).translate),
+    );
+    const hoverTransforms: string[] = [];
+
+    for (let index = 0; index < 4; index += 1) {
+      const card = cards.nth(index);
+      await card.hover();
+      await page.waitForTimeout(240);
+      const hoveredStyle = await card.evaluate((element) => {
+        const style = getComputedStyle(element);
+        return { boxShadow: style.boxShadow, transform: style.transform, translate: style.translate };
+      });
+      expect(hoveredStyle.translate).toBe(restingLayoutTranslations[index]);
+      if (hasFineHover) {
+        expect(hoveredStyle.transform, `card ${index + 1} at ${width}px`).not.toBe("none");
+        expect(hoveredStyle.boxShadow, `card ${index + 1} at ${width}px`).not.toBe("none");
+        expect(
+          await card.evaluate((element) => new DOMMatrix(getComputedStyle(element).transform).m42),
+          `card ${index + 1} upward motion at ${width}px`,
+        ).toBeLessThan(0);
+        hoverTransforms.push(hoveredStyle.transform);
+      } else {
+        expect(hoveredStyle.transform, `touch card ${index + 1} at ${width}px`).toBe("none");
+      }
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(240);
+    }
+
+    if (hasFineHover) {
+      expect(new Set(hoverTransforms).size).toBe(1);
     }
   }
 });
@@ -455,6 +1189,28 @@ test("removes non-essential transition duration for reduced motion", async ({
   await expect
     .poll(() => healthCard.evaluate((element) => getComputedStyle(element).transform))
     .toBe(restingCardTransform);
+
+  const showcaseCard = page.locator(".showcase-card").first();
+  const restingShowcaseTransform = await showcaseCard.evaluate(
+    (element) => getComputedStyle(element).transform,
+  );
+  await showcaseCard.hover();
+  await expect
+    .poll(() => showcaseCard.evaluate((element) => getComputedStyle(element).transform))
+    .toBe(restingShowcaseTransform);
+
+  const faqEntry = page.locator(".faq-list details").nth(1);
+  const faqChevron = faqEntry.locator('i[aria-hidden="true"] svg');
+  await expect
+    .poll(() => faqChevron.evaluate((element) => getComputedStyle(element).transitionProperty))
+    .toBe("none");
+  await faqEntry.locator("summary").click();
+  await expect(faqEntry).toHaveAttribute("open", "");
+  expect(
+    await faqChevron.evaluate(
+      (element) => new DOMMatrix(getComputedStyle(element).transform).a,
+    ),
+  ).toBeLessThan(-0.99);
 });
 
 test("preserves the raw share query when switching language", async ({

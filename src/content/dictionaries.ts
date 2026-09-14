@@ -49,6 +49,7 @@ export type HomeContent = {
     pinAlt: string;
   };
   backup: MarketingSection & {
+    create: string;
     manual: string;
     encrypted: string;
     restore: string;
@@ -266,9 +267,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
         eyebrow: "Continuità sotto il tuo controllo",
         title: "Il tuo portafoglio, pronto a seguirti.",
         description:
-          "Esporta un backup cifrato e ripristinalo quando serve. Backup e ripristino sono disponibili gratuitamente.",
+          "Crea un backup cifrato, esportalo dove preferisci e ripristinalo quando serve. Backup e ripristino sono disponibili gratuitamente.",
+        create: "Creazione del backup",
         manual: "Esportazione manuale",
-        encrypted: "File di backup cifrato",
+        encrypted: "File cifrato nell'app",
         restore: "Ripristino quando serve",
         restoreNote:
           "Il ripristino sostituisce il portafoglio corrente solo dopo la tua conferma.",
@@ -293,13 +295,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
         description: "Risposte chiare alle domande più comuni su TesSa.",
         items: [
           { question: "Quali documenti posso aggiungere a TesSa?", answer: "TesSa supporta Tessera Sanitaria, Carta d'Identità Elettronica (CIE) e patente di guida." },
-          { question: "Posso organizzare i documenti di più persone?", answer: "Sì. Puoi tenere sullo stesso dispositivo documenti appartenenti a più persone, per esempio familiari. TesSa non usa account o account famiglia." },
-          { question: "Dove conserva TesSa i dati dei miei documenti?", answer: "I dati del portafoglio sono memorizzati localmente sul dispositivo. TesSa non usa un cloud proprietario per conservare il tuo portafoglio documenti." },
-          { question: "Come condivido una tessera tramite codice QR o link?", answer: "Apri il documento in TesSa e avvia tu la condivisione. L'app può creare un codice QR o un link per trasferire i dati supportati." },
-          { question: "Cosa devo sapere sui link condivisi?", answer: "Il link contiene i dati del documento condiviso in una forma codificata, non cifrata né protetta da accesso. Condividilo solo con la persona giusta e trattalo come un documento personale." },
-          { question: "Come funzionano backup e ripristino?", answer: "Il backup è un'esportazione manuale gratuita in un file cifrato. Quando ripristini, TesSa sostituisce il portafoglio corrente solo dopo la tua conferma." },
-          { question: "Come protegge TesSa l'accesso ai miei documenti?", answer: "Puoi attivare un PIN e, sui dispositivi compatibili, l'accesso biometrico. Sono controlli di accesso all'app e non vanno confusi con la cifratura dei documenti." },
-          { question: "TesSa è un'app ufficiale della Pubblica Amministrazione?", answer: "No. TesSa è un'app indipendente per organizzare rappresentazioni e dati dei documenti; non sostituisce i documenti originali." },
+          { question: "Posso organizzare i documenti di più persone?", answer: "Sì. Puoi tenere sullo stesso dispositivo i documenti di più persone, per esempio quelli dei tuoi familiari. TesSa non richiede la creazione di un account." },
+          { question: "Dove conserva TesSa i dati dei miei documenti?", answer: "I dati del tuo portafoglio sono memorizzati localmente sul dispositivo. TesSa non li salva su un proprio servizio cloud." },
+          { question: "Come condivido un documento tramite codice QR o link?", answer: "Apri il documento in TesSa e scegli di condividerlo tramite codice QR o link. La condivisione parte sempre da una tua azione nell'app." },
+          { question: "Cosa devo sapere sui link condivisi?", answer: "Il link contiene i dati del documento condiviso e non è cifrato né protetto da password. Chi riceve il link può visualizzare le informazioni condivise: invialo quindi solo alla persona giusta e trattalo come un documento personale." },
+          { question: "Come funzionano backup e ripristino?", answer: "TesSa ti permette gratuitamente di creare un file di backup cifrato del tuo portafoglio. Puoi poi esportarlo manualmente per conservarne una copia dove preferisci e, quando serve, utilizzarlo per ripristinare il portafoglio. Il ripristino sostituisce i dati attuali solo dopo la tua conferma." },
+          { question: "Dove trovo il backup che ho creato?", answer: "Quando crei un backup, il file rimane nello spazio interno di TesSa e non compare automaticamente tra i file del dispositivo. Per conservarne una copia fuori dall'app, usa la funzione di esportazione e scegli dove salvarlo o condividerlo." },
+          { question: "Come posso proteggere l'accesso ai miei documenti?", answer: "Puoi proteggere l'accesso a TesSa con un PIN e, sui dispositivi compatibili, utilizzare anche l'autenticazione biometrica." },
+          { question: "TesSa è un'app ufficiale della Pubblica Amministrazione?", answer: "No. TesSa è un'app indipendente e non è un'app ufficiale della Pubblica Amministrazione. Ti aiuta a organizzare e consultare i dati dei tuoi documenti, ma non sostituisce i documenti originali." },
           { question: "Su quali dispositivi posso usare TesSa?", answer: "TesSa è disponibile per Android e iOS." },
         ],
       },
@@ -495,9 +498,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
         eyebrow: "Continuity on your terms",
         title: "Take your wallet with you.",
         description:
-          "Export an encrypted backup and restore it when needed. Backup and restore are available free to everyone.",
+          "Create an encrypted backup, export it wherever you choose and restore it when needed. Backup and restore are available free to everyone.",
+        create: "Create a backup",
         manual: "Manual export",
-        encrypted: "Encrypted backup file",
+        encrypted: "Encrypted file stored in TesSa",
         restore: "Restore when needed",
         restoreNote:
           "Restoring replaces the current wallet only after you confirm it.",
@@ -522,13 +526,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
         description: "Clear answers to common questions about TesSa.",
         items: [
           { question: "Which documents can I add to TesSa?", answer: "TesSa supports the Italian health card, Electronic Identity Card (CIE) and driving licence." },
-          { question: "Can I organise documents for several people?", answer: "Yes. You can keep documents belonging to several people, such as family members, on the same device. TesSa does not use accounts or family accounts." },
-          { question: "Where does TesSa store my document records?", answer: "Wallet records are stored locally on your device. TesSa does not use a proprietary cloud service to hold your document wallet." },
-          { question: "How do I share a card using a QR code or link?", answer: "Open the document in TesSa and start sharing yourself. The app can create a QR code or link to transfer supported details." },
-          { question: "What should I know about shared links?", answer: "A shared link contains the document details in an encoded form. It is not encrypted or access controlled. Send it only to the intended person and treat it like a personal document." },
-          { question: "How do backup and restore work?", answer: "Backup is a free, manual export to an encrypted file. When you restore, TesSa replaces the current wallet only after you confirm it." },
-          { question: "How does TesSa protect access to my documents?", answer: "You can enable a PIN and, on compatible devices, biometric access. These protect access to the app and should not be described as document encryption." },
-          { question: "Is TesSa an official government application?", answer: "No. TesSa is an independent app for organising document representations and details; it does not replace the original documents." },
+          { question: "Can I organise documents for more than one person?", answer: "Yes. You can keep documents for several people on the same device, for example members of your family. TesSa does not require you to create an account." },
+          { question: "Where does TesSa store my document data?", answer: "Your wallet data is stored locally on your device. TesSa does not store it on its own cloud service." },
+          { question: "How do I share a document using a QR code or link?", answer: "Open the document in TesSa and choose to share it using a QR code or link. Sharing always starts with an action you take in the app." },
+          { question: "What should I know about shared links?", answer: "The link contains the data from the shared document and is not encrypted or password-protected. Anyone who receives the link can view the shared information, so send it only to the intended person and treat it like a personal document." },
+          { question: "How do backup and restore work?", answer: "TesSa lets you create an encrypted backup file of your wallet free of charge. You can then export it manually to keep a copy wherever you prefer and use it to restore your wallet when needed. Restoring replaces your current data only after you confirm." },
+          { question: "Where can I find the backup I created?", answer: "When you create a backup, the file remains in TesSa's internal app storage and does not automatically appear among the files on your device. To keep a copy outside the app, use the export function and choose where to save or share it." },
+          { question: "How can I protect access to my documents?", answer: "You can protect access to TesSa with a PIN and, on compatible devices, also use biometric authentication." },
+          { question: "Is TesSa an official Public Administration app?", answer: "No. TesSa is an independent app and is not an official Public Administration app. It helps you organise and view your document data, but it does not replace the original documents." },
           { question: "Which devices can I use TesSa on?", answer: "TesSa is available for Android and iOS." },
         ],
       },
