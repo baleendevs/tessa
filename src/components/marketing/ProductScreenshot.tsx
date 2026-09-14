@@ -25,6 +25,7 @@ export function ProductScreenshot({
         data-theme-dark
         media="(prefers-color-scheme: dark)"
         srcSet={assetPath(pair.dark)}
+        suppressHydrationWarning
       />
       <img
         alt={alt}

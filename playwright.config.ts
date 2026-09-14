@@ -24,5 +24,10 @@ export default defineConfig({
       name: "mobile-chromium",
       use: { ...devices["Pixel 7"] },
     },
+    {
+      name: "mobile-webkit",
+      testMatch: "**/mobile-browser.spec.ts",
+      use: { ...devices["iPhone 13"] },
+    },
   ],
 });

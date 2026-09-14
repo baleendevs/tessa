@@ -6,6 +6,8 @@ import { MarketingLanguageSwitch } from "./MarketingLanguageSwitch";
 import { ArrowIcon } from "./MarketingIcons";
 import { MobileNavigation } from "./MobileNavigation";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { HOME_NAVBAR_SECTIONS, HOME_SECTION_IDS, HOME_SECTION_ORDER } from "@/lib/home-navigation";
+import { SectionNavigationButton } from "./SectionNavigationButton";
 
 type MarketingHeaderProps = {
   dictionary: Dictionary;
@@ -14,13 +16,9 @@ type MarketingHeaderProps = {
 
 export function MarketingHeader({ dictionary, locale }: MarketingHeaderProps) {
   const home = dictionary.home;
-  const links: Array<[href: string, label: string]> = [
-    ["#documents", home.navigation.documents],
-    ["#how-it-works", home.navigation.howItWorks],
-    ["#sharing", home.navigation.sharing],
-    ["#privacy", home.navigation.privacy],
-    ["#faq", home.navigation.faq],
-  ];
+  const links: Array<[href: string, label: string]> = HOME_NAVBAR_SECTIONS.map(
+    ({ id, navigationKey }) => [`#${id}`, home.navigation[navigationKey]],
+  );
 
   return (
     <header className="marketing-header">
@@ -44,7 +42,12 @@ export function MarketingHeader({ dictionary, locale }: MarketingHeaderProps) {
         <div className="marketing-header__actions">
           <ThemeToggle labels={dictionary.theme} />
           <MarketingLanguageSwitch locale={locale} label={dictionary.languageSwitchLabel} />
-          <a className="header-download" href="#download"><span>{home.navigation.download}</span><ArrowIcon /></a>
+          <a className="header-download" href={`#${HOME_SECTION_IDS.download}`}><span>{home.navigation.download}</span><ArrowIcon /></a>
+          <SectionNavigationButton
+            backToTopLabel={home.navigation.backToTop}
+            nextSectionLabel={home.navigation.nextSection}
+            sectionIds={HOME_SECTION_ORDER.map(({ id }) => id)}
+          />
           <MobileNavigation label={home.navigation.menu} links={links} />
         </div>
       </div>

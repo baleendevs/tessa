@@ -16,6 +16,8 @@ export type HomeContent = {
     faq: string;
     download: string;
     menu: string;
+    nextSection: string;
+    backToTop: string;
   };
   hero: MarketingSection & {
     platformNote: string;
@@ -202,6 +204,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
         faq: "FAQ",
         download: "Scarica",
         menu: "Menu",
+        nextSection: "Vai alla sezione successiva",
+        backToTop: "Torna all'inizio",
       },
       hero: {
         eyebrow: "TesSa per Android e iOS",
@@ -433,6 +437,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
         faq: "FAQ",
         download: "Download",
         menu: "Menu",
+        nextSection: "Go to the next section",
+        backToTop: "Back to the top",
       },
       hero: {
         eyebrow: "TesSa for Android and iOS",

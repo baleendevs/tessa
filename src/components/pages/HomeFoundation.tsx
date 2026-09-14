@@ -19,6 +19,7 @@ import {
 import { StoreBadges } from "@/components/marketing/StoreBadges";
 import type { Locale } from "@/lib/site";
 import { APP_STORE_URL, assetPath, GOOGLE_PLAY_URL, SITE_URL } from "@/lib/site";
+import { HOME_SECTION_IDS } from "@/lib/home-navigation";
 
 type HomeFoundationProps = { locale: Locale };
 
@@ -81,11 +82,11 @@ const DEMO_DOCUMENTS = [
   },
 ] as const;
 
-function SectionHeading({ section }: { section: { eyebrow: string; title: string; description: string } }) {
+function SectionHeading({ section, titleId }: { section: { eyebrow: string; title: string; description: string }; titleId: string }) {
   return (
     <div className="section-heading">
       <p className="eyebrow">{section.eyebrow}</p>
-      <h2>{section.title}</h2>
+      <h2 id={titleId}>{section.title}</h2>
       <p className="section-intro">{section.description}</p>
     </div>
   );
@@ -140,7 +141,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
               <h1 id="hero-title">{home.hero.title}</h1>
               <p className="hero__intro">{home.hero.description}</p>
               <StoreBadges labels={home.stores} locale={locale} />
-              <a className="text-action" href="#how-it-works">{home.hero.secondaryAction}<ArrowIcon /></a>
+              <a className="text-action" href={`#${HOME_SECTION_IDS.howItWorks}`}>{home.hero.secondaryAction}<ArrowIcon /></a>
               <p className="hero__note"><CheckIcon />{home.hero.platformNote}</p>
             </div>
             <div className="hero__product" aria-label={home.hero.imageAlt}>
@@ -151,9 +152,9 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
           </div>
         </section>
 
-        <section className="wallet-story" id="documents" aria-labelledby="wallet-title">
+        <section className="wallet-story" id={HOME_SECTION_IDS.documents} aria-labelledby="wallet-title">
           <div className="section-shell wallet-story__inner">
-            <div className="section-heading" id="how-it-works">
+            <div className="section-heading">
               <p className="eyebrow">{home.wallet.eyebrow}</p>
               <h2 id="wallet-title">{home.wallet.title}</h2>
               <p className="section-intro">{home.wallet.description}</p>
@@ -162,7 +163,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
           </div>
         </section>
 
-        <section className="access-story" aria-labelledby="access-title">
+        <section className="access-story" id={HOME_SECTION_IDS.howItWorks} aria-labelledby="access-title">
           <div className="section-shell access-story__inner">
             <div className="access-story__media">
               <figure className="product-preview-card product-preview-card--details">
@@ -191,7 +192,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
           </div>
         </section>
 
-        <section className="sharing-story" id="sharing" aria-labelledby="sharing-title">
+        <section className="sharing-story" id={HOME_SECTION_IDS.sharing} aria-labelledby="sharing-title">
           <div className="section-shell sharing-story__inner">
             <div className="sharing-story__visual">
               <div className="share-path" aria-hidden="true"><span><WalletIcon /></span><i /><span><QrIcon /></span><i /><span><DeviceIcon /></span></div>
@@ -205,7 +206,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
           </div>
         </section>
 
-        <section className="privacy-story" id="privacy" aria-labelledby="privacy-title">
+        <section className="privacy-story" id={HOME_SECTION_IDS.privacy} aria-labelledby="privacy-title">
           <div className="section-shell">
             <div className="privacy-story__heading"><div className="section-heading"><p className="eyebrow">{home.privacy.eyebrow}</p><h2 id="privacy-title">{home.privacy.title}</h2><p className="section-intro">{home.privacy.description}</p></div><div className="feature-pills"><FeaturePill icon={<DeviceIcon />} label={home.privacy.local} /><FeaturePill icon={<LockIcon />} label={home.privacy.pin} /><FeaturePill icon={<FingerprintIcon />} label={home.privacy.biometric} /></div></div>
             <div className="privacy-story__media">
@@ -227,7 +228,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
 
         <section className="showcase-story" aria-labelledby="showcase-title">
           <div className="section-shell">
-            <SectionHeading section={home.showcase} />
+            <SectionHeading section={home.showcase} titleId="showcase-title" />
             <div className="showcase-grid">
               {([
                 ["wallet", home.showcase.walletLabel, home.showcase.walletAlt, "top"],
@@ -244,7 +245,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
           </div>
         </section>
 
-        <section className="faq-story" id="faq" aria-labelledby="faq-title">
+        <section className="faq-story" id={HOME_SECTION_IDS.faq} aria-labelledby="faq-title">
           <div className="section-shell faq-story__inner">
             <div className="section-heading"><p className="eyebrow">{home.faq.eyebrow}</p><h2 id="faq-title">{home.faq.title}</h2><p className="section-intro">{home.faq.description}</p></div>
             <div className="faq-list">
@@ -255,7 +256,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
           </div>
         </section>
 
-        <section className="download-story" id="download" aria-labelledby="download-title">
+        <section className="download-story" id={HOME_SECTION_IDS.download} aria-labelledby="download-title">
           <div className="section-shell download-story__inner">
             <Image alt="" className="download-story__mark" height={422} src={assetPath("/media/brand/tessa-wallet-mark.png")} unoptimized width={488} />
             <div><p className="eyebrow">{home.finalCta.eyebrow}</p><h2 id="download-title">{home.finalCta.title}</h2><p>{home.finalCta.description}</p><StoreBadges labels={home.stores} locale={locale} /></div>

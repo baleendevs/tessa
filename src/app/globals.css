@@ -296,6 +296,7 @@ img {
 
 .marketing-language-switch,
 .header-download,
+.header-section-nav,
 .mobile-menu summary {
   align-items: center;
   border-radius: 999px;
@@ -321,6 +322,23 @@ img {
 }
 
 .header-download svg { display: none; height: 1.1rem; transform: rotate(90deg); width: 1.1rem; }
+
+.header-section-nav {
+  background: var(--tessa-primary);
+  border: 0;
+  color: var(--tessa-on-primary);
+  display: none;
+  width: 3rem;
+}
+
+.header-section-nav svg {
+  height: 1.1rem;
+  transform: rotate(90deg);
+  transition: transform 200ms ease;
+  width: 1.1rem;
+}
+
+.header-section-nav[data-direction="up"] svg { transform: rotate(270deg); }
 
 .mobile-menu {
   display: none;
@@ -532,10 +550,6 @@ img {
 .showcase-story,
 .faq-story {
   padding-block: var(--spacing-section);
-  scroll-margin-top: 5rem;
-}
-
-#how-it-works {
   scroll-margin-top: 5rem;
 }
 
@@ -1066,9 +1080,8 @@ img {
   .marketing-footer__inner,
   .marketing-footer__copyright { padding-inline: max(1.25rem, env(safe-area-inset-left)); }
   .marketing-header__inner { padding-inline: 0.75rem; }
-  .header-download { padding: 0; width: 3rem; }
-  .header-download span { position: absolute; height: 1px; width: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
-  .header-download svg { display: block; }
+  .header-download { display: none; }
+  .header-section-nav { display: inline-flex; }
   .store-badges { align-items: flex-start; }
   .hero h1 { font-size: clamp(2.8rem, 15vw, 4rem); }
   .hero__product { min-height: 34rem; }
@@ -1243,6 +1256,10 @@ img {
   }
 
   .faq-list summary i svg {
+    transition: none !important;
+  }
+
+  .header-section-nav svg {
     transition: none !important;
   }
 

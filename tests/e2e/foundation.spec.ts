@@ -74,6 +74,64 @@ test("preserves the homepage fragment when switching language", async ({ page })
   await expect(page.getByRole("link", { name: "Passa all'inglese" })).toHaveAttribute("href", "/tessa/en/#faq");
 });
 
+test("maps each localised navigation label to one distinct homepage section", async ({ page }) => {
+  const expectedHrefs = ["#documents", "#how-it-works", "#sharing", "#privacy", "#faq"];
+  const locales = [
+    { labels: ["Documenti", "Come funziona", "Condivisione", "Privacy", "FAQ"], path: "/tessa/" },
+    { labels: ["Documents", "How it works", "Sharing", "Privacy", "FAQ"], path: "/tessa/en/" },
+  ];
+
+  for (const { labels, path } of locales) {
+    await page.goto(path);
+    const desktopLinks = page.locator(".marketing-nav a");
+    const mobileLinks = page.locator(".mobile-menu nav a");
+    await expect(desktopLinks).toHaveText(labels);
+    await expect(mobileLinks).toHaveText(labels);
+    expect(await desktopLinks.evaluateAll((links) => links.map((link) => link.getAttribute("href")))).toEqual(expectedHrefs);
+    expect(await mobileLinks.evaluateAll((links) => links.map((link) => link.getAttribute("href")))).toEqual(expectedHrefs);
+
+    for (const href of expectedHrefs) {
+      await expect(page.locator(href)).toHaveCount(1);
+    }
+    const targetTops = await page.locator(expectedHrefs.join(",")).evaluateAll((sections) =>
+      sections.map((section) => (section as HTMLElement).offsetTop),
+    );
+    expect(targetTops).toEqual([...targetTops].sort((first, second) => first - second));
+    expect(new Set(expectedHrefs).size).toBe(expectedHrefs.length);
+    expect(
+      await page.locator("[id]").evaluateAll((elements) => {
+        const ids = elements.map((element) => element.id);
+        return ids.filter((id, index) => ids.indexOf(id) !== index);
+      }),
+    ).toEqual([]);
+  }
+});
+
+test("positions every desktop navigation target below the sticky header", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/tessa/");
+  const destinations = ["#documents", "#how-it-works", "#sharing", "#privacy", "#faq"];
+
+  for (let index = 0; index < destinations.length; index += 1) {
+    await page.evaluate((position) => {
+      const maximum = document.documentElement.scrollHeight - innerHeight;
+      scrollTo({ top: position === 0 ? 0 : position === 1 ? maximum / 2 : maximum, behavior: "instant" });
+    }, index % 3);
+    await page.locator(`.marketing-nav a[href="${destinations[index]}"]`).click();
+    await expect(page).toHaveURL(new RegExp(`${destinations[index]}$`));
+    await expect
+      .poll(() =>
+        page.evaluate((selector) => {
+          const header = document.querySelector(".marketing-header")?.getBoundingClientRect();
+          const target = document.querySelector(selector)?.getBoundingClientRect();
+          if (!header || !target) return false;
+          return target.top >= header.bottom - 1 && target.top <= header.bottom + 16;
+        }, destinations[index]),
+      )
+      .toBe(true);
+  }
+});
+
 test("isolates ShinyStat to marketing output", async ({ page }) => {
   await page.goto("/tessa/");
   await expect(page.locator('script[data-marketing-analytics="shinystat"]')).toHaveCount(1);
@@ -203,10 +261,10 @@ test("reflows the homepage at 320 CSS pixels and enlarged text", async ({ page }
   await page.setViewportSize({ width: 320, height: 800 });
   await page.goto("/tessa/");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
-  await expect(page.getByRole("link", { name: "Scarica", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Vai alla sezione successiva" })).toBeVisible();
   await expect(page.locator(".mobile-menu summary")).toBeVisible();
   for (const role of [
-    page.getByRole("link", { name: "Scarica", exact: true }),
+    page.getByRole("button", { name: "Vai alla sezione successiva" }),
     page.locator(".mobile-menu summary"),
     page.getByRole("link", { name: "Passa all'inglese" }),
     page.getByTestId("theme-toggle"),
@@ -271,6 +329,30 @@ test("closes mobile navigation after selection and with Escape", async ({ page }
   await menu.getByRole("link", { name: "Documenti" }).click();
   await expect(menu).not.toHaveAttribute("open", "");
   await expect(page).toHaveURL(/#documents$/);
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const header = document.querySelector(".marketing-header")?.getBoundingClientRect();
+        const target = document.querySelector("#documents")?.getBoundingClientRect();
+        return Boolean(header && target && target.top >= header.bottom - 1);
+      }),
+    )
+    .toBe(true);
+
+  await summary.click();
+  await menu.getByRole("link", { name: "Come funziona" }).click();
+  await expect(menu).not.toHaveAttribute("open", "");
+  await expect(page).toHaveURL(/#how-it-works$/);
+  await expect(page.locator("#how-it-works")).toContainText("Quello che ti serve, in pochi secondi.");
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const header = document.querySelector(".marketing-header")?.getBoundingClientRect();
+        const target = document.querySelector("#how-it-works")?.getBoundingClientRect();
+        return Boolean(header && target && target.top >= header.bottom - 1);
+      }),
+    )
+    .toBe(true);
 
   await summary.focus();
   await page.keyboard.press("Enter");
@@ -278,6 +360,56 @@ test("closes mobile navigation after selection and with Escape", async ({ page }
   await page.keyboard.press("Escape");
   await expect(menu).not.toHaveAttribute("open", "");
   await expect(summary).toBeFocused();
+});
+
+test("advances through the canonical homepage sections and returns to the top", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 390, height: 900 });
+
+  const locales = [
+    {
+      backLabel: "Torna all'inizio",
+      nextLabel: "Vai alla sezione successiva",
+      path: "/tessa/",
+    },
+    {
+      backLabel: "Back to the top",
+      nextLabel: "Go to the next section",
+      path: "/tessa/en/",
+    },
+  ];
+  const destinations = ["#documents", "#how-it-works", "#sharing", "#privacy", "#faq", "#download"];
+
+  for (const { backLabel, nextLabel, path } of locales) {
+    await page.goto(path);
+    let sectionButton = page.getByRole("button", { name: nextLabel });
+    await expect(sectionButton).toBeVisible();
+    await expect(sectionButton).toHaveAttribute("data-direction", "down");
+
+    for (const destination of destinations) {
+      await sectionButton.click();
+      await expect
+        .poll(() =>
+          page.evaluate((selector) => {
+            const header = document.querySelector(".marketing-header")?.getBoundingClientRect();
+            const target = document.querySelector(selector)?.getBoundingClientRect();
+            if (!header || !target) return false;
+            return target.top >= header.bottom - 1 && target.top <= header.bottom + 16;
+          }, destination),
+        )
+        .toBe(true);
+    }
+
+    sectionButton = page.getByRole("button", { name: backLabel });
+    await expect(sectionButton).toHaveAttribute("data-direction", "up");
+    await sectionButton.click();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThanOrEqual(1);
+    await expect(page.getByRole("button", { name: nextLabel })).toHaveAttribute("data-direction", "down");
+  }
+
+  await page.setViewportSize({ width: 768, height: 900 });
+  await expect(page.locator(".header-section-nav")).toBeHidden();
+  await expect(page.getByRole("link", { name: "Download", exact: true })).toBeVisible();
 });
 
 test("loads below-the-fold product evidence when it enters view", async ({ page }) => {
