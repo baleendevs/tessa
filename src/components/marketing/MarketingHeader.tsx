@@ -32,7 +32,7 @@ export function MarketingHeader({ dictionary, locale }: MarketingHeaderProps) {
             unoptimized
             width={488}
           />
-          <span>Tes<span>S</span>a</span>
+          <span>TesSa</span>
         </a>
 
         <nav className="marketing-nav" aria-label={home.navigation.menu}>
@@ -48,7 +48,7 @@ export function MarketingHeader({ dictionary, locale }: MarketingHeaderProps) {
             nextSectionLabel={home.navigation.nextSection}
             sectionIds={HOME_SECTION_ORDER.map(({ id }) => id)}
           />
-          <MobileNavigation label={home.navigation.menu} links={links} />
+          <MobileNavigation label={home.navigation.menu} links={[...links, [`#${HOME_SECTION_IDS.download}`, home.navigation.download]]} />
         </div>
       </div>
     </header>

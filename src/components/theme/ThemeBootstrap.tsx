@@ -1,10 +1,11 @@
-import { THEME_STORAGE_KEY } from "@/lib/theme";
+import { THEME_STORAGE_KEY, themeColours } from "@/lib/theme";
 
 const bootstrapSource = `
 (function () {
   var root = document.documentElement;
   var media = window.matchMedia("(prefers-color-scheme: dark)");
   var preference = null;
+  var themeColours = ${JSON.stringify(themeColours)};
 
   function updateScreenshots(theme) {
     var sources = document.querySelectorAll(
@@ -26,7 +27,7 @@ const bootstrapSource = `
     root.style.colorScheme = resolved;
     var themeColour = document.querySelector('meta[name="theme-color"]');
     if (themeColour) {
-      themeColour.setAttribute("content", resolved === "dark" ? "#151515" : "#f7f9fb");
+      themeColour.setAttribute("content", themeColours[resolved]);
     }
     updateScreenshots(resolved);
     root.dataset.themeReady = "true";

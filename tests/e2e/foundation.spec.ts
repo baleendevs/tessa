@@ -1002,6 +1002,33 @@ test("keeps the final CTA badges uniform and centres its illustration when stack
     const badges = section.locator(".store-badges a");
     await section.scrollIntoViewIfNeeded();
 
+    await expect(section.locator(":scope .section-intro")).toHaveCount(1);
+    const [ctaEyebrowStyle, sectionEyebrowStyle] = await Promise.all([
+      section.locator(".eyebrow").evaluate((element) => {
+        const style = getComputedStyle(element);
+        return {
+          color: style.color,
+          fontSize: style.fontSize,
+          fontWeight: style.fontWeight,
+          letterSpacing: style.letterSpacing,
+          lineHeight: style.lineHeight,
+          marginBottom: style.marginBottom,
+        };
+      }),
+      page.locator(".faq-story .eyebrow").evaluate((element) => {
+        const style = getComputedStyle(element);
+        return {
+          color: style.color,
+          fontSize: style.fontSize,
+          fontWeight: style.fontWeight,
+          letterSpacing: style.letterSpacing,
+          lineHeight: style.lineHeight,
+          marginBottom: style.marginBottom,
+        };
+      }),
+    ]);
+    expect(ctaEyebrowStyle, `final CTA eyebrow at ${width}px`).toEqual(sectionEyebrowStyle);
+
     await expect(badges).toHaveCount(2);
     await expect(badges.nth(0).locator("img")).toHaveAttribute(
       "alt",
@@ -1010,6 +1037,14 @@ test("keeps the final CTA badges uniform and centres its illustration when stack
     await expect(badges.nth(1).locator("img")).toHaveAttribute(
       "alt",
       "Scarica TesSa dall'App Store",
+    );
+    await expect(badges.nth(0).locator("img")).toHaveAttribute(
+      "src",
+      /google-play-badge\.svg$/,
+    );
+    await expect(badges.nth(1).locator("img")).toHaveAttribute(
+      "src",
+      /app-store-badge\.svg$/,
     );
 
     const badgeBoxes = await badges.evaluateAll((elements) =>
@@ -1021,6 +1056,17 @@ test("keeps the final CTA badges uniform and centres its illustration when stack
     expect(badgeBoxes[0].height).toBe(52);
     expect(badgeBoxes[1].height).toBe(52);
     expect(badgeBoxes[0].width).not.toBe(badgeBoxes[1].width);
+
+    const imageTreatments = await badges.locator("img").evaluateAll((images) =>
+      images.map((image) => {
+        const style = getComputedStyle(image);
+        return { borderRadius: style.borderRadius, transform: style.transform };
+      }),
+    );
+    expect(imageTreatments).toEqual([
+      { borderRadius: "0px", transform: "none" },
+      { borderRadius: "0px", transform: "none" },
+    ]);
 
     const columns = await inner.evaluate((element) => getComputedStyle(element).gridTemplateColumns);
     if (columns.split(" ").length === 1) {

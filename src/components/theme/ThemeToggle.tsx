@@ -14,11 +14,11 @@ function MoonIcon() {
       viewBox="0 0 24 24"
     >
       <path
-        d="M20.4 15.6A8.5 8.5 0 0 1 8.4 3.6 8.5 8.5 0 1 0 20.4 15.6Z"
+        d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth="1.8"
+        strokeWidth="2"
       />
     </svg>
   );

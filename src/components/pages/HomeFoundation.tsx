@@ -82,12 +82,21 @@ const DEMO_DOCUMENTS = [
   },
 ] as const;
 
-function SectionHeading({ section, titleId }: { section: { eyebrow: string; title: string; description: string }; titleId: string }) {
+function SectionHeading({
+  children,
+  section,
+  titleId,
+}: {
+  children?: ReactNode;
+  section: { eyebrow: string; title: string; description: string };
+  titleId: string;
+}) {
   return (
     <div className="section-heading">
       <p className="eyebrow">{section.eyebrow}</p>
       <h2 id={titleId}>{section.title}</h2>
       <p className="section-intro">{section.description}</p>
+      {children}
     </div>
   );
 }
@@ -154,11 +163,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
 
         <section className="wallet-story" id={HOME_SECTION_IDS.documents} aria-labelledby="wallet-title">
           <div className="section-shell wallet-story__inner">
-            <div className="section-heading">
-              <p className="eyebrow">{home.wallet.eyebrow}</p>
-              <h2 id="wallet-title">{home.wallet.title}</h2>
-              <p className="section-intro">{home.wallet.description}</p>
-            </div>
+            <SectionHeading section={home.wallet} titleId="wallet-title" />
             <DocumentStack cards={home.wallet.cards} />
           </div>
         </section>
@@ -179,13 +184,13 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
                 <figcaption>{home.access.barcodeLabel}</figcaption>
               </figure>
             </div>
-            <div className="section-heading"><p className="eyebrow">{home.access.eyebrow}</p><h2 id="access-title">{home.access.title}</h2><p className="section-intro">{home.access.description}</p></div>
+            <SectionHeading section={home.access} titleId="access-title" />
           </div>
         </section>
 
         <section className="family-story" aria-labelledby="family-title">
           <div className="section-shell family-story__inner">
-            <div className="section-heading"><p className="eyebrow">{home.family.eyebrow}</p><h2 id="family-title">{home.family.title}</h2><p className="section-intro">{home.family.description}</p></div>
+            <SectionHeading section={home.family} titleId="family-title" />
             <figure className="family-story__media">
               <div className="screenshot-window screenshot-window--family"><ProductScreenshot alt={home.family.imageAlt} name="family" /></div>
             </figure>
@@ -199,7 +204,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
               <figure className="screenshot-window screenshot-window--sharing"><ProductScreenshot alt={home.sharing.imageAlt} name="sharing" /></figure>
             </div>
             <div>
-              <div className="section-heading"><p className="eyebrow">{home.sharing.eyebrow}</p><h2 id="sharing-title">{home.sharing.title}</h2><p className="section-intro">{home.sharing.description}</p></div>
+              <SectionHeading section={home.sharing} titleId="sharing-title" />
               <div className="feature-pills"><FeaturePill icon={<QrIcon />} label={home.sharing.qr} /><FeaturePill icon={<LinkIcon />} label={home.sharing.link} /></div>
               <p className="support-note">{home.sharing.note}</p>
             </div>
@@ -208,7 +213,10 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
 
         <section className="privacy-story" id={HOME_SECTION_IDS.privacy} aria-labelledby="privacy-title">
           <div className="section-shell">
-            <div className="privacy-story__heading"><div className="section-heading"><p className="eyebrow">{home.privacy.eyebrow}</p><h2 id="privacy-title">{home.privacy.title}</h2><p className="section-intro">{home.privacy.description}</p></div><div className="feature-pills"><FeaturePill icon={<DeviceIcon />} label={home.privacy.local} /><FeaturePill icon={<LockIcon />} label={home.privacy.pin} /><FeaturePill icon={<FingerprintIcon />} label={home.privacy.biometric} /></div></div>
+            <div className="privacy-story__heading">
+              <SectionHeading section={home.privacy} titleId="privacy-title" />
+              <div className="feature-pills"><FeaturePill icon={<DeviceIcon />} label={home.privacy.local} /><FeaturePill icon={<LockIcon />} label={home.privacy.pin} /><FeaturePill icon={<FingerprintIcon />} label={home.privacy.biometric} /></div>
+            </div>
             <div className="privacy-story__media">
               <figure className="screenshot-window screenshot-window--settings"><ProductScreenshot alt={home.privacy.settingsAlt} name="settings" /></figure>
               <figure className="screenshot-window screenshot-window--pin"><ProductScreenshot alt={home.privacy.pinAlt} name="pin" /></figure>
@@ -219,7 +227,9 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
 
         <section className="backup-story" aria-labelledby="backup-title">
           <div className="section-shell backup-story__inner">
-            <div className="section-heading"><p className="eyebrow">{home.backup.eyebrow}</p><h2 id="backup-title">{home.backup.title}</h2><p className="section-intro">{home.backup.description}</p><p className="support-note">{home.backup.restoreNote}</p></div>
+            <SectionHeading section={home.backup} titleId="backup-title">
+              <p className="support-note">{home.backup.restoreNote}</p>
+            </SectionHeading>
             <div className="backup-flow" role="img" aria-label={`${home.backup.create}: ${home.backup.encrypted}; ${home.backup.manual}; ${home.backup.restore}`}>
               <div className="backup-file"><span><LockIcon /></span><div className="backup-flow__copy"><strong>{home.backup.create}</strong><small>{home.backup.encrypted}</small></div></div><i><ArrowIcon /></i><div><span><BackupIcon /></span><strong>{home.backup.manual}</strong></div><i><ArrowIcon /></i><div><span><DeviceIcon /></span><strong>{home.backup.restore}</strong></div>
             </div>
@@ -247,7 +257,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
 
         <section className="faq-story" id={HOME_SECTION_IDS.faq} aria-labelledby="faq-title">
           <div className="section-shell faq-story__inner">
-            <div className="section-heading"><p className="eyebrow">{home.faq.eyebrow}</p><h2 id="faq-title">{home.faq.title}</h2><p className="section-intro">{home.faq.description}</p></div>
+            <SectionHeading section={home.faq} titleId="faq-title" />
             <div className="faq-list">
               {home.faq.items.map((item, index) => (
                 <details key={item.question} open={index === 0}><summary><span>{item.question}</span><i aria-hidden="true"><svg focusable="false" viewBox="0 0 24 24"><path d="m7 9.5 5 5 5-5" /></svg></i></summary><p>{item.answer}</p></details>
@@ -259,7 +269,12 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
         <section className="download-story" id={HOME_SECTION_IDS.download} aria-labelledby="download-title">
           <div className="section-shell download-story__inner">
             <Image alt="" className="download-story__mark" height={422} src={assetPath("/media/brand/tessa-wallet-mark.png")} unoptimized width={488} />
-            <div><p className="eyebrow">{home.finalCta.eyebrow}</p><h2 id="download-title">{home.finalCta.title}</h2><p>{home.finalCta.description}</p><StoreBadges labels={home.stores} locale={locale} /></div>
+            <div>
+              <p className="eyebrow">{home.finalCta.eyebrow}</p>
+              <h2 id="download-title">{home.finalCta.title}</h2>
+              <p className="section-intro">{home.finalCta.description}</p>
+              <StoreBadges labels={home.stores} locale={locale} />
+            </div>
           </div>
         </section>
       </main>
