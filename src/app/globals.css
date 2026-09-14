@@ -770,7 +770,7 @@ img {
 .download-story__mark { filter: drop-shadow(0 1.5rem 1.3rem rgb(0 0 0 / 0.18)); transform: rotate(-5deg); width: min(100%, 25rem); }
 .download-story h2 { max-width: 13ch; }
 
-.site-footer { background: var(--tessa-surface); border-top: 1px solid color-mix(in srgb, var(--tessa-outline) 42%, transparent); padding-block: 4rem 1.5rem; }
+.site-footer { background: var(--tessa-surface); border-top: 1px solid color-mix(in srgb, var(--tessa-outline) 42%, transparent); overflow-wrap: anywhere; padding-block: 4rem 1.5rem; }
 .site-footer__inner { display: grid; gap: 3rem; grid-template-columns: 1.2fr 0.8fr; }
 .site-footer__brand { --footer-brand-gap: 1rem; --footer-mark-size: 4.5rem; max-width: 30rem; }
 .site-footer__brand-link { align-items: flex-start; color: var(--tessa-on-surface); display: flex; font-size: 1.4rem; font-weight: 700; gap: var(--footer-brand-gap); text-decoration: none; width: fit-content; }
@@ -786,6 +786,7 @@ img {
 .legal-page {
   margin-inline: auto;
   max-width: var(--container-content);
+  overflow-wrap: anywhere;
   padding: clamp(3.5rem, 8vw, 7rem) var(--spacing-page) clamp(5rem, 9vw, 8rem);
 }
 
@@ -802,28 +803,13 @@ img {
   text-wrap: balance;
 }
 
-.legal-page__source-title {
-  color: var(--tessa-on-surface-muted);
-  font-size: 1rem;
-  line-height: 1.6;
-  margin: 1.25rem 0 0;
-}
-
 .legal-page__meta {
-  background: color-mix(in srgb, var(--tessa-outline) 48%, transparent);
-  border: 1px solid color-mix(in srgb, var(--tessa-outline) 48%, transparent);
-  border-radius: 1.5rem;
-  display: grid;
-  gap: 1px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin: 2.5rem 0 0;
-  overflow: hidden;
+  margin: 1.75rem 0 0;
 }
 
 .legal-page__meta div {
-  background: var(--tessa-surface);
-  min-width: 0;
-  padding: 1.15rem 1.25rem;
+  border-left: 0.1875rem solid var(--tessa-primary);
+  padding-left: 1rem;
 }
 
 .legal-page__meta dt {
@@ -841,33 +827,12 @@ img {
   overflow-wrap: anywhere;
 }
 
-.legal-review-note {
-  background: color-mix(in srgb, var(--tessa-secondary) 12%, var(--tessa-surface));
-  border: 1px solid color-mix(in srgb, var(--tessa-secondary) 34%, transparent);
-  border-radius: 1.5rem;
-  margin-top: 1.5rem;
-  padding: 1.25rem 1.4rem;
-}
-
-.legal-review-note strong {
-  color: var(--tessa-secondary);
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.legal-review-note p {
-  color: var(--tessa-on-surface-muted);
-  line-height: 1.65;
-  margin: 0.55rem 0 0;
-}
-
 .legal-page__layout {
   align-items: start;
   display: grid;
   gap: clamp(3rem, 8vw, 7rem);
   grid-template-columns: minmax(13rem, 0.38fr) minmax(0, 1fr);
-  margin-top: clamp(3.5rem, 8vw, 6rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
 }
 
 .legal-toc {
@@ -915,12 +880,6 @@ img {
   line-height: 1.78;
   max-width: 70ch;
   min-width: 0;
-}
-
-.legal-copy__language-note {
-  color: var(--tessa-on-surface-muted);
-  font-style: italic;
-  margin: 0 0 2.5rem;
 }
 
 .legal-copy section { scroll-margin-top: calc(var(--site-header-height) + 1.5rem); }
@@ -985,7 +944,7 @@ img {
   .mobile-menu { display: block; }
   .hero__inner { gap: 3rem; grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.72fr); }
   .site-footer { padding-block: 3.5rem 1.5rem; }
-  .site-footer__inner { gap: 2.5rem; grid-template-columns: 1fr; }
+  .site-footer__inner { gap: 2.5rem; grid-template-columns: minmax(0, 1fr); }
   .site-footer__links { gap: clamp(1.5rem, 7vw, 4rem); }
   .site-footer__links nav { gap: 0.4rem; }
   .site-footer__links a { min-height: 2.75rem; }
@@ -1058,7 +1017,7 @@ img {
   .backup-flow > div { flex-direction: row; justify-content: flex-start; min-height: 6.5rem; text-align: left; }
   .backup-flow > i { justify-self: center; transform: rotate(90deg); }
   .download-story__mark { margin-inline: auto; }
-  .legal-page__layout { grid-template-columns: 1fr; }
+  .legal-page__layout { grid-template-columns: minmax(0, 1fr); }
   .legal-toc { position: static; }
   .legal-toc ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -1116,7 +1075,6 @@ img {
   .site-footer__links { gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .site-footer__links strong { line-height: 1.35; margin-bottom: 0.25rem; }
   .site-footer__copyright { margin-top: 1.75rem; }
-  .legal-page__meta { grid-template-columns: 1fr; }
   .legal-toc ol { grid-template-columns: 1fr; }
 }
 

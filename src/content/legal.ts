@@ -16,7 +16,6 @@ export type LegalSection = {
 };
 
 export type LegalDocument = {
-  sourceTitle: string;
   effectiveDate: string;
   sections: LegalSection[];
 };
@@ -46,7 +45,6 @@ const thirdPartyPrivacy: LegalLink[] = [
 ];
 
 export const termsDocument: LegalDocument = {
-  sourceTitle: "Terms & Conditions",
   effectiveDate: "2020-09-30",
   sections: [
     {
@@ -152,7 +150,6 @@ export const termsDocument: LegalDocument = {
 };
 
 export const privacyDocument: LegalDocument = {
-  sourceTitle: "Privacy Policy",
   effectiveDate: "2020-09-30",
   sections: [
     {
@@ -312,7 +309,283 @@ export const privacyDocument: LegalDocument = {
   ],
 };
 
+export const italianTermsDocument: LegalDocument = {
+  effectiveDate: "2020-09-30",
+  sections: [
+    {
+      id: "terms-and-intellectual-property",
+      title: "Termini e proprietà intellettuale",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Scaricando o utilizzando l'app, i presenti termini si applicheranno automaticamente all'utente; è pertanto necessario leggerli attentamente prima di utilizzare l'app. Non è consentito copiare o modificare l'app, alcuna parte dell'app o i nostri marchi in alcun modo. Non è consentito tentare di estrarre il codice sorgente dell'app, né provare a tradurre l'app in altre lingue o a crearne versioni derivate. L'app stessa, nonché tutti i marchi, i diritti d'autore, i diritti sulle banche dati e gli altri diritti di proprietà intellettuale a essa relativi, continuano ad appartenere a Baleen Developers.",
+        },
+        {
+          type: "paragraph",
+          text: "Baleen Developers si impegna a fare in modo che l'app sia il più utile ed efficiente possibile. Per questo motivo, ci riserviamo il diritto di apportare modifiche all'app o di addebitare costi per i suoi servizi, in qualsiasi momento e per qualsiasi ragione. Non verrà mai addebitato alcun costo per l'app o per i suoi servizi senza indicare con assoluta chiarezza per cosa si sta pagando.",
+        },
+        {
+          type: "paragraph",
+          text: "L'app TesSa memorizza e tratta i dati personali che ci hai fornito al fine di erogare il mio Servizio. È tua responsabilità mantenere sicuri il telefono e l'accesso all'app. Raccomandiamo pertanto di non effettuare il jailbreak o il root del telefono, ossia il processo di rimozione delle restrizioni e delle limitazioni software imposte dal sistema operativo ufficiale del dispositivo. Ciò potrebbe rendere il telefono vulnerabile a malware, virus o programmi dannosi, compromettere le funzioni di sicurezza del telefono e comportare il funzionamento non corretto o il mancato funzionamento dell'app TesSa.",
+        },
+      ],
+    },
+    {
+      id: "third-party-services",
+      title: "Servizi di terze parti",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "L'app utilizza servizi di terze parti che dichiarano i propri Termini e condizioni.",
+        },
+        {
+          type: "paragraph",
+          text: "Link ai Termini e condizioni dei fornitori di servizi terzi utilizzati dall'app",
+        },
+        { type: "links", items: thirdPartyTerms },
+      ],
+    },
+    {
+      id: "connectivity-and-responsibility",
+      title: "Connettività e responsabilità",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "È opportuno essere consapevoli che vi sono determinate circostanze per le quali Baleen Developers non si assume responsabilità. Alcune funzioni dell'app richiederanno che l'app disponga di una connessione Internet attiva. La connessione può avvenire tramite Wi-Fi o essere fornita dall'operatore di rete mobile, ma Baleen Developers non può assumersi la responsabilità del mancato funzionamento dell'app con tutte le sue funzionalità se non si dispone dell'accesso al Wi-Fi e si è esaurito il traffico dati disponibile.",
+        },
+        {
+          type: "paragraph",
+          text: "Se utilizzi l'app al di fuori di un'area coperta dal Wi-Fi, ricorda che continueranno ad applicarsi i termini dell'accordo con il tuo operatore di rete mobile. Di conseguenza, l'operatore di telefonia mobile potrebbe addebitarti il costo dei dati per la durata della connessione durante l'accesso all'app, o potrebbero esserti addebitati altri costi da terze parti. Utilizzando l'app, accetti la responsabilità di tali costi, inclusi i costi per il traffico dati in roaming qualora utilizzi l'app al di fuori del tuo territorio di residenza (ossia regione o Paese) senza disattivare il roaming dati. Se non sei la persona che paga la fattura del dispositivo sul quale utilizzi l'app, tieni presente che presumiamo che tu abbia ottenuto il permesso di utilizzare l'app da parte di chi paga la fattura.",
+        },
+        {
+          type: "paragraph",
+          text: "Analogamente, Baleen Developers non può sempre assumersi la responsabilità del modo in cui utilizzi l'app. Ad esempio, devi assicurarti che il dispositivo rimanga carico: se la batteria si esaurisce e non riesci ad accenderlo per usufruire del Servizio, Baleen Developers non può assumersene la responsabilità.",
+        },
+        {
+          type: "paragraph",
+          text: "Per quanto riguarda la responsabilità di Baleen Developers in relazione al tuo utilizzo dell'app, è importante tenere presente che, sebbene ci impegniamo a garantire che sia sempre aggiornata e corretta, ci affidiamo a terze parti affinché ci forniscano informazioni da mettere a tua disposizione. Baleen Developers non si assume alcuna responsabilità per eventuali perdite, dirette o indirette, subite per aver fatto totale affidamento su questa funzionalità dell'app.",
+        },
+      ],
+    },
+    {
+      id: "updates-and-termination",
+      title: "Aggiornamenti e cessazione",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "A un certo punto potremmo voler aggiornare l'app. L'app è attualmente disponibile su Android e iOS; i requisiti di entrambi i sistemi, e di eventuali ulteriori sistemi ai quali decidessimo di estendere la disponibilità dell'app, potrebbero cambiare e, per continuare a utilizzare l'app, dovrai scaricare gli aggiornamenti. Baleen Developers non promette che aggiornerà sempre l'app affinché rimanga pertinente per te e/o funzioni con la versione di Android o iOS installata sul tuo dispositivo. Ti impegni tuttavia ad accettare sempre gli aggiornamenti dell'applicazione quando ti vengono proposti. Potremmo inoltre decidere di interrompere la fornitura dell'app e potremmo cessarne l'utilizzo in qualsiasi momento senza darti preavviso. Salvo diversa comunicazione, in caso di cessazione: (a) i diritti e le licenze concessi ai sensi dei presenti termini cesseranno; (b) dovrai smettere di utilizzare l'app e, se necessario, eliminarla dal tuo dispositivo.",
+        },
+      ],
+    },
+    {
+      id: "changes",
+      title: "Modifiche ai presenti Termini e condizioni",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Potrei aggiornare periodicamente i nostri Termini e condizioni. Ti consigliamo pertanto di consultare periodicamente questa pagina per verificare eventuali modifiche. Ti informerò di qualsiasi modifica pubblicando i nuovi Termini e condizioni su questa pagina.",
+        },
+        {
+          type: "paragraph",
+          text: "I presenti termini e condizioni sono in vigore dal 2020-09-30",
+        },
+      ],
+    },
+    {
+      id: "contact",
+      title: "Contatti",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "In caso di domande o suggerimenti riguardo ai miei Termini e condizioni, non esitare a contattarmi all'indirizzo baleendevs@gmail.com.",
+        },
+        {
+          type: "attribution",
+          before: "Questa pagina dei Termini e condizioni è stata generata da ",
+          links: [
+            {
+              label: "App Privacy Policy Generator",
+              url: "https://app-privacy-policy-generator.firebaseapp.com/",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+export const italianPrivacyDocument: LegalDocument = {
+  effectiveDate: "2020-09-30",
+  sections: [
+    {
+      id: "overview",
+      title: "Informativa sulla privacy",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Baleen Developers ha realizzato l'app TesSa come app supportata dalla pubblicità. Questo SERVIZIO è fornito gratuitamente da Baleen Developers ed è destinato all'uso così com'è.",
+        },
+        {
+          type: "paragraph",
+          text: "Questa pagina serve a informare i visitatori sulle mie politiche relative alla raccolta, all'uso e alla divulgazione delle Informazioni personali, qualora decidessero di utilizzare il mio Servizio.",
+        },
+        {
+          type: "paragraph",
+          text: "Se scegli di utilizzare il mio Servizio, accetti la raccolta e l'uso delle informazioni in relazione alla presente informativa. Le Informazioni personali che raccolgo sono utilizzate per fornire e migliorare il Servizio. Non utilizzerò né condividerò le tue informazioni con nessuno, salvo quanto descritto nella presente Informativa sulla privacy.",
+        },
+        {
+          type: "paragraph",
+          text: "I termini utilizzati nella presente Informativa sulla privacy hanno lo stesso significato attribuito loro nei nostri Termini e condizioni, accessibili tramite TesSa, salvo che siano definiti diversamente nella presente Informativa sulla privacy.",
+        },
+      ],
+    },
+    {
+      id: "information-collection-and-use",
+      title: "Raccolta e utilizzo delle informazioni",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Per offrire un'esperienza migliore, durante l'utilizzo del nostro Servizio potrei chiederti di fornirci determinate informazioni di identificazione personale. Le informazioni che richiedo saranno conservate sul tuo dispositivo e non saranno raccolte da me in alcun modo.",
+        },
+        {
+          type: "paragraph",
+          text: "L'app utilizza servizi di terze parti che potrebbero raccogliere informazioni utilizzate per identificarti.",
+        },
+        {
+          type: "paragraph",
+          text: "Link alle informative sulla privacy dei fornitori di servizi terzi utilizzati dall'app",
+        },
+        { type: "links", items: thirdPartyPrivacy },
+      ],
+    },
+    {
+      id: "log-data",
+      title: "Dati di registro",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Desidero informarti che, ogni volta che utilizzi il mio Servizio, in caso di errore nell'app raccolgo dati e informazioni sul tuo telefono, tramite prodotti di terze parti, denominati Dati di registro. Questi Dati di registro possono includere informazioni quali l'indirizzo del protocollo Internet (“IP”) del dispositivo, il nome del dispositivo, la versione del sistema operativo, la configurazione dell'app durante l'utilizzo del mio Servizio, l'ora e la data di utilizzo del Servizio e altre statistiche.",
+        },
+      ],
+    },
+    {
+      id: "cookies",
+      title: "Cookie",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "I cookie sono file contenenti una piccola quantità di dati, comunemente utilizzati come identificatori univoci anonimi. Vengono inviati al tuo browser dai siti web che visiti e sono memorizzati nella memoria interna del tuo dispositivo.",
+        },
+        {
+          type: "paragraph",
+          text: "Questo Servizio non utilizza esplicitamente tali “cookie”. Tuttavia, l'app potrebbe utilizzare codice e librerie di terze parti che impiegano “cookie” per raccogliere informazioni e migliorare i propri servizi. Puoi scegliere di accettare o rifiutare questi cookie e sapere quando un cookie viene inviato al tuo dispositivo. Se scegli di rifiutare i nostri cookie, potresti non essere in grado di utilizzare alcune parti di questo Servizio.",
+        },
+      ],
+    },
+    {
+      id: "service-providers",
+      title: "Fornitori di servizi",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Potrei avvalermi di società e persone terze per i seguenti motivi:",
+        },
+        {
+          type: "list",
+          items: [
+            "Per facilitare il nostro Servizio;",
+            "Per fornire il Servizio per nostro conto;",
+            "Per svolgere servizi correlati al Servizio; oppure",
+            "Per aiutarci ad analizzare come viene utilizzato il nostro Servizio.",
+          ],
+        },
+        {
+          type: "paragraph",
+          text: "Desidero informare gli utenti di questo Servizio che tali terze parti hanno accesso alle loro Informazioni personali. Ciò avviene per svolgere per nostro conto i compiti loro assegnati. Tuttavia, sono tenute a non divulgare né utilizzare le informazioni per qualsiasi altro scopo.",
+        },
+      ],
+    },
+    {
+      id: "security",
+      title: "Sicurezza",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Tengo alla fiducia che riponi in noi fornendoci le tue Informazioni personali e pertanto ci impegniamo a utilizzare mezzi commercialmente accettabili per proteggerle. Ricorda tuttavia che nessun metodo di trasmissione su Internet o di archiviazione elettronica è sicuro e affidabile al 100% e non posso garantirne la sicurezza assoluta.",
+        },
+      ],
+    },
+    {
+      id: "links-to-other-sites",
+      title: "Link ad altri siti",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Questo Servizio potrebbe contenere link ad altri siti. Se fai clic su un link di terze parti, verrai indirizzato a tale sito. Tieni presente che questi siti esterni non sono gestiti da me. Ti consiglio pertanto vivamente di consultare l'Informativa sulla privacy di tali siti web. Non esercito alcun controllo e non mi assumo alcuna responsabilità per i contenuti, le informative sulla privacy o le pratiche di siti o servizi di terze parti.",
+        },
+      ],
+    },
+    {
+      id: "childrens-privacy",
+      title: "Privacy dei minori",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Questi Servizi non sono rivolti a persone di età inferiore a 13 anni. Non raccolgo consapevolmente informazioni di identificazione personale da minori di 13 anni. Qualora scoprissi che un minore di 13 anni mi ha fornito informazioni personali, le elimino immediatamente dai nostri server. Se sei un genitore o tutore e sei a conoscenza del fatto che tuo figlio ci ha fornito informazioni personali, contattami affinché possa adottare le misure necessarie.",
+        },
+      ],
+    },
+    {
+      id: "changes",
+      title: "Modifiche alla presente Informativa sulla privacy",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Potrei aggiornare periodicamente la nostra Informativa sulla privacy. Ti consigliamo pertanto di consultare periodicamente questa pagina per verificare eventuali modifiche. Ti informerò di qualsiasi modifica pubblicando la nuova Informativa sulla privacy su questa pagina.",
+        },
+        {
+          type: "paragraph",
+          text: "La presente informativa è in vigore dal 2020-09-30",
+        },
+      ],
+    },
+    {
+      id: "contact",
+      title: "Contatti",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "In caso di domande o suggerimenti riguardo alla mia Informativa sulla privacy, non esitare a contattarmi all'indirizzo baleendevs@gmail.com.",
+        },
+        {
+          type: "attribution",
+          before: "Questa pagina dell'Informativa sulla privacy è stata creata su ",
+          between: " e modificata/generata da ",
+          links: [
+            {
+              label: "privacypolicytemplate.net",
+              url: "https://privacypolicytemplate.net",
+            },
+            {
+              label: "App Privacy Policy Generator",
+              url: "https://app-privacy-policy-generator.firebaseapp.com/",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
 export const legalDocuments = {
   terms: termsDocument,
   privacy: privacyDocument,
+} as const;
+
+export const legalDocumentsByLocale = {
+  it: {
+    terms: italianTermsDocument,
+    privacy: italianPrivacyDocument,
+  },
+  en: legalDocuments,
 } as const;

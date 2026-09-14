@@ -162,16 +162,8 @@ export type Dictionary = {
     termsTitle: string;
     privacyTitle: string;
     eyebrow: string;
-    preservedLabel: string;
-    pendingReview: string;
-    sourceLanguageNote: string;
     contentsLabel: string;
     effectiveDateLabel: string;
-    updatedDateLabel: string;
-    updatedDateUnavailable: string;
-    providerLabel: string;
-    reviewStatusLabel: string;
-    reviewStatus: string;
     backHome: string;
   };
   notFound: {
@@ -396,17 +388,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       termsTitle: "Condizioni d'uso",
       privacyTitle: "Informativa sulla privacy",
       eyebrow: "Informazioni legali",
-      preservedLabel: "Testo pubblico esistente conservato",
-      pendingReview:
-        "Il testo seguente è il documento pubblico esistente, conservato in inglese senza modifiche sostanziali. Risale al 30 settembre 2020 e richiede revisione legale e traduzione prima del lancio.",
-      sourceLanguageNote: "Il contenuto sostanziale è disponibile nella lingua originale inglese.",
       contentsLabel: "In questa pagina",
-      effectiveDateLabel: "Data di efficacia dichiarata",
-      updatedDateLabel: "Ultimo aggiornamento",
-      updatedDateUnavailable: "Non indicato nel testo esistente",
-      providerLabel: "Fornitore indicato",
-      reviewStatusLabel: "Stato della revisione",
-      reviewStatus: "Revisione sostanziale e traduzione in sospeso",
+      effectiveDateLabel: "In vigore dal",
       backHome: "Torna a TesSa",
     },
     notFound: {
@@ -629,17 +612,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       termsTitle: "Terms of Use",
       privacyTitle: "Privacy Policy",
       eyebrow: "Legal information",
-      preservedLabel: "Preserved existing public text",
-      pendingReview:
-        "The text below is the existing public document, preserved in English without substantive changes. It dates from 30 September 2020 and requires legal review before launch.",
-      sourceLanguageNote: "The substantive content is shown in its original English.",
       contentsLabel: "On this page",
-      effectiveDateLabel: "Stated effective date",
-      updatedDateLabel: "Last updated",
-      updatedDateUnavailable: "Not stated in the existing text",
-      providerLabel: "Named provider",
-      reviewStatusLabel: "Review status",
-      reviewStatus: "Substantive legal review pending",
+      effectiveDateLabel: "Effective from",
       backHome: "Return to TesSa",
     },
     notFound: {

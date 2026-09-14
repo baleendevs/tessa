@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { getDictionary } from "@/content/dictionaries";
-import { legalDocuments, type LegalBlock } from "@/content/legal";
+import { legalDocumentsByLocale, type LegalBlock } from "@/content/legal";
 import type { Locale, RouteKey } from "@/lib/site";
 
 type LegalFoundationProps = {
@@ -55,7 +55,7 @@ function renderBlock(block: LegalBlock, key: number): ReactNode {
 
 export function LegalFoundation({ locale, route }: LegalFoundationProps) {
   const dictionary = getDictionary(locale);
-  const document = legalDocuments[route];
+  const document = legalDocumentsByLocale[locale][route];
   const title = route === "terms"
     ? dictionary.legal.termsTitle
     : dictionary.legal.privacyTitle;
@@ -73,31 +73,12 @@ export function LegalFoundation({ locale, route }: LegalFoundationProps) {
         <header className="legal-page__hero">
           <p className="eyebrow">{dictionary.legal.eyebrow}</p>
           <h1 id="legal-page-title">{title}</h1>
-          <p className="legal-page__source-title">
-            {dictionary.legal.preservedLabel}: <span lang="en">{document.sourceTitle}</span>
-          </p>
           <dl className="legal-page__meta">
             <div>
               <dt>{dictionary.legal.effectiveDateLabel}</dt>
               <dd><time dateTime={document.effectiveDate}>{effectiveDate}</time></dd>
             </div>
-            <div>
-              <dt>{dictionary.legal.updatedDateLabel}</dt>
-              <dd>{dictionary.legal.updatedDateUnavailable}</dd>
-            </div>
-            <div>
-              <dt>{dictionary.legal.providerLabel}</dt>
-              <dd>Baleen Developers</dd>
-            </div>
-            <div>
-              <dt>{dictionary.legal.reviewStatusLabel}</dt>
-              <dd>{dictionary.legal.reviewStatus}</dd>
-            </div>
           </dl>
-          <aside className="legal-review-note" aria-label={dictionary.legal.reviewStatusLabel}>
-            <strong>{dictionary.legal.reviewStatusLabel}</strong>
-            <p>{dictionary.legal.pendingReview}</p>
-          </aside>
         </header>
 
         <div className="legal-page__layout">
@@ -111,13 +92,7 @@ export function LegalFoundation({ locale, route }: LegalFoundationProps) {
               ))}
             </ol>
           </nav>
-          <article className="legal-copy" lang="en">
-            <p
-              className="legal-copy__language-note"
-              lang={locale === "it" ? "it" : "en-GB"}
-            >
-              {dictionary.legal.sourceLanguageNote}
-            </p>
+          <article className="legal-copy" lang={locale === "it" ? "it" : "en"}>
             {document.sections.map((section) => (
               <section id={section.id} key={section.id}>
                 <h2>{section.title}</h2>

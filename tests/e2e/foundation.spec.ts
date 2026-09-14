@@ -154,17 +154,30 @@ test("isolates ShinyStat to marketing output", async ({ page }) => {
   await expect(page.locator('script[data-marketing-analytics="shinystat"]')).toHaveCount(1);
 });
 
-test("renders preserved legal documents with localised review context", async ({ page }) => {
+test("renders localised legal documents with public-facing metadata", async ({ page }) => {
   await page.goto("/tessa/terms");
   await expect(page.getByRole("heading", { level: 1, name: "Condizioni d'uso" })).toBeVisible();
-  await expect(page.locator("article.legal-copy")).toHaveAttribute("lang", "en");
+  await expect(page.locator("article.legal-copy")).toHaveAttribute("lang", "it");
   await expect(page.locator("time")).toHaveAttribute("datetime", "2020-09-30");
-  await expect(page.locator(".legal-review-note")).toContainText("revisione legale e traduzione");
+  await expect(page.locator(".legal-page__meta")).toContainText("In vigore dal");
+  await expect(page.locator(".legal-page__meta > div")).toHaveCount(1);
+  await expect(page.locator(".legal-page__source-title, .legal-review-note, .legal-copy__language-note")).toHaveCount(0);
+  await expect(page.locator("article.legal-copy")).toContainText("Scaricando o utilizzando l'app");
+
+  await page.goto("/tessa/privacy");
+  await expect(page.getByRole("heading", { level: 1, name: "Informativa sulla privacy" })).toBeVisible();
+  await expect(page.locator("article.legal-copy")).toHaveAttribute("lang", "it");
+  await expect(page.locator("article.legal-copy")).toContainText("app supportata dalla pubblicità");
+  await expect(page.locator("article.legal-copy")).toContainText("Google Analytics for Firebase");
+
+  await page.goto("/tessa/en/terms");
+  await expect(page.locator("article.legal-copy")).toHaveAttribute("lang", "en");
+  await expect(page.locator(".legal-page__meta")).toContainText("Effective from");
   await expect(page.locator("article.legal-copy")).toContainText("By downloading or using the app");
 
   await page.goto("/tessa/en/privacy");
   await expect(page.getByRole("heading", { level: 1, name: "Privacy Policy" })).toBeVisible();
-  await expect(page.locator(".legal-review-note")).toContainText("requires legal review before launch");
+  await expect(page.locator("article.legal-copy")).toHaveAttribute("lang", "en");
   await expect(page.locator("article.legal-copy")).toContainText("Ad Supported app");
   await expect(page.locator("article.legal-copy")).toContainText("Google Analytics for Firebase");
 });
@@ -198,6 +211,53 @@ test("preserves legal fragments when switching language", async ({ page }) => {
     "href",
     "/tessa/en/privacy#security",
   );
+
+  await page.goto("/tessa/en/terms#third-party-services");
+  await expect(page.getByRole("link", { name: "Switch to Italian" })).toHaveAttribute(
+    "href",
+    "/tessa/terms#third-party-services",
+  );
+});
+
+test("keeps all localised legal pages responsive and their contents navigable", async ({ page }) => {
+  const routes = [
+    "/tessa/terms",
+    "/tessa/privacy",
+    "/tessa/en/terms",
+    "/tessa/en/privacy",
+  ];
+  const widths = [320, 390, 768, 1024, 1280, 1440];
+
+  for (const route of routes) {
+    for (const width of widths) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(route);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
+        ),
+        `${route} at ${width}px`,
+      ).toBe(true);
+    }
+
+    const firstContentsLink = page.locator(".legal-toc a").first();
+    const target = await firstContentsLink.getAttribute("href");
+    expect(target).toMatch(/^#[a-z-]+$/);
+    await firstContentsLink.click();
+    await expect(page).toHaveURL(new RegExp(`${target?.replace("#", "#")}$`));
+
+    await page.setViewportSize({ width: 320, height: 900 });
+    await page.goto(route);
+    await page.evaluate(() => {
+      document.documentElement.style.fontSize = "200%";
+    });
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
+      ),
+      `${route} at 200% text`,
+    ).toBe(true);
+  }
 });
 
 test("publishes canonical, hreflang and social metadata", async ({ page }) => {
