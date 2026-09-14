@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { LegalFooter } from "@/components/legal/LegalFooter";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { getDictionary } from "@/content/dictionaries";
 import { legalDocuments, type LegalBlock } from "@/content/legal";
@@ -64,10 +64,15 @@ export function LegalFoundation({ locale, route }: LegalFoundationProps) {
   return (
     <>
       <SiteHeader dictionary={dictionary} locale={locale} route={route} />
-      <main className="legal-page" id="main-content" tabIndex={-1}>
-        <div className="legal-page__hero">
+      <main
+        aria-labelledby="legal-page-title"
+        className="legal-page"
+        id="main-content"
+        tabIndex={-1}
+      >
+        <header className="legal-page__hero">
           <p className="eyebrow">{dictionary.legal.eyebrow}</p>
-          <h1>{title}</h1>
+          <h1 id="legal-page-title">{title}</h1>
           <p className="legal-page__source-title">
             {dictionary.legal.preservedLabel}: <span lang="en">{document.sourceTitle}</span>
           </p>
@@ -93,11 +98,13 @@ export function LegalFoundation({ locale, route }: LegalFoundationProps) {
             <strong>{dictionary.legal.reviewStatusLabel}</strong>
             <p>{dictionary.legal.pendingReview}</p>
           </aside>
-        </div>
+        </header>
 
         <div className="legal-page__layout">
-          <nav className="legal-toc" aria-label={dictionary.legal.contentsLabel}>
-            <strong>{dictionary.legal.contentsLabel}</strong>
+          <nav className="legal-toc" aria-labelledby="legal-toc-title">
+            <p className="legal-toc__title" id="legal-toc-title">
+              {dictionary.legal.contentsLabel}
+            </p>
             <ol>
               {document.sections.map((section) => (
                 <li key={section.id}><a href={`#${section.id}`}>{section.title}</a></li>
@@ -120,7 +127,7 @@ export function LegalFoundation({ locale, route }: LegalFoundationProps) {
           </article>
         </div>
       </main>
-      <LegalFooter dictionary={dictionary} locale={locale} />
+      <SiteFooter currentRoute={route} dictionary={dictionary} locale={locale} />
     </>
   );
 }

@@ -2,7 +2,8 @@ import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import { getDictionary } from "@/content/dictionaries";
 import type { HomeContent } from "@/content/dictionaries";
-import { MarketingFooter } from "@/components/marketing/MarketingFooter";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SkipLink } from "@/components/layout/SkipLink";
 import { MarketingHeader } from "@/components/marketing/MarketingHeader";
 import { ProductScreenshot } from "@/components/marketing/ProductScreenshot";
 import {
@@ -105,7 +106,7 @@ function DocumentStack({ cards }: { cards: HomeContent["wallet"]["cards"] }) {
   return (
     <div className="document-stack" aria-label={cards.map((card) => card.name).join(", ")} role="img">
       {cards.map((card, index) => (
-        <span aria-hidden="true" className="document-card" data-kind={DEMO_DOCUMENTS[index].kind} key={card.short}>
+        <span aria-hidden="true" className="document-card border-0!" data-kind={DEMO_DOCUMENTS[index].kind} key={card.short}>
           <Image alt="" height={315} src={assetPath(DEMO_DOCUMENTS[index].src)} unoptimized width={500} />
           <span className="document-card__fields">
             {DEMO_DOCUMENTS[index].fields.map((field) => (
@@ -138,7 +139,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
 
   return (
     <>
-      <a className="skip-link" href="#main-content">{home.skipLink}</a>
+      <SkipLink label={home.skipLink} />
       <MarketingHeader dictionary={dictionary} locale={locale} />
       <main id="main-content" tabIndex={-1}>
         <section className="hero" aria-labelledby="hero-title">
@@ -278,7 +279,7 @@ export function HomeFoundation({ locale }: HomeFoundationProps) {
           </div>
         </section>
       </main>
-      <MarketingFooter dictionary={dictionary} locale={locale} />
+      <SiteFooter currentRoute="home" dictionary={dictionary} locale={locale} />
       <script dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} type="application/ld+json" />
     </>
   );

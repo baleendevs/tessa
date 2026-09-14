@@ -1,8 +1,7 @@
-import Image from "next/image";
 import type { Dictionary } from "@/content/dictionaries";
 import type { Locale } from "@/lib/site";
-import { assetPath, routePath } from "@/lib/site";
-import { MarketingLanguageSwitch } from "./MarketingLanguageSwitch";
+import { LanguageSwitch } from "@/components/localisation/LanguageSwitch";
+import { SiteHeaderShell } from "@/components/layout/SiteHeaderShell";
 import { ArrowIcon } from "./MarketingIcons";
 import { MobileNavigation } from "./MobileNavigation";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
@@ -21,27 +20,17 @@ export function MarketingHeader({ dictionary, locale }: MarketingHeaderProps) {
   );
 
   return (
-    <header className="marketing-header">
-      <div className="marketing-header__inner">
-        <a className="brand-link" href={routePath(locale, "home")} aria-label="TesSa">
-          <Image
-            alt=""
-            aria-hidden="true"
-            height={422}
-            src={assetPath("/media/brand/tessa-wallet-mark.png")}
-            unoptimized
-            width={488}
-          />
-          <span>TesSa</span>
-        </a>
-
+    <SiteHeaderShell
+      locale={locale}
+      navigation={
         <nav className="marketing-nav" aria-label={home.navigation.menu}>
           {links.map(([href, label]) => <a href={href} key={href}>{label}</a>)}
         </nav>
-
-        <div className="marketing-header__actions">
+      }
+      actions={
+        <>
           <ThemeToggle labels={dictionary.theme} />
-          <MarketingLanguageSwitch locale={locale} label={dictionary.languageSwitchLabel} />
+          <LanguageSwitch locale={locale} route="home" label={dictionary.languageSwitchLabel} />
           <a className="header-download" href={`#${HOME_SECTION_IDS.download}`}><span>{home.navigation.download}</span><ArrowIcon /></a>
           <SectionNavigationButton
             backToTopLabel={home.navigation.backToTop}
@@ -49,8 +38,8 @@ export function MarketingHeader({ dictionary, locale }: MarketingHeaderProps) {
             sectionIds={HOME_SECTION_ORDER.map(({ id }) => id)}
           />
           <MobileNavigation label={home.navigation.menu} links={[...links, [`#${HOME_SECTION_IDS.download}`, home.navigation.download]]} />
-        </div>
-      </div>
-    </header>
+        </>
+      }
+    />
   );
 }

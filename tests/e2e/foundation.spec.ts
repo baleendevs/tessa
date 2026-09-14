@@ -13,7 +13,7 @@ test("serves the Italian and English static foundations", async ({ page }) => {
   await page.goto("/tessa/");
   await expect(page.locator("html")).toHaveAttribute("lang", "it");
   await expect(page.locator(".brand-link")).toContainText("TesSa");
-  await expect(page.locator(".marketing-footer__brand")).toContainText("TesSa");
+  await expect(page.locator(".site-footer__brand")).toContainText("TesSa");
   await expect(page.locator("body")).not.toContainText("TeSSa");
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "I tuoi documenti",
@@ -76,19 +76,28 @@ test("preserves the homepage fragment when switching language", async ({ page })
 
 test("maps each localised navigation label to one distinct homepage section", async ({ page }) => {
   const expectedHrefs = ["#documents", "#how-it-works", "#sharing", "#privacy", "#faq"];
+  const expectedMobileHrefs = [...expectedHrefs, "#download"];
   const locales = [
-    { labels: ["Documenti", "Come funziona", "Condivisione", "Privacy", "FAQ"], path: "/tessa/" },
-    { labels: ["Documents", "How it works", "Sharing", "Privacy", "FAQ"], path: "/tessa/en/" },
+    {
+      labels: ["Documenti", "Come funziona", "Condivisione", "Privacy", "FAQ"],
+      mobileLabels: ["Documenti", "Come funziona", "Condivisione", "Privacy", "FAQ", "Scarica"],
+      path: "/tessa/",
+    },
+    {
+      labels: ["Documents", "How it works", "Sharing", "Privacy", "FAQ"],
+      mobileLabels: ["Documents", "How it works", "Sharing", "Privacy", "FAQ", "Download"],
+      path: "/tessa/en/",
+    },
   ];
 
-  for (const { labels, path } of locales) {
+  for (const { labels, mobileLabels, path } of locales) {
     await page.goto(path);
     const desktopLinks = page.locator(".marketing-nav a");
     const mobileLinks = page.locator(".mobile-menu nav a");
     await expect(desktopLinks).toHaveText(labels);
-    await expect(mobileLinks).toHaveText(labels);
+    await expect(mobileLinks).toHaveText(mobileLabels);
     expect(await desktopLinks.evaluateAll((links) => links.map((link) => link.getAttribute("href")))).toEqual(expectedHrefs);
-    expect(await mobileLinks.evaluateAll((links) => links.map((link) => link.getAttribute("href")))).toEqual(expectedHrefs);
+    expect(await mobileLinks.evaluateAll((links) => links.map((link) => link.getAttribute("href")))).toEqual(expectedMobileHrefs);
 
     for (const href of expectedHrefs) {
       await expect(page.locator(href)).toHaveCount(1);
@@ -158,6 +167,29 @@ test("renders preserved legal documents with localised review context", async ({
   await expect(page.locator(".legal-review-note")).toContainText("requires legal review before launch");
   await expect(page.locator("article.legal-copy")).toContainText("Ad Supported app");
   await expect(page.locator("article.legal-copy")).toContainText("Google Analytics for Firebase");
+});
+
+test("uses the shared site chrome and valid homepage links on legal pages", async ({ page }) => {
+  await page.goto("/tessa/privacy");
+
+  await expect(page.locator(".marketing-header .brand-link")).toContainText("TesSa");
+  await expect(page.locator(".marketing-header").getByTestId("theme-toggle")).toHaveCount(1);
+  await expect(page.getByRole("link", { name: "Passa all'inglese" })).toHaveAttribute(
+    "href",
+    "/tessa/en/privacy",
+  );
+
+  const footer = page.locator(".site-footer");
+  await expect(footer.locator(".site-footer__brand")).toContainText("TesSa");
+  await expect(footer.locator(".site-footer__links > nav")).toHaveCount(2);
+  await expect(footer.getByRole("link", { name: "Documenti" })).toHaveAttribute(
+    "href",
+    "/tessa/#documents",
+  );
+  await expect(footer.getByRole("link", { name: "Privacy" })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
 });
 
 test("preserves legal fragments when switching language", async ({ page }) => {
@@ -1088,10 +1120,10 @@ test("uses an intentional two-row footer below the wide desktop breakpoint", asy
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/tessa/");
 
-    const footer = page.locator(".marketing-footer");
-    const brand = footer.locator(".marketing-footer__brand");
-    const groups = footer.locator(".marketing-footer__links > div");
-    const copyright = footer.locator(".marketing-footer__copyright");
+    const footer = page.locator(".site-footer");
+    const brand = footer.locator(".site-footer__brand");
+    const groups = footer.locator(".site-footer__links > nav");
+    const copyright = footer.locator(".site-footer__copyright");
     await footer.scrollIntoViewIfNeeded();
 
     await expect(groups).toHaveCount(2);
@@ -1127,7 +1159,7 @@ test("uses an intentional two-row footer below the wide desktop breakpoint", asy
   await page.setViewportSize({ width: 640, height: 900 });
   await page.goto("/tessa/en/");
   await page.evaluate(() => { document.documentElement.style.fontSize = "200%"; });
-  await page.locator(".marketing-footer").scrollIntoViewIfNeeded();
+  await page.locator(".site-footer").scrollIntoViewIfNeeded();
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
@@ -1334,6 +1366,37 @@ test("switches authentic product screenshots with the resolved theme", async ({ 
   await expect.poll(() => heroImage.evaluate((image) => (image as HTMLImageElement).currentSrc)).toMatch(/\/wallet\.webp$/);
   await expect(darkSources.first()).toHaveAttribute("media", "not all");
   await expect(page.locator(".hero-document-chip")).toHaveCount(0);
+});
+
+test("keeps the hero phone boundary legible in both themes", async ({ page }) => {
+  const outlines = new Map<string, string>();
+
+  for (const theme of ["light", "dark"] as const) {
+    await page.emulateMedia({ colorScheme: theme });
+    await page.goto("/tessa/");
+
+    const boxShadow = await page
+      .locator(".phone-frame--hero")
+      .evaluate((element) => getComputedStyle(element).boxShadow);
+    expect(boxShadow, `${theme} hero phone outline`).toContain("0px 0px 0px 1px");
+    outlines.set(theme, boxShadow);
+  }
+
+  expect(outlines.get("dark")).not.toBe(outlines.get("light"));
+});
+
+test("keeps showcase screenshot cards visibly bounded in both themes", async ({ page }) => {
+  for (const theme of ["light", "dark"] as const) {
+    await page.emulateMedia({ colorScheme: theme });
+    await page.goto("/tessa/");
+
+    const border = await page
+      .locator(".showcase-card")
+      .first()
+      .evaluate((element) => getComputedStyle(element).borderTop);
+    expect(border, `${theme} showcase card boundary`).toContain("1px");
+    expect(border).toContain("solid");
+  }
 });
 
 test("removes non-essential transition duration for reduced motion", async ({

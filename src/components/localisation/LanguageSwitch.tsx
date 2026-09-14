@@ -32,7 +32,7 @@ export function LanguageSwitch({
 
   return (
     <a
-      className="inline-flex min-h-12 items-center rounded-full border border-outline px-4 text-sm font-semibold text-on-surface transition-colors hover:bg-surface-container-high"
+      className="marketing-language-switch"
       href={targetPath}
       hrefLang={targetLocale === "it" ? "it" : "en-GB"}
       ref={linkRef}
