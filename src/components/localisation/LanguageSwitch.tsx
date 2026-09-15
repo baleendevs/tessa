@@ -8,31 +8,35 @@ type LanguageSwitchProps = {
   locale: Locale;
   route: RouteKey;
   label: string;
+  preserveSearch?: boolean;
 };
 
 export function LanguageSwitch({
   locale,
   route,
   label,
+  preserveSearch = false,
 }: LanguageSwitchProps) {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const targetLocale: Locale = locale === "it" ? "en" : "it";
   const targetPath = routePath(targetLocale, route);
 
   useEffect(() => {
-    const preserveFragment = () => {
+    const updateTarget = () => {
       if (linkRef.current) {
-        linkRef.current.href = `${targetPath}${window.location.hash}`;
+        const search = preserveSearch ? window.location.search : "";
+        linkRef.current.href = `${targetPath}${search}${window.location.hash}`;
       }
     };
-    preserveFragment();
-    window.addEventListener("hashchange", preserveFragment);
-    return () => window.removeEventListener("hashchange", preserveFragment);
-  }, [targetPath]);
+    updateTarget();
+    window.addEventListener("hashchange", updateTarget);
+    return () => window.removeEventListener("hashchange", updateTarget);
+  }, [preserveSearch, targetPath]);
 
   return (
     <a
       className="marketing-language-switch"
+      data-testid="language-switch"
       href={targetPath}
       hrefLang={targetLocale === "it" ? "it" : "en-GB"}
       ref={linkRef}

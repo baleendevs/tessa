@@ -22,6 +22,7 @@ export function MarketingHeader({ dictionary, locale }: MarketingHeaderProps) {
   return (
     <SiteHeaderShell
       locale={locale}
+      skipLinkLabel={home.skipLink}
       navigation={
         <nav className="marketing-nav" aria-label={home.navigation.menu}>
           {links.map(([href, label]) => <a href={href} key={href}>{label}</a>)}

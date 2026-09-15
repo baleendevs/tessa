@@ -44,11 +44,12 @@ export function ShareClient({ dictionary, locale }: ShareClientProps) {
   const result = resultFromSearch(search);
 
   return (
-    <div aria-live="polite" className="mt-10" data-share-status={result.status}>
+    <div aria-live="polite" data-share-status={result.status}>
       {result.status === "valid" ? (
         <SharedCardContent
           card={result.card}
           dictionary={dictionary}
+          locale={locale}
         />
       ) : (
         <ShareErrorState
@@ -80,7 +81,7 @@ function ShareErrorState({ dictionary, locale, result }: ShareErrorStateProps) {
 
   return (
     <section
-      className="mx-auto max-w-utility rounded-document border border-outline/70 bg-surface p-7 text-center shadow-document sm:p-10"
+      className="share-error"
       data-testid="share-error"
     >
       <div className="mx-auto grid size-14 place-items-center rounded-full bg-surface-container-high text-primary">
@@ -93,9 +94,9 @@ function ShareErrorState({ dictionary, locale, result }: ShareErrorStateProps) {
           />
         </svg>
       </div>
-      <h2 className="mt-5 text-2xl font-semibold tracking-tight">
+      <h1 className="mt-5 text-2xl font-semibold tracking-tight">
         {stateCopy[0]}
-      </h2>
+      </h1>
       <p className="mx-auto mt-3 max-w-lg leading-7 text-on-surface-muted">
         {stateCopy[1]}
       </p>

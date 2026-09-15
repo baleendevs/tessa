@@ -11,8 +11,14 @@ describe("localisation foundation", () => {
     expect(Object.keys(dictionaries.it.theme)).toEqual(
       Object.keys(dictionaries.en.theme),
     );
-    expect(Object.keys(dictionaries.it.share.fields)).toEqual(
-      Object.keys(dictionaries.en.share.fields),
+    expect(Object.keys(dictionaries.it.share.actionTitles)).toEqual(
+      Object.keys(dictionaries.en.share.actionTitles),
+    );
+    expect(Object.keys(dictionaries.it.share.actionDescriptions)).toEqual(
+      Object.keys(dictionaries.en.share.actionDescriptions),
+    );
+    expect(Object.keys(dictionaries.it.share.actionDescriptionsWithoutName)).toEqual(
+      Object.keys(dictionaries.en.share.actionDescriptionsWithoutName),
     );
     expect(Object.keys(dictionaries.it.share.states)).toEqual(
       Object.keys(dictionaries.en.share.states),

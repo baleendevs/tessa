@@ -205,6 +205,130 @@ test("uses the shared site chrome and valid homepage links on legal pages", asyn
   );
 });
 
+test("uses identical shared header controls across every public page family", async ({ page }) => {
+  const routes = [
+    "/tessa/",
+    "/tessa/terms",
+    "/tessa/privacy",
+    "/tessa/share",
+    "/tessa/en/",
+    "/tessa/en/terms",
+    "/tessa/en/privacy",
+    "/tessa/en/share",
+  ];
+
+  await page.setViewportSize({ width: 1280, height: 900 });
+  for (const route of routes) {
+    await page.goto(route);
+    await expect(page.locator(".marketing-header")).toHaveCount(1);
+    await expect(page.locator(".marketing-header .brand-link")).toHaveCount(1);
+    await expect(page.locator(".skip-link")).toHaveCount(1);
+    await expect(page.locator("footer.site-footer")).toHaveCount(1);
+
+    for (const theme of ["light", "dark"] as const) {
+      await setTheme(page, theme);
+      const controls = await page.evaluate(() => {
+        const measure = (selector: string) => {
+          const element = document.querySelector<HTMLElement>(selector);
+          if (!element) throw new Error(`Missing shared control: ${selector}`);
+          const box = element.getBoundingClientRect();
+          return {
+            borderRadius: getComputedStyle(element).borderRadius,
+            height: box.height,
+            width: box.width,
+          };
+        };
+        return {
+          language: measure('[data-testid="language-switch"]'),
+          theme: measure('[data-testid="theme-toggle"]'),
+        };
+      });
+
+      expect(controls.language.width, `${route} language width`).toBeCloseTo(48, 1);
+      expect(controls.language.height, `${route} language height`).toBeCloseTo(48, 1);
+      expect(controls.language.width).toBeCloseTo(controls.language.height, 1);
+      expect(controls.language.borderRadius).toBe(controls.theme.borderRadius);
+      expect(controls.theme.width).toBeCloseTo(controls.theme.height, 1);
+      expect(controls.theme.width).toBeCloseTo(48, 1);
+    }
+  }
+});
+
+test("keeps shared header geometry and controls stable at every required width", async ({ page }) => {
+  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+    const headerHeights: number[] = [];
+    for (const route of ["/tessa/", "/tessa/terms", "/tessa/share"]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(route);
+      const geometry = await page.evaluate(() => {
+        const header = document.querySelector<HTMLElement>(".marketing-header");
+        const language = document.querySelector<HTMLElement>('[data-testid="language-switch"]');
+        const theme = document.querySelector<HTMLElement>('[data-testid="theme-toggle"]');
+        if (!header || !language || !theme) throw new Error("Shared header is incomplete");
+        const languageBox = language.getBoundingClientRect();
+        const themeBox = theme.getBoundingClientRect();
+        return {
+          headerHeight: header.getBoundingClientRect().height,
+          languageHeight: languageBox.height,
+          languageWidth: languageBox.width,
+          themeHeight: themeBox.height,
+          themeWidth: themeBox.width,
+          overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+        };
+      });
+
+      headerHeights.push(geometry.headerHeight);
+      expect(geometry.languageWidth, `${route} language at ${width}px`).toBeCloseTo(geometry.languageHeight, 1);
+      expect(geometry.themeWidth, `${route} theme at ${width}px`).toBeCloseTo(geometry.themeHeight, 1);
+      expect(geometry.languageWidth).toBeCloseTo(geometry.themeWidth, 1);
+      expect(geometry.overflow, `${route} overflow at ${width}px`).toBe(false);
+    }
+
+    expect(Math.max(...headerHeights) - Math.min(...headerHeights)).toBeLessThanOrEqual(1);
+  }
+});
+
+test("aligns header, page content, and footer to the shared site container", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+
+  for (const [route, contentSelector] of [
+    ["/tessa/", ".hero__inner"],
+    ["/tessa/terms", "main.site-content-page"],
+    ["/tessa/privacy", "main.site-content-page"],
+    ["/tessa/share", "main.site-content-page"],
+  ] as const) {
+    await page.goto(route);
+    const boxes = await page.evaluate((selector) => {
+      const measure = (target: string) => {
+        const element = document.querySelector<HTMLElement>(target);
+        if (!element) throw new Error(`Missing site container: ${target}`);
+        const box = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        return {
+          left: box.left,
+          maxWidth: style.maxWidth,
+          paddingLeft: style.paddingLeft,
+          width: box.width,
+        };
+      };
+      return {
+        content: measure(selector),
+        footer: measure(".site-footer__inner"),
+        header: measure(".marketing-header__inner"),
+      };
+    }, contentSelector);
+
+    expect(boxes.content.left).toBeCloseTo(boxes.header.left, 1);
+    expect(boxes.footer.left).toBeCloseTo(boxes.header.left, 1);
+    expect(boxes.content.width).toBeCloseTo(boxes.header.width, 1);
+    expect(boxes.footer.width).toBeCloseTo(boxes.header.width, 1);
+    expect(boxes.content.maxWidth).toBe(boxes.header.maxWidth);
+    expect(boxes.footer.maxWidth).toBe(boxes.header.maxWidth);
+    expect(boxes.content.paddingLeft).toBe(boxes.header.paddingLeft);
+    expect(boxes.footer.paddingLeft).toBe(boxes.header.paddingLeft);
+  }
+});
+
 test("preserves legal fragments when switching language", async ({ page }) => {
   await page.goto("/tessa/privacy#security");
   await expect(page.getByRole("link", { name: "Passa all'inglese" })).toHaveAttribute(
@@ -1518,7 +1642,7 @@ test("preserves the raw share query when switching language", async ({
   page,
 }) => {
   await page.goto("/tessa/share?card=abc+def==&source=test#details");
-  await expect(page.getByTestId("share-language-switch")).toHaveAttribute(
+  await expect(page.getByTestId("language-switch")).toHaveAttribute(
     "href",
     "/tessa/en/share?card=abc+def==&source=test#details",
   );

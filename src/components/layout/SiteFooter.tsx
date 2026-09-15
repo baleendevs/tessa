@@ -4,7 +4,7 @@ import { routePath, type Locale, type RouteKey } from "@/lib/site";
 import { SiteBrand } from "./SiteBrand";
 
 type SiteFooterProps = {
-  currentRoute: Extract<RouteKey, "home" | "terms" | "privacy">;
+  currentRoute: Extract<RouteKey, "home" | "share" | "terms" | "privacy">;
   dictionary: Dictionary;
   locale: Locale;
 };

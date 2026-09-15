@@ -66,7 +66,7 @@ export function LegalFoundation({ locale, route }: LegalFoundationProps) {
       <SiteHeader dictionary={dictionary} locale={locale} route={route} />
       <main
         aria-labelledby="legal-page-title"
-        className="legal-page"
+        className="site-content-page legal-page"
         id="main-content"
         tabIndex={-1}
       >

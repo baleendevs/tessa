@@ -101,46 +101,16 @@ export type Dictionary = {
   home: HomeContent;
   share: {
     eyebrow: string;
-    title: string;
-    description: string;
     notice: string;
     loading: string;
-    detailsTitle: string;
-    categoriesTitle: string;
-    categoryLabel: string;
-    notProvided: string;
     documentTypes: {
       TS: string;
       CIE: string;
       P: string;
     };
-    fields: {
-      surname: string;
-      givenName: string;
-      fiscalCode: string;
-      sex: string;
-      birthPlace: string;
-      birthProvince: string;
-      birthDate: string;
-      expiryDate: string;
-      institutionNumber: string;
-      cardNumber: string;
-      issuingMunicipality: string;
-      nationality: string;
-      serialNumber: string;
-      height: string;
-      issueDate: string;
-      cardAccessNumber: string;
-      parentsOrGuardians: string;
-      residenceAddress: string;
-      birthCertificateDetails: string;
-      mrz: string;
-      licenceNumber: string;
-      issuingAuthority: string;
-      codes: string;
-      managementField: string;
-      category: string;
-    };
+    actionTitles: Record<"TS" | "CIE" | "P", string>;
+    actionDescriptions: Record<"TS" | "CIE" | "P", string>;
+    actionDescriptionsWithoutName: Record<"TS" | "CIE" | "P", string>;
     states: {
       missingTitle: string;
       missingDescription: string;
@@ -154,9 +124,6 @@ export type Dictionary = {
       legacyDescription: string;
       backHome: string;
     };
-    appPrompt: string;
-    android: string;
-    ios: string;
   };
   legal: {
     termsTitle: string;
@@ -319,48 +286,29 @@ export const dictionaries: Record<Locale, Dictionary> = {
       },
     },
     share: {
-      eyebrow: "Condivisione TesSa",
-      title: "Tessera condivisa",
-      description:
-        "I dettagli visualizzati provengono dal link che hai aperto.",
+      eyebrow: "Documento condiviso",
       notice:
-        "Questo link contiene i dati mostrati qui. Trattalo come un documento personale.",
+        "Questo link contiene i dati del documento mostrato. Condividilo solo con persone di cui ti fidi e trattalo come un documento personale.",
       loading: "Lettura della tessera condivisa…",
-      detailsTitle: "Dettagli condivisi",
-      categoriesTitle: "Categorie della patente",
-      categoryLabel: "Categoria",
-      notProvided: "Non indicato",
       documentTypes: {
         TS: "Tessera Sanitaria",
         CIE: "Carta d'Identità Elettronica",
         P: "Patente di guida",
       },
-      fields: {
-        surname: "Cognome",
-        givenName: "Nome",
-        fiscalCode: "Codice Fiscale",
-        sex: "Sesso",
-        birthPlace: "Luogo di nascita",
-        birthProvince: "Provincia / Stato",
-        birthDate: "Data di nascita",
-        expiryDate: "Data di scadenza",
-        institutionNumber: "Numero istituzione",
-        cardNumber: "Numero tessera",
-        issuingMunicipality: "Comune di emissione",
-        nationality: "Cittadinanza",
-        serialNumber: "Numero di serie",
-        height: "Statura",
-        issueDate: "Data di emissione",
-        cardAccessNumber: "Card Access Number",
-        parentsOrGuardians: "Genitori / tutori",
-        residenceAddress: "Indirizzo di residenza",
-        birthCertificateDetails: "Estremi dell'atto di nascita",
-        mrz: "MRZ",
-        licenceNumber: "Numero patente",
-        issuingAuthority: "Rilasciata da",
-        codes: "Codici / restrizioni",
-        managementField: "Gestione patente",
-        category: "Categoria",
+      actionTitles: {
+        TS: "Aggiungi questa Tessera Sanitaria al tuo portafoglio",
+        CIE: "Aggiungi questa CIE al tuo portafoglio",
+        P: "Aggiungi questa patente al tuo portafoglio",
+      },
+      actionDescriptions: {
+        TS: "Hai ricevuto la Tessera Sanitaria di {name}. Scarica TesSa per aggiungerla direttamente al tuo portafoglio.",
+        CIE: "Hai ricevuto la Carta d'Identità Elettronica di {name}. Scarica TesSa per aggiungerla direttamente al tuo portafoglio.",
+        P: "Hai ricevuto la patente di guida di {name}. Scarica TesSa per aggiungerla direttamente al tuo portafoglio.",
+      },
+      actionDescriptionsWithoutName: {
+        TS: "Hai ricevuto una Tessera Sanitaria condivisa. Scarica TesSa per aggiungerla direttamente al tuo portafoglio.",
+        CIE: "Hai ricevuto una Carta d'Identità Elettronica condivisa. Scarica TesSa per aggiungerla direttamente al tuo portafoglio.",
+        P: "Hai ricevuto una patente di guida condivisa. Scarica TesSa per aggiungerla direttamente al tuo portafoglio.",
       },
       states: {
         missingTitle: "Nessuna tessera condivisa",
@@ -380,9 +328,6 @@ export const dictionaries: Record<Locale, Dictionary> = {
           "Questo tipo di contenuto precedente non può essere visualizzato in questa anteprima.",
         backHome: "Torna al sito TesSa",
       },
-      appPrompt: "TesSa è disponibile per Android e iOS.",
-      android: "Scarica da Google Play",
-      ios: "Scarica dall'App Store",
     },
     legal: {
       termsTitle: "Condizioni d'uso",
@@ -543,48 +488,29 @@ export const dictionaries: Record<Locale, Dictionary> = {
       },
     },
     share: {
-      eyebrow: "TesSa sharing",
-      title: "Shared card",
-      description:
-        "The details displayed here come from the link you opened.",
+      eyebrow: "Shared document",
       notice:
-        "This link contains the details shown here. Treat it like a personal document.",
+        "This link contains the document data shown here. Share it only with people you trust and treat it like a personal document.",
       loading: "Reading the shared card…",
-      detailsTitle: "Shared details",
-      categoriesTitle: "Driving licence categories",
-      categoryLabel: "Category",
-      notProvided: "Not provided",
       documentTypes: {
         TS: "Italian health card",
         CIE: "Electronic Identity Card (CIE)",
         P: "Driving licence",
       },
-      fields: {
-        surname: "Surname",
-        givenName: "Given name",
-        fiscalCode: "Fiscal Code",
-        sex: "Sex",
-        birthPlace: "Place of birth",
-        birthProvince: "Province / country",
-        birthDate: "Date of birth",
-        expiryDate: "Expiry date",
-        institutionNumber: "Institution number",
-        cardNumber: "Card number",
-        issuingMunicipality: "Issuing municipality",
-        nationality: "Nationality",
-        serialNumber: "Serial number",
-        height: "Height",
-        issueDate: "Issue date",
-        cardAccessNumber: "Card Access Number",
-        parentsOrGuardians: "Parents / guardians",
-        residenceAddress: "Residential address",
-        birthCertificateDetails: "Birth certificate details",
-        mrz: "MRZ",
-        licenceNumber: "Licence number",
-        issuingAuthority: "Issuing authority",
-        codes: "Codes / restrictions",
-        managementField: "Licence management field",
-        category: "Category",
+      actionTitles: {
+        TS: "Add this Italian health card to your wallet",
+        CIE: "Add this CIE to your wallet",
+        P: "Add this driving licence to your wallet",
+      },
+      actionDescriptions: {
+        TS: "You received an Italian health card for {name}. Download TesSa to add it directly to your wallet.",
+        CIE: "You received an Electronic Identity Card (CIE) for {name}. Download TesSa to add it directly to your wallet.",
+        P: "You received a driving licence for {name}. Download TesSa to add it directly to your wallet.",
+      },
+      actionDescriptionsWithoutName: {
+        TS: "You received a shared Italian health card. Download TesSa to add it directly to your wallet.",
+        CIE: "You received a shared Electronic Identity Card (CIE). Download TesSa to add it directly to your wallet.",
+        P: "You received a shared driving licence. Download TesSa to add it directly to your wallet.",
       },
       states: {
         missingTitle: "No shared card found",
@@ -604,9 +530,6 @@ export const dictionaries: Record<Locale, Dictionary> = {
           "This earlier content type cannot be displayed in this preview.",
         backHome: "Return to the TesSa website",
       },
-      appPrompt: "TesSa is available for Android and iOS.",
-      android: "Get it on Google Play",
-      ios: "Download on the App Store",
     },
     legal: {
       termsTitle: "Terms of Use",
