@@ -64,12 +64,12 @@ function expectStructurallyAligned(
 }
 
 describe("legal content", () => {
-  it("uses the publication date for the revised Terms and preserves the Privacy date", () => {
+  it("uses the publication date for the revised legal documents", () => {
     expect(legalDocuments.terms).toMatchObject({
       effectiveDate: "2026-09-16",
     });
     expect(legalDocuments.privacy).toMatchObject({
-      effectiveDate: "2020-09-30",
+      effectiveDate: "2026-09-16",
     });
   });
 
@@ -95,13 +95,15 @@ describe("legal content", () => {
     });
   });
 
-  it("preserves the material legacy Privacy content and disclosures", () => {
+  it("describes TesSa's actual privacy model and third-party processing", () => {
     const text = allText("privacy");
-    expect(text).toContain("Baleen Developers built the TesSa app as an Ad Supported app");
-    expect(text).toContain("The information that I request will be retained on your device and is not collected by me in any way");
-    expect(text).toContain("no method of transmission over the internet, or method of electronic storage is 100% secure");
-    expect(text).toContain("This policy is effective as of 2020-09-30");
-    expect(text).toContain("baleendevs@gmail.com");
+    expect(text).toContain("stored locally in an encrypted database on the user’s device");
+    expect(text).toContain("does not provide user accounts");
+    expect(text).toContain("Google Analytics for Firebase is currently included on Android");
+    expect(text).toContain("ShinyStat is used only to measure aggregate visits");
+    expect(text).toContain("encoded, including through Base64 encoding, but is not encrypted");
+    expect(text).toContain("do not sell or rent personal data");
+    expect(text).toContain("baleen.devs@gmail.com");
   });
 
   it("provides complete structurally aligned Italian translations", () => {
@@ -109,7 +111,7 @@ describe("legal content", () => {
     expectStructurallyAligned(legalDocuments.privacy, italianPrivacyDocument);
   });
 
-  it("provides the revised safeguards in Italian and preserves the Privacy disclosures", () => {
+  it("provides the revised safeguards and privacy disclosures in Italian", () => {
     const terms = documentText(italianTermsDocument);
     const privacy = documentText(italianPrivacyDocument);
 
@@ -121,17 +123,21 @@ describe("legal content", () => {
     expect(terms).toContain("forniti “così come sono” e “secondo disponibilità”");
     expect(terms).toContain("morte o danni alla persona");
     expect(terms).toContain("baleen.devs@gmail.com");
-    expect(privacy).toContain("app supportata dalla pubblicità");
-    expect(privacy).toContain("saranno conservate sul tuo dispositivo e non saranno raccolte da me");
-    expect(privacy).toContain("La presente informativa è in vigore dal 2020-09-30");
+    expect(privacy).toContain("conservati localmente in un database cifrato sul dispositivo dell’utente");
+    expect(privacy).toContain("non fornisce account utente");
+    expect(privacy).toContain("Google Analytics for Firebase è attualmente incluso su Android");
+    expect(privacy).toContain("ShinyStat è utilizzato esclusivamente per misurare gli accessi in forma aggregata");
+    expect(privacy).toContain("codifica Base64, ma non sono cifrati");
+    expect(privacy).toContain("non vendiamo né concediamo in locazione dati personali");
 
     for (const text of [terms, privacy]) {
       expect(text).toContain("Baleen Developers");
-      expect(text).toContain("Google Play Services");
       expect(text).toContain("AdMob");
       expect(text).toContain("Google Analytics for Firebase");
     }
 
-    expect(privacy).toContain("baleendevs@gmail.com");
+    expect(privacy).toContain("GitHub");
+    expect(privacy).toContain("ShinyStat");
+    expect(privacy).toContain("baleen.devs@gmail.com");
   });
 });

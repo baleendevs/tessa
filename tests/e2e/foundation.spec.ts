@@ -167,9 +167,10 @@ test("renders localised legal documents with public-facing metadata", async ({ p
 
   await page.goto("/tessa/privacy");
   await expect(page.getByRole("heading", { level: 1, name: "Informativa sulla privacy" })).toBeVisible();
-  await expect(page.locator("time")).toHaveAttribute("datetime", "2020-09-30");
+  await expect(page.locator("time")).toHaveAttribute("datetime", "2026-09-16");
   await expect(page.locator("article.legal-copy")).toHaveAttribute("lang", "it");
-  await expect(page.locator("article.legal-copy")).toContainText("app supportata dalla pubblicità");
+  await expect(page.locator("article.legal-copy")).toContainText("database cifrato sul dispositivo");
+  await expect(page.locator("article.legal-copy")).toContainText("ShinyStat");
   await expect(page.locator("article.legal-copy")).toContainText("Google Analytics for Firebase");
 
   await page.goto("/tessa/en/terms");
@@ -181,7 +182,8 @@ test("renders localised legal documents with public-facing metadata", async ({ p
   await page.goto("/tessa/en/privacy");
   await expect(page.getByRole("heading", { level: 1, name: "Privacy Policy" })).toBeVisible();
   await expect(page.locator("article.legal-copy")).toHaveAttribute("lang", "en");
-  await expect(page.locator("article.legal-copy")).toContainText("Ad Supported app");
+  await expect(page.locator("time")).toHaveAttribute("datetime", "2026-09-16");
+  await expect(page.locator("article.legal-copy")).toContainText("encrypted database on the user’s device");
   await expect(page.locator("article.legal-copy")).toContainText("Google Analytics for Firebase");
 });
 

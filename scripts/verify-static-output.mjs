@@ -223,9 +223,9 @@ for (const route of informationalRoutes) {
 
 for (const { file, effectiveDate, effectiveDateLabel } of [
   { file: "terms.html", effectiveDate: "2026-09-16", effectiveDateLabel: "In vigore dal" },
-  { file: "privacy.html", effectiveDate: "2020-09-30", effectiveDateLabel: "In vigore dal" },
+  { file: "privacy.html", effectiveDate: "2026-09-16", effectiveDateLabel: "In vigore dal" },
   { file: "en/terms.html", effectiveDate: "2026-09-16", effectiveDateLabel: "Effective from" },
-  { file: "en/privacy.html", effectiveDate: "2020-09-30", effectiveDateLabel: "Effective from" },
+  { file: "en/privacy.html", effectiveDate: "2026-09-16", effectiveDateLabel: "Effective from" },
 ]) {
   const html = await readFile(resolve(outputRoot, file), "utf8");
   if (!html.includes(`dateTime="${effectiveDate}"`)) {

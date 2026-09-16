@@ -1,3 +1,7 @@
+import { italianPrivacyDocument } from "./privacy-it";
+
+export { italianPrivacyDocument };
+
 export type LegalLink = {
   label: string;
   url: string;
@@ -42,16 +46,35 @@ const storeTerms: LegalLink[] = [
 
 const thirdPartyPrivacy: LegalLink[] = [
   {
-    label: "Google Play Services",
-    url: "https://www.google.com/policies/privacy/",
+    label: "Google Privacy Policy",
+    url: "https://policies.google.com/privacy",
   },
   {
-    label: "AdMob",
+    label: "Google AdMob privacy information",
     url: "https://support.google.com/admob/answer/6128543?hl=en",
   },
   {
-    label: "Google Analytics for Firebase",
-    url: "https://firebase.google.com/policies/analytics",
+    label: "Firebase privacy and security information",
+    url: "https://firebase.google.com/support/privacy",
+  },
+  {
+    label: "Apple Privacy Policy",
+    url: "https://www.apple.com/legal/privacy/",
+  },
+  {
+    label: "GitHub Privacy Statement",
+    url: "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
+  },
+  {
+    label: "ShinyStat privacy information",
+    url: "https://www.shinystat.com/en/informativa_privacy_generale.html?id=6",
+  },
+];
+
+const privacyRightsLinks: LegalLink[] = [
+  {
+    label: "Italian Data Protection Authority (Garante per la protezione dei dati personali)",
+    url: "https://www.garanteprivacy.it/",
   },
 ];
 
@@ -325,93 +348,255 @@ export const termsDocument: LegalDocument = {
 };
 
 export const privacyDocument: LegalDocument = {
-  effectiveDate: "2020-09-30",
+  effectiveDate: "2026-09-16",
   sections: [
     {
-      id: "overview",
-      title: "Privacy Policy",
+      id: "controller-and-scope",
+      title: "Controller and scope",
       blocks: [
         {
           type: "paragraph",
-          text: "Baleen Developers built the TesSa app as an Ad Supported app. This SERVICE is provided by Baleen Developers at no cost and is intended for use as is.",
+          text: "This Privacy Policy explains how personal data is processed in connection with the TesSa: tessere e documenti mobile application (the “App”), the related website at https://baleendevs.github.io/tessa (the “Site”) and the features made available through them (together, the “Services”).",
         },
         {
           type: "paragraph",
-          text: "This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.",
+          text: "The data controller for the processing described in this Policy is Carlo Andreotti, an independent individual developer operating under the name Baleen Developers, Via dei Boschi 30, 15072 Casal Cermelli (AL), Italy (“Baleen Developers”, “we”, “us” or “our”). No data protection officer has been appointed because the processing carried out does not currently require one under applicable law.",
         },
         {
           type: "paragraph",
-          text: "If you choose to use my Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that I collect is used for providing and improving the Service. I will not use or share your information with anyone except as described in this Privacy Policy.",
-        },
-        {
-          type: "paragraph",
-          text: "The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at TesSa unless otherwise defined in this Privacy Policy.",
+          text: "TesSa is intended for users in Italy. This Policy covers both information kept under the user’s control on the device and the limited personal data processed by us or by third-party services through the App or Site. It should be read together with the TesSa Terms of Use.",
         },
       ],
     },
     {
-      id: "information-collection-and-use",
-      title: "Information Collection and Use",
+      id: "local-document-data",
+      title: "Document data stored locally",
       blocks: [
         {
           type: "paragraph",
-          text: "For a better experience, while using our Service, I may require you to provide us with certain personally identifiable information. The information that I request will be retained on your device and is not collected by me in any way.",
+          text: "The App lets users enter, import, scan and display information relating to health cards, identity documents, driving licences and other supported documents, including images, identifying details, barcodes and QR codes. This content may be highly confidential. It is stored locally in an encrypted database on the user’s device and is not uploaded to or retained in a TesSa-operated account, server or cloud-storage service.",
         },
         {
           type: "paragraph",
-          text: "The app does use third party services that may collect information used to identify you.",
+          text: "We do not receive, view or remotely retrieve document content kept in the App. Users control that content and can edit or delete it through the App or remove the App’s local data. Deleting the local copy does not delete backups, screenshots, messages, shared links or other copies previously created or transferred by the user.",
         },
         {
           type: "paragraph",
-          text: "Link to privacy policy of third party service providers used by the app",
+          text: "TesSa does not provide user accounts, synchronisation between devices or a cloud backup service. The operating system or a service independently chosen by the user may nevertheless create or retain device backups under that provider’s settings and privacy terms.",
+        },
+        {
+          type: "paragraph",
+          text: "If a user stores information relating to a minor or another person, the user is responsible for having the legal authority to do so and for using and sharing that information lawfully.",
+        },
+      ],
+    },
+    {
+      id: "data-provided-to-us",
+      title: "Information provided directly to us",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "We do not require registration and do not directly collect names, postal addresses, phone numbers, passwords, payment-card details or document content merely because a person uses the App or visits the Site.",
+        },
+        {
+          type: "paragraph",
+          text: "If you contact us for support, a privacy request or another enquiry, we receive the email address and any name, message, attachments and technical details that you voluntarily provide. Please do not send copies of identity documents, health cards, full barcodes, backup files or other sensitive information unless it is strictly necessary and we have specifically asked you to do so through an appropriate channel.",
+        },
+        {
+          type: "list",
+          items: [
+            "support and privacy correspondence, including the sender’s email address and message content;",
+            "technical information voluntarily supplied to diagnose a problem;",
+            "records necessary to handle a complaint, comply with law or establish, exercise or defend legal claims.",
+          ],
+        },
+      ],
+    },
+    {
+      id: "automatically-processed-data",
+      title: "Technical data processed automatically",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "The App and Site use limited third-party infrastructure. Depending on the platform, configuration, permissions and privacy choices, those providers may automatically process the following categories of data:",
+        },
+        {
+          type: "list",
+          items: [
+            "device and application information, such as device type, operating system, language, app version, application or advertising identifiers and network provider;",
+            "network and approximate-location information derived from the IP address, but not precise GPS location requested by TesSa;",
+            "limited usage, diagnostic, advertising and performance events, such as app launches, sessions, pages viewed, ad impressions, ad interactions and error information;",
+            "privacy, advertising and consent choices made through the operating system, app store or a provider’s consent interface.",
+          ],
+        },
+        {
+          type: "paragraph",
+          text: "TesSa does not create custom behavioural profiles or custom usage logs. Google Analytics for Firebase is currently included on Android and may automatically record events and device properties; Firebase Analytics is currently disabled in the iOS configuration. Google Mobile Ads may automatically record advertising events on both supported platforms. The Site uses ShinyStat for aggregate access statistics, and GitHub Pages, as the Site host, logs visitor IP addresses for security purposes.",
+        },
+      ],
+    },
+    {
+      id: "device-features",
+      title: "Device permissions and features",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "The App may request access to device features only to provide functions selected by the user. Permission can be denied or later changed in the device settings, although the related feature may then be unavailable.",
+        },
+        {
+          type: "list",
+          items: [
+            "Camera: to scan supported barcodes or QR codes and acquire document images when requested;",
+            "Files, photos or storage: to import or save images and to create, select or restore backup files;",
+            "Biometric authentication: optional fingerprint or facial verification is performed by the operating system; TesSa receives only the success or failure result and does not receive or store biometric templates.",
+          ],
+        },
+        {
+          type: "paragraph",
+          text: "TesSa does not request access to precise geolocation, contacts, calendars, SMS messages, social-media accounts or the microphone, and does not use social login.",
+        },
+      ],
+    },
+    {
+      id: "purposes-and-legal-bases",
+      title: "Purposes and legal bases",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Where the GDPR applies, we process personal data only when a legal basis is available. The applicable basis depends on the data and context:",
+        },
+        {
+          type: "list",
+          items: [
+            "performance of a contract or steps requested before entering one, to provide requested App functions, support and the TesSa PRO purchase;",
+            "consent, for personalised advertising and non-essential analytics, identifiers or similar technologies where consent is required by law;",
+            "legitimate interests, to secure the Services, prevent fraud and abuse, diagnose problems, understand aggregate Site traffic and protect or defend legal rights, provided those interests are not overridden by users’ rights;",
+            "compliance with a legal obligation, including lawful requests and accounting, consumer-protection or data-protection requirements.",
+          ],
+        },
+        {
+          type: "paragraph",
+          text: "Document content processed only on the device is handled at the user’s request to provide the chosen functionality and is not transmitted to us by default. We do not use personal data for direct marketing, sell personal data, or make decisions producing legal or similarly significant effects through automated profiling.",
+        },
+      ],
+    },
+    {
+      id: "advertising-and-analytics",
+      title: "Advertising and analytics",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "The free version of the App may display advertising through Google AdMob. AdMob and its authorised advertising partners may process advertising identifiers, IP address, device and app information, consent choices and ad interaction data to deliver, limit, secure and measure advertising. The content of documents stored in TesSa is not intentionally provided to AdMob or advertisers. TesSa PRO removes advertising from the App.",
+        },
+        {
+          type: "paragraph",
+          text: "Where required by law, personalised advertising and access to non-essential device identifiers must be based on valid consent. Without valid consent, Google and its partners may process data only where another legal basis applies, including for limited or contextual advertising, security, fraud prevention, frequency capping or measurement where legally permitted.",
+        },
+        {
+          type: "paragraph",
+          text: "On the Site, ShinyStat is used only to measure aggregate visits. According to ShinyStat, IP addresses and navigation data are anonymised and aggregated in real time and complete IP addresses and non-aggregated navigation logs are not stored on disk by its analytics system. ShinyStat may use analytics cookies or similar technology and provides further information and an opt-out through its privacy page.",
         },
         { type: "links", items: thirdPartyPrivacy },
       ],
     },
     {
-      id: "log-data",
-      title: "Log Data",
+      id: "purchases",
+      title: "App-store purchases",
       blocks: [
         {
           type: "paragraph",
-          text: "I want to inform you that whenever you use my Service, in a case of an error in the app I collect data and information (through third party products) on your phone called Log Data. This Log Data may include information such as your device Internet Protocol (“IP”) address, device name, operating system version, the configuration of the app when utilizing my Service, the time and date of your use of the Service, and other statistics.",
+          text: "The optional one-time TesSa PRO purchase is processed exclusively by Apple through the App Store or by Google through Google Play. We do not directly receive or store payment-card numbers or complete billing details. The applicable store may provide the App with limited information such as the product identifier, transaction or receipt data and purchase or entitlement status so that PRO can be activated or restored.",
+        },
+        {
+          type: "paragraph",
+          text: "Apple and Google process store-account, payment, tax, refund and transaction information under their own terms and privacy policies. Requests concerning payment methods or the store’s transaction records should be directed to the relevant store.",
+        },
+        {
+          type: "links",
+          items: [
+            { label: "Apple Privacy Policy", url: "https://www.apple.com/legal/privacy/" },
+            { label: "Google Privacy Policy", url: "https://policies.google.com/privacy" },
+          ],
         },
       ],
     },
     {
-      id: "cookies",
-      title: "Cookies",
+      id: "backups-and-sharing",
+      title: "Backups and user-controlled sharing",
       blocks: [
         {
           type: "paragraph",
-          text: "Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers. These are sent to your browser from the websites that you visit and are stored on your device's internal memory.",
+          text: "TesSa can create an encrypted backup file locally. We do not automatically receive or retain a copy. The user chooses where a backup is stored or transmitted and is responsible for protecting it and any information needed to access it. A storage, messaging or cloud service selected by the user processes the file under its own privacy terms.",
         },
         {
           type: "paragraph",
-          text: "This Service does not use these “cookies” explicitly. However, the app may use third party code and libraries that use “cookies” to collect information and improve their services. You have the option to either accept or refuse these cookies and know when a cookie is being sent to your device. If you choose to refuse our cookies, you may not be able to use some portions of this Service.",
+          text: "When a user chooses to share document information, TesSa may generate a link or QR code containing selected data in the URL. The data is encoded, including through Base64 encoding, but is not encrypted or password-protected. Anyone who obtains the link or QR code may be able to decode, read, copy or further share its contents.",
+        },
+        {
+          type: "paragraph",
+          text: "The link and its contents may appear in messages, browser history, link previews, screenshots, access or security logs, and services used to share or open it, including the Site hosting provider. We do not maintain a separate TesSa-controlled database copy of the shared document data and cannot revoke or remotely delete a link after it has been shared.",
+        },
+        {
+          type: "paragraph",
+          text: "Sharing is initiated and controlled by the user. Users should review the included data, choose trusted recipients and appropriate channels, and remove copies from messages, histories or third-party services when no longer needed.",
         },
       ],
     },
     {
-      id: "service-providers",
-      title: "Service Providers",
+      id: "recipients",
+      title: "Recipients and third-party services",
       blocks: [
         {
           type: "paragraph",
-          text: "I may employ third-party companies and individuals due to the following reasons:",
+          text: "Depending on the feature and platform used, limited personal data may be processed by the following recipients. They receive only the categories necessary for their respective services and may act as processors or independent controllers according to the circumstances and their terms:",
         },
         {
           type: "list",
           items: [
-            "To facilitate our Service;",
-            "To provide the Service on our behalf;",
-            "To perform Service-related services; or",
-            "To assist us in analyzing how our Service is used.",
+            "Google, including AdMob, Google Analytics for Firebase, Google Play and the email service used for support;",
+            "Apple, for App Store distribution, in-app purchase processing and platform services;",
+            "Sevendata S.p.A., through ShinyStat, for aggregate Site access measurement;",
+            "GitHub, through GitHub Pages, for static Site hosting and hosting security logs;",
+            "public authorities, courts, professional advisers or other persons where disclosure is required by law or reasonably necessary to establish, exercise or defend legal claims.",
           ],
         },
         {
           type: "paragraph",
-          text: "I want to inform users of this Service that these third parties have access to your Personal Information. The reason is to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.",
+          text: "We do not disclose personal data to corporate affiliates, data brokers, marketing-list providers or business partners, and we do not sell or rent personal data. Independent services deliberately selected by a user, such as a messaging or cloud-storage provider used to share a link or backup, receive data from the user rather than from a TesSa-controlled server.",
+        },
+        { type: "links", items: thirdPartyPrivacy },
+      ],
+    },
+    {
+      id: "international-transfers",
+      title: "International data transfers",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Document content kept only in the App is not transferred internationally by us. Some third-party providers are established in, store data in, or permit access from countries outside the European Economic Area, including the United States. Their infrastructure and subprocessors may operate in additional countries.",
+        },
+        {
+          type: "paragraph",
+          text: "Where required, such transfers are protected through an applicable adequacy decision, a provider’s participation in a recognised data-transfer framework, European Commission standard contractual clauses or another lawful safeguard described in the provider’s terms. We do not claim our own certification under the EU–US Data Privacy Framework. Users should consult the linked provider notices for current locations and safeguards.",
+        },
+      ],
+    },
+    {
+      id: "retention",
+      title: "Data retention",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "We retain personal data only for as long as reasonably necessary for the purpose for which it is processed, subject to the following criteria:",
+        },
+        {
+          type: "list",
+          items: [
+            "document data remains locally on the device until the user deletes it or removes the App data; exported backups and shared copies remain until deleted by the user or the third party holding them;",
+            "support and privacy correspondence is kept for the time needed to answer and follow up, and longer only where necessary for a legal obligation or legal claim;",
+            "locally stored PRO entitlement information remains until the App data is deleted, while Apple or Google retains transaction records under its own legal obligations and policy;",
+            "analytics, advertising, hosting and security information is retained according to the applicable provider settings and policies and is deleted or aggregated when no longer required for the stated purpose.",
+          ],
         },
       ],
     },
@@ -421,63 +606,113 @@ export const privacyDocument: LegalDocument = {
       blocks: [
         {
           type: "paragraph",
-          text: "I value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and I cannot guarantee its absolute security.",
+          text: "TesSa uses measures designed to protect locally stored information, including an encrypted local database, encrypted backup files, the operating system’s application sandbox and optional App access controls such as a PIN or device biometric authentication. Access to camera and files is subject to operating-system permissions.",
+        },
+        {
+          type: "paragraph",
+          text: "No storage or transmission method is completely secure. Users must protect their device, App access code, backups and sharing links, install security updates and avoid rooted or jailbroken devices. Sharing-link payloads are encoded but not encrypted and should not be treated as confidential once disclosed to another person or service.",
         },
       ],
     },
     {
-      id: "links-to-other-sites",
-      title: "Links to Other Sites",
+      id: "minors",
+      title: "Minors",
       blocks: [
         {
           type: "paragraph",
-          text: "This Service may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by me. Therefore, I strongly advise you to review the Privacy Policy of these websites. I have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.",
+          text: "The Services are intended for users aged 18 or over and are not directed to minors. We do not knowingly solicit personal data directly from minors. If we learn that a minor has sent personal data to us without appropriate authorisation, we will take reasonable steps to delete it where required.",
+        },
+        {
+          type: "paragraph",
+          text: "An authorised adult may use the App to store information concerning a minor under that adult’s care. That information remains local unless the adult chooses to export or share it, and the adult is responsible for having an appropriate legal basis and protecting the minor’s information.",
         },
       ],
     },
     {
-      id: "childrens-privacy",
-      title: "Children’s Privacy",
+      id: "rights",
+      title: "Your privacy rights",
       blocks: [
         {
           type: "paragraph",
-          text: "These Services do not address anyone under the age of 13. I do not knowingly collect personally identifiable information from children under 13. In the case I discover that a child under 13 has provided me with personal information, I immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact me so that I will be able to do necessary actions.",
+          text: "Subject to the conditions and exceptions in applicable law, you may have the right to:",
+        },
+        {
+          type: "list",
+          items: [
+            "obtain confirmation of whether personal data concerning you is processed and request access to it;",
+            "request correction of inaccurate or incomplete personal data;",
+            "request deletion of personal data;",
+            "request restriction of processing;",
+            "object to processing based on legitimate interests or to direct marketing;",
+            "receive data you provided in a portable format where the legal requirements are met;",
+            "withdraw consent at any time without affecting earlier lawful processing;",
+            "lodge a complaint with the competent supervisory authority, including the Italian Data Protection Authority.",
+          ],
+        },
+        {
+          type: "paragraph",
+          text: "Requests may be sent to baleen.devs@gmail.com. We may ask for information reasonably necessary to verify the request, but we are not required to collect additional data solely to identify a person. If we cannot link technical or aggregate data to the requester, we will explain that we are unable to identify the relevant record unless the requester provides information that makes identification possible.",
+        },
+        {
+          type: "paragraph",
+          text: "We cannot access, export, correct or remotely delete document data that exists only on a user’s device. The user can manage that data directly in the App. Requests concerning data controlled independently by Apple, Google, GitHub, ShinyStat or a service chosen by the user may need to be submitted to that provider.",
+        },
+        {
+          type: "paragraph",
+          text: "Where consent applies, it may be withdrawn through any consent controls made available by the relevant provider, through applicable device or platform privacy settings, or by contacting us. Withdrawal may affect personalised advertising or optional analytics but does not affect the App’s core local document-storage functions.",
+        },
+        { type: "links", items: privacyRightsLinks },
+      ],
+    },
+    {
+      id: "cookies-and-tracking",
+      title: "Cookies and similar technologies",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "The App does not rely on browser cookies for its local document-storage functions. Third-party mobile SDKs may instead use application instances, advertising identifiers, local storage or similar technology as described above.",
+        },
+        {
+          type: "paragraph",
+          text: "The Site uses ShinyStat analytics cookies or similar technology for aggregate access counting. Users can manage cookies through their browser and use any opt-out made available on ShinyStat’s privacy page. Blocking optional technology may reduce measurement or advertising relevance but should not prevent access to the App’s core local functions.",
+        },
+        {
+          type: "paragraph",
+          text: "The browser, GitHub Pages and external websites reached through links may apply their own cookies, local storage or security logging under their respective policies. TesSa does not respond to legacy browser “Do Not Track” signals because there is no consistent technical standard for those signals; legally required consent and opt-out choices remain unaffected.",
+        },
+      ],
+    },
+    {
+      id: "third-party-sites",
+      title: "Third-party sites and services",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "The Services may contain links to or interact with independent third-party sites and services. We do not control their content or privacy practices. Review the relevant privacy notice before providing data or using an external service. This does not limit any responsibility we have under applicable law for our own selection or integration of a provider.",
         },
       ],
     },
     {
       id: "changes",
-      title: "Changes to This Privacy Policy",
+      title: "Changes to this Policy",
       blocks: [
         {
           type: "paragraph",
-          text: "I may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. I will notify you of any changes by posting the new Privacy Policy on this page.",
+          text: "We may update this Policy to reflect changes to the Services, providers or law. The revised version will be posted on this page with a new effective date. Where required by law, or where a change materially affects how personal data is processed, we will provide additional notice through an appropriate channel.",
         },
-        { type: "paragraph", text: "This policy is effective as of 2020-09-30" },
       ],
     },
     {
       id: "contact",
-      title: "Contact Us",
+      title: "Contact",
       blocks: [
         {
           type: "paragraph",
-          text: "If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me at baleendevs@gmail.com.",
+          text: "For privacy questions or to exercise applicable rights, contact Carlo Andreotti, operating under the name Baleen Developers, at baleen.devs@gmail.com or by post at Via dei Boschi 30, 15072 Casal Cermelli (AL), Italy.",
         },
         {
-          type: "attribution",
-          before: "This privacy policy page was created at ",
-          between: " and modified/generated by ",
-          links: [
-            {
-              label: "privacypolicytemplate.net",
-              url: "https://privacypolicytemplate.net",
-            },
-            {
-              label: "App Privacy Policy Generator",
-              url: "https://app-privacy-policy-generator.firebaseapp.com/",
-            },
-          ],
+          type: "paragraph",
+          text: "This contact channel does not provide remote access to information stored only on a user’s device. Please describe the request without sending unnecessary copies of documents or other sensitive data.",
         },
       ],
     },
@@ -747,169 +982,6 @@ export const italianTermsDocument: LegalDocument = {
         {
           type: "paragraph",
           text: "Per domande, reclami o assistenza relativi alle presenti Condizioni o ai Servizi, puoi contattare Carlo Andreotti, operante con il nome Baleen Developers, all’indirizzo baleen.devs@gmail.com oppure per posta a Via dei Boschi 30, 15072 Casal Cermelli (AL), Italia.",
-        },
-      ],
-    },
-  ],
-};
-
-export const italianPrivacyDocument: LegalDocument = {
-  effectiveDate: "2020-09-30",
-  sections: [
-    {
-      id: "overview",
-      title: "Informativa sulla privacy",
-      blocks: [
-        {
-          type: "paragraph",
-          text: "Baleen Developers ha realizzato l'app TesSa come app supportata dalla pubblicità. Questo SERVIZIO è fornito gratuitamente da Baleen Developers ed è destinato all'uso così com'è.",
-        },
-        {
-          type: "paragraph",
-          text: "Questa pagina serve a informare i visitatori sulle mie politiche relative alla raccolta, all'uso e alla divulgazione delle Informazioni personali, qualora decidessero di utilizzare il mio Servizio.",
-        },
-        {
-          type: "paragraph",
-          text: "Se scegli di utilizzare il mio Servizio, accetti la raccolta e l'uso delle informazioni in relazione alla presente informativa. Le Informazioni personali che raccolgo sono utilizzate per fornire e migliorare il Servizio. Non utilizzerò né condividerò le tue informazioni con nessuno, salvo quanto descritto nella presente Informativa sulla privacy.",
-        },
-        {
-          type: "paragraph",
-          text: "I termini utilizzati nella presente Informativa sulla privacy hanno lo stesso significato attribuito loro nei nostri Termini e condizioni, accessibili tramite TesSa, salvo che siano definiti diversamente nella presente Informativa sulla privacy.",
-        },
-      ],
-    },
-    {
-      id: "information-collection-and-use",
-      title: "Raccolta e utilizzo delle informazioni",
-      blocks: [
-        {
-          type: "paragraph",
-          text: "Per offrire un'esperienza migliore, durante l'utilizzo del nostro Servizio potrei chiederti di fornirci determinate informazioni di identificazione personale. Le informazioni che richiedo saranno conservate sul tuo dispositivo e non saranno raccolte da me in alcun modo.",
-        },
-        {
-          type: "paragraph",
-          text: "L'app utilizza servizi di terze parti che potrebbero raccogliere informazioni utilizzate per identificarti.",
-        },
-        {
-          type: "paragraph",
-          text: "Link alle informative sulla privacy dei fornitori di servizi terzi utilizzati dall'app",
-        },
-        { type: "links", items: thirdPartyPrivacy },
-      ],
-    },
-    {
-      id: "log-data",
-      title: "Dati di registro",
-      blocks: [
-        {
-          type: "paragraph",
-          text: "Desidero informarti che, ogni volta che utilizzi il mio Servizio, in caso di errore nell'app raccolgo dati e informazioni sul tuo telefono, tramite prodotti di terze parti, denominati Dati di registro. Questi Dati di registro possono includere informazioni quali l'indirizzo del protocollo Internet (“IP”) del dispositivo, il nome del dispositivo, la versione del sistema operativo, la configurazione dell'app durante l'utilizzo del mio Servizio, l'ora e la data di utilizzo del Servizio e altre statistiche.",
-        },
-      ],
-    },
-    {
-      id: "cookies",
-      title: "Cookie",
-      blocks: [
-        {
-          type: "paragraph",
-          text: "I cookie sono file contenenti una piccola quantità di dati, comunemente utilizzati come identificatori univoci anonimi. Vengono inviati al tuo browser dai siti web che visiti e sono memorizzati nella memoria interna del tuo dispositivo.",
-        },
-        {
-          type: "paragraph",
-          text: "Questo Servizio non utilizza esplicitamente tali “cookie”. Tuttavia, l'app potrebbe utilizzare codice e librerie di terze parti che impiegano “cookie” per raccogliere informazioni e migliorare i propri servizi. Puoi scegliere di accettare o rifiutare questi cookie e sapere quando un cookie viene inviato al tuo dispositivo. Se scegli di rifiutare i nostri cookie, potresti non essere in grado di utilizzare alcune parti di questo Servizio.",
-        },
-      ],
-    },
-    {
-      id: "service-providers",
-      title: "Fornitori di servizi",
-      blocks: [
-        {
-          type: "paragraph",
-          text: "Potrei avvalermi di società e persone terze per i seguenti motivi:",
-        },
-        {
-          type: "list",
-          items: [
-            "Per facilitare il nostro Servizio;",
-            "Per fornire il Servizio per nostro conto;",
-            "Per svolgere servizi correlati al Servizio; oppure",
-            "Per aiutarci ad analizzare come viene utilizzato il nostro Servizio.",
-          ],
-        },
-        {
-          type: "paragraph",
-          text: "Desidero informare gli utenti di questo Servizio che tali terze parti hanno accesso alle loro Informazioni personali. Ciò avviene per svolgere per nostro conto i compiti loro assegnati. Tuttavia, sono tenute a non divulgare né utilizzare le informazioni per qualsiasi altro scopo.",
-        },
-      ],
-    },
-    {
-      id: "security",
-      title: "Sicurezza",
-      blocks: [
-        {
-          type: "paragraph",
-          text: "Tengo alla fiducia che riponi in noi fornendoci le tue Informazioni personali e pertanto ci impegniamo a utilizzare mezzi commercialmente accettabili per proteggerle. Ricorda tuttavia che nessun metodo di trasmissione su Internet o di archiviazione elettronica è sicuro e affidabile al 100% e non posso garantirne la sicurezza assoluta.",
-        },
-      ],
-    },
-    {
-      id: "links-to-other-sites",
-      title: "Link ad altri siti",
-      blocks: [
-        {
-          type: "paragraph",
-          text: "Questo Servizio potrebbe contenere link ad altri siti. Se fai clic su un link di terze parti, verrai indirizzato a tale sito. Tieni presente che questi siti esterni non sono gestiti da me. Ti consiglio pertanto vivamente di consultare l'Informativa sulla privacy di tali siti web. Non esercito alcun controllo e non mi assumo alcuna responsabilità per i contenuti, le informative sulla privacy o le pratiche di siti o servizi di terze parti.",
-        },
-      ],
-    },
-    {
-      id: "childrens-privacy",
-      title: "Privacy dei minori",
-      blocks: [
-        {
-          type: "paragraph",
-          text: "Questi Servizi non sono rivolti a persone di età inferiore a 13 anni. Non raccolgo consapevolmente informazioni di identificazione personale da minori di 13 anni. Qualora scoprissi che un minore di 13 anni mi ha fornito informazioni personali, le elimino immediatamente dai nostri server. Se sei un genitore o tutore e sei a conoscenza del fatto che tuo figlio ci ha fornito informazioni personali, contattami affinché possa adottare le misure necessarie.",
-        },
-      ],
-    },
-    {
-      id: "changes",
-      title: "Modifiche alla presente Informativa sulla privacy",
-      blocks: [
-        {
-          type: "paragraph",
-          text: "Potrei aggiornare periodicamente la nostra Informativa sulla privacy. Ti consigliamo pertanto di consultare periodicamente questa pagina per verificare eventuali modifiche. Ti informerò di qualsiasi modifica pubblicando la nuova Informativa sulla privacy su questa pagina.",
-        },
-        {
-          type: "paragraph",
-          text: "La presente informativa è in vigore dal 2020-09-30",
-        },
-      ],
-    },
-    {
-      id: "contact",
-      title: "Contatti",
-      blocks: [
-        {
-          type: "paragraph",
-          text: "In caso di domande o suggerimenti riguardo alla mia Informativa sulla privacy, non esitare a contattarmi all'indirizzo baleendevs@gmail.com.",
-        },
-        {
-          type: "attribution",
-          before: "Questa pagina dell'Informativa sulla privacy è stata creata su ",
-          between: " e modificata/generata da ",
-          links: [
-            {
-              label: "privacypolicytemplate.net",
-              url: "https://privacypolicytemplate.net",
-            },
-            {
-              label: "App Privacy Policy Generator",
-              url: "https://app-privacy-policy-generator.firebaseapp.com/",
-            },
-          ],
         },
       ],
     },
