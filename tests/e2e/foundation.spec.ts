@@ -399,12 +399,15 @@ test("publishes canonical, hreflang and social metadata", async ({ page }) => {
 
   for (const [path, canonical, english] of cases) {
     await page.goto(path);
+    const expectedSocialImage = path.includes("/en/")
+      ? `${SITE_URL}/img/tessa-social-en.jpg`
+      : `${SITE_URL}/img/tessa-social.jpg`;
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", canonical);
     await expect(page.locator('link[rel="alternate"][hreflang="en-GB"]')).toHaveAttribute("href", english);
     await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveAttribute("href", new RegExp(`${SITE_BASE_PATH}/`));
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
       "content",
-      `${SITE_URL}/media/social/tessa-social.png`,
+      expectedSocialImage,
     );
     await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
     await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "630");
@@ -471,9 +474,10 @@ test("serves base-path-aware manifest and icon assets", async ({ request }) => {
     display: "browser",
   });
   for (const asset of [
-    "/tessa/icons/favicon.ico",
-    "/tessa/icons/apple-touch-icon.png",
-    "/tessa/media/social/tessa-social.png",
+    `${SITE_BASE_PATH}/icons/favicon.ico`,
+    `${SITE_BASE_PATH}/icons/apple-touch-icon.png`,
+    `${SITE_BASE_PATH}/img/tessa-social.jpg`,
+    `${SITE_BASE_PATH}/img/tessa-social-en.jpg`,
   ]) {
     expect((await request.get(asset)).ok(), asset).toBe(true);
   }

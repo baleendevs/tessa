@@ -31,6 +31,10 @@ export function createPageMetadata({
     ? "TesSa, portafoglio per documenti personali"
     : "TesSa personal document wallet");
 
+  const socialImagePath = locale === "it"
+    ? `${SITE_BASE_PATH}/img/tessa-social.jpg`
+    : `${SITE_BASE_PATH}/img/tessa-social-en.jpg`;
+
   return {
     metadataBase,
     title,
@@ -58,7 +62,7 @@ export function createPageMetadata({
           title: "TesSa",
           description,
           url: canonical,
-          images: [`${SITE_BASE_PATH}/media/social/tessa-social.png`],
+          images: [socialImagePath],
         }
       : {
           type: "website",
@@ -70,7 +74,7 @@ export function createPageMetadata({
           url: canonical,
           images: [
             {
-              url: `${SITE_BASE_PATH}/media/social/tessa-social.png`,
+              url: socialImagePath,
               width: 1200,
               height: 630,
               alt: imageAlt,
@@ -83,7 +87,7 @@ export function createPageMetadata({
           card: "summary_large_image",
           title,
           description,
-          images: [`${SITE_BASE_PATH}/media/social/tessa-social.png`],
+          images: [socialImagePath],
         },
     icons: {
       icon: [

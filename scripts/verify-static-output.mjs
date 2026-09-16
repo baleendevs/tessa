@@ -207,12 +207,16 @@ const informationalRoutes = [
 
 for (const route of informationalRoutes) {
   const html = await readFile(resolve(outputRoot, route.file), "utf8");
+  const isItalian = !route.file.startsWith("en/") && route.file !== "en.html";
+  const expectedSocialImage = isItalian
+    ? `${SITE_URL}/img/tessa-social.jpg`
+    : `${SITE_URL}/img/tessa-social-en.jpg`;
   const expectedHeadValues = [
     `rel="canonical" href="${route.canonical}"`,
     `hrefLang="it" href="${route.italian}"`,
     `hrefLang="en-GB" href="${route.english}"`,
     `hrefLang="x-default" href="${route.italian}"`,
-    `property="og:image" content="${SITE_URL}/media/social/tessa-social.png"`,
+    `property="og:image" content="${expectedSocialImage}"`,
     'property="og:image:width" content="1200"',
     'property="og:image:height" content="630"',
     'name="twitter:card" content="summary_large_image"',
@@ -272,13 +276,14 @@ if (
   fail("homepage does not contain the verified store destinations");
 }
 
-const socialImage = await readFile(resolve(outputRoot, "media/social/tessa-social.png"));
-if (
-  socialImage.subarray(1, 4).toString("ascii") !== "PNG" ||
-  socialImage.readUInt32BE(16) !== 1200 ||
-  socialImage.readUInt32BE(20) !== 630
-) {
-  fail("social image is not a 1200x630 PNG");
+const socialImageIt = await readFile(resolve(outputRoot, "img/tessa-social.jpg"));
+if (socialImageIt.subarray(0, 2).toString("hex") !== "ffd8") {
+  fail("Italian social image is not a valid JPEG");
+}
+
+const socialImageEn = await readFile(resolve(outputRoot, "img/tessa-social-en.jpg"));
+if (socialImageEn.subarray(0, 2).toString("hex") !== "ffd8") {
+  fail("English social image is not a valid JPEG");
 }
 
 const sitemap = await readFile(resolve(outputRoot, "sitemap.xml"), "utf8");
