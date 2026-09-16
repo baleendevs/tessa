@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://baleendevs.github.io/tessa/</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://baleendevs.github.io/tessa/" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://baleendevs.github.io/tessa/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://baleendevs.github.io/tessa/" />
+  </url>
+  <url>
+    <loc>https://baleendevs.github.io/tessa/en/</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://baleendevs.github.io/tessa/" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://baleendevs.github.io/tessa/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://baleendevs.github.io/tessa/" />
+  </url>
+  <url>
+    <loc>https://baleendevs.github.io/tessa/terms</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://baleendevs.github.io/tessa/terms" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://baleendevs.github.io/tessa/en/terms" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://baleendevs.github.io/tessa/terms" />
+  </url>
+  <url>
+    <loc>https://baleendevs.github.io/tessa/en/terms</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://baleendevs.github.io/tessa/terms" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://baleendevs.github.io/tessa/en/terms" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://baleendevs.github.io/tessa/terms" />
+  </url>
+  <url>
+    <loc>https://baleendevs.github.io/tessa/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://baleendevs.github.io/tessa/privacy" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://baleendevs.github.io/tessa/en/privacy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://baleendevs.github.io/tessa/privacy" />
+  </url>
+  <url>
+    <loc>https://baleendevs.github.io/tessa/en/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://baleendevs.github.io/tessa/privacy" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://baleendevs.github.io/tessa/en/privacy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://baleendevs.github.io/tessa/privacy" />
+  </url>
+</urlset>

@@ -1,0 +1,111 @@
+import type { ReactNode } from "react";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { getDictionary } from "@/content/dictionaries";
+import { legalDocumentsByLocale, type LegalBlock } from "@/content/legal";
+import type { Locale, RouteKey } from "@/lib/site";
+
+type LegalFoundationProps = {
+  locale: Locale;
+  route: Extract<RouteKey, "terms" | "privacy">;
+};
+
+function renderBlock(block: LegalBlock, key: number): ReactNode {
+  if (block.type === "paragraph") return <p key={key}>{block.text}</p>;
+
+  if (block.type === "list") {
+    return (
+      <ul key={key}>
+        {block.items.map((item) => <li key={item}>{item}</li>)}
+      </ul>
+    );
+  }
+
+  if (block.type === "links") {
+    return (
+      <ul key={key}>
+        {block.items.map((item) => (
+          <li key={item.url}>
+            <a href={item.url} rel="noopener noreferrer" target="_blank">
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  return (
+    <p key={key}>
+      {block.before}
+      <a href={block.links[0].url} rel="noopener noreferrer" target="_blank">
+        {block.links[0].label}
+      </a>
+      {block.links[1] ? (
+        <>
+          {block.between}
+          <a href={block.links[1].url} rel="noopener noreferrer" target="_blank">
+            {block.links[1].label}
+          </a>
+        </>
+      ) : null}
+    </p>
+  );
+}
+
+export function LegalFoundation({ locale, route }: LegalFoundationProps) {
+  const dictionary = getDictionary(locale);
+  const document = legalDocumentsByLocale[locale][route];
+  const title = route === "terms"
+    ? dictionary.legal.termsTitle
+    : dictionary.legal.privacyTitle;
+  const effectiveDate = new Intl.DateTimeFormat(locale === "it" ? "it-IT" : "en-GB", {
+    dateStyle: "long",
+    timeZone: "UTC",
+  }).format(new Date(`${document.effectiveDate}T00:00:00Z`));
+
+  return (
+    <>
+      <SiteHeader dictionary={dictionary} locale={locale} route={route} />
+      <main
+        aria-labelledby="legal-page-title"
+        className="site-content-page legal-page"
+        id="main-content"
+        tabIndex={-1}
+      >
+        <header className="legal-page__hero">
+          <p className="eyebrow">{dictionary.legal.eyebrow}</p>
+          <h1 id="legal-page-title">{title}</h1>
+          <dl className="legal-page__meta">
+            <div>
+              <dt>{dictionary.legal.effectiveDateLabel}</dt>
+              <dd><time dateTime={document.effectiveDate}>{effectiveDate}</time></dd>
+            </div>
+          </dl>
+        </header>
+
+        <div className="legal-page__layout">
+          <nav className="legal-toc" aria-labelledby="legal-toc-title">
+            <p className="legal-toc__title" id="legal-toc-title">
+              {dictionary.legal.contentsLabel}
+            </p>
+            <ol>
+              {document.sections.map((section) => (
+                <li key={section.id}><a href={`#${section.id}`}>{section.title}</a></li>
+              ))}
+            </ol>
+          </nav>
+          <article className="legal-copy" lang={locale === "it" ? "it" : "en"}>
+            {document.sections.map((section) => (
+              <section id={section.id} key={section.id}>
+                <h2>{section.title}</h2>
+                {section.blocks.map(renderBlock)}
+              </section>
+            ))}
+          </article>
+        </div>
+      </main>
+      <SiteFooter currentRoute={route} dictionary={dictionary} locale={locale} />
+    </>
+  );
+}

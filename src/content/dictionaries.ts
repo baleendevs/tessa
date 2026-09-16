@@ -1,0 +1,612 @@
+import type { Locale } from "@/lib/site";
+
+type MarketingSection = {
+  eyebrow: string;
+  title: string;
+  description: string;
+};
+
+export type HomeContent = {
+  skipLink: string;
+  navigation: {
+    documents: string;
+    howItWorks: string;
+    sharing: string;
+    privacy: string;
+    faq: string;
+    download: string;
+    menu: string;
+    nextSection: string;
+    backToTop: string;
+  };
+  hero: MarketingSection & {
+    platformNote: string;
+    secondaryAction: string;
+    imageAlt: string;
+  };
+  wallet: MarketingSection & {
+    cards: Array<{ short: string; name: string; detail: string }>;
+    imageAlt: string;
+  };
+  access: MarketingSection & {
+    detailsLabel: string;
+    barcodeLabel: string;
+    detailsAlt: string;
+    barcodeAlt: string;
+  };
+  family: MarketingSection & {
+    imageAlt: string;
+  };
+  sharing: MarketingSection & {
+    qr: string;
+    link: string;
+    note: string;
+    imageAlt: string;
+  };
+  privacy: MarketingSection & {
+    local: string;
+    pin: string;
+    biometric: string;
+    settingsAlt: string;
+    pinAlt: string;
+  };
+  backup: MarketingSection & {
+    create: string;
+    manual: string;
+    encrypted: string;
+    restore: string;
+    restoreNote: string;
+  };
+  showcase: MarketingSection & {
+    walletLabel: string;
+    detailsLabel: string;
+    sharingLabel: string;
+    organiseLabel: string;
+    walletAlt: string;
+    detailsAlt: string;
+    sharingAlt: string;
+    organiseAlt: string;
+  };
+  faq: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    items: Array<{ question: string; answer: string }>;
+  };
+  finalCta: MarketingSection;
+  stores: {
+    googleAlt: string;
+    appleAlt: string;
+  };
+  footer: {
+    description: string;
+    product: string;
+    legal: string;
+    copyright: string;
+  };
+};
+
+export type Dictionary = {
+  localeName: string;
+  languageSwitchLabel: string;
+  navigation: {
+    home: string;
+    terms: string;
+    privacy: string;
+  };
+  theme: {
+    switchToDark: string;
+    switchToLight: string;
+  };
+  home: HomeContent;
+  share: {
+    eyebrow: string;
+    notice: string;
+    loading: string;
+    documentTypes: {
+      TS: string;
+      CIE: string;
+      P: string;
+    };
+    actionTitles: Record<"TS" | "CIE" | "P", string>;
+    actionDescriptions: Record<"TS" | "CIE" | "P", string>;
+    actionDescriptionsWithoutName: Record<"TS" | "CIE" | "P", string>;
+    states: {
+      missingTitle: string;
+      missingDescription: string;
+      malformedTitle: string;
+      malformedDescription: string;
+      tooLargeTitle: string;
+      tooLargeDescription: string;
+      unsupportedTitle: string;
+      unsupportedDescription: string;
+      legacyTitle: string;
+      legacyDescription: string;
+      backHome: string;
+    };
+    fieldLabels: {
+      fiscalCode: string;
+      surname: string;
+      givenName: string;
+      birthPlace: string;
+      birthProvince: string;
+      birthDate: string;
+      birthPlaceDate: string;
+      sex: string;
+      expiryDate: string;
+      issuingMunicipality: string;
+      serialNumber: string;
+      height: string;
+      nationality: string;
+      issueDate: string;
+      cardAccessNumber: string;
+      issuingAuthority: string;
+      licenceNumber: string;
+      categories: string;
+    };
+  };
+  legal: {
+    termsTitle: string;
+    privacyTitle: string;
+    eyebrow: string;
+    contentsLabel: string;
+    effectiveDateLabel: string;
+    backHome: string;
+  };
+  notFound: {
+    title: string;
+    description: string;
+    action: string;
+  };
+};
+
+export const dictionaries: Record<Locale, Dictionary> = {
+  it: {
+    localeName: "Italiano",
+    languageSwitchLabel: "Passa all'inglese",
+    navigation: {
+      home: "Home",
+      terms: "Condizioni d'uso",
+      privacy: "Privacy",
+    },
+    theme: {
+      switchToDark: "Passa al tema scuro",
+      switchToLight: "Passa al tema chiaro",
+    },
+    home: {
+      skipLink: "Vai al contenuto",
+      navigation: {
+        documents: "Documenti",
+        howItWorks: "Come funziona",
+        sharing: "Condivisione",
+        privacy: "Privacy",
+        faq: "FAQ",
+        download: "Scarica",
+        menu: "Menu",
+        nextSection: "Vai alla sezione successiva",
+        backToTop: "Torna all'inizio",
+      },
+      hero: {
+        eyebrow: "TesSa per Android e iOS",
+        title: "I tuoi documenti, sempre a portata di mano.",
+        description:
+          "TesSa è l'app per tenere insieme Tessera Sanitaria, CIE e patente di guida sul tuo dispositivo. Disponibile per Android e iOS.",
+        platformNote: "Nessun account necessario per organizzare il tuo portafoglio.",
+        secondaryAction: "Scopri come funziona",
+        imageAlt:
+          "Schermata reale di TesSa con Tessera Sanitaria, CIE e altri documenti nel portafoglio",
+      },
+      wallet: {
+        eyebrow: "Il tuo portafoglio",
+        title: "Un portafoglio. I documenti che usi davvero.",
+        description:
+          "Raccogli Tessera Sanitaria, CIE e patente di guida e ritrovale per persona o tipologia.",
+        cards: [
+          { short: "TS", name: "Tessera Sanitaria", detail: "Dati e codici a barre supportati" },
+          { short: "CIE", name: "Carta d'Identità Elettronica", detail: "Dettagli personali essenziali" },
+          { short: "B", name: "Patente di guida", detail: "Categorie e scadenze" },
+        ],
+        imageAlt: "Vista compatta reale del portafoglio TesSa con documenti di più persone",
+      },
+      access: {
+        eyebrow: "Pronto all'uso",
+        title: "Quello che ti serve, in pochi secondi.",
+        description:
+          "Apri i dati del documento e i codici a barre supportati senza cercare tra foto e appunti.",
+        detailsLabel: "Dettagli ordinati",
+        barcodeLabel: "Codici a barre a schermo intero",
+        detailsAlt: "Schermata reale con i dettagli ordinati di una Tessera Sanitaria",
+        barcodeAlt: "Schermata reale di TesSa che mostra un codice a barre a schermo intero",
+      },
+      family: {
+        eyebrow: "Più persone, un dispositivo",
+        title: "I tuoi documenti. E quelli della tua famiglia.",
+        description:
+          "Organizza sullo stesso dispositivo i documenti di più persone e trova subito quello che serve.",
+        imageAlt: "Schermata reale del portafoglio TesSa organizzato per più persone",
+      },
+      sharing: {
+        eyebrow: "Un gesto intenzionale",
+        title: "Condividi quando lo decidi tu.",
+        description:
+          "Avvia da TesSa il trasferimento di una tessera tramite codice QR o link.",
+        qr: "Codice QR",
+        link: "Link",
+        note: "La condivisione parte sempre da una tua azione nell'app.",
+        imageAlt: "Schermata reale di TesSa con il codice QR per condividere una tessera",
+      },
+      privacy: {
+        eyebrow: "Locale per scelta",
+        title: "I dati del portafoglio restano sul tuo dispositivo.",
+        description:
+          "TesSa memorizza localmente i dati dei documenti e non usa un cloud proprietario per conservare il tuo portafoglio. Puoi proteggere l'accesso con PIN o biometria.",
+        local: "Memorizzazione locale",
+        pin: "PIN facoltativo",
+        biometric: "Accesso biometrico",
+        settingsAlt: "Schermata reale delle impostazioni TesSa con PIN, biometria e backup",
+        pinAlt: "Schermata reale di accesso a TesSa protetto da PIN e impronta digitale",
+      },
+      backup: {
+        eyebrow: "Continuità sotto il tuo controllo",
+        title: "Il tuo portafoglio, pronto a seguirti.",
+        description:
+          "Crea un backup cifrato, esportalo dove preferisci e ripristinalo quando serve. Backup e ripristino sono disponibili gratuitamente.",
+        create: "Creazione del backup",
+        manual: "Esportazione manuale",
+        encrypted: "File cifrato nell'app",
+        restore: "Ripristino quando serve",
+        restoreNote:
+          "Il ripristino sostituisce il portafoglio corrente solo dopo la tua conferma.",
+      },
+      showcase: {
+        eyebrow: "Il prodotto, davvero",
+        title: "TesSa, nei gesti di ogni giorno.",
+        description:
+          "Cerca, consulta, condividi e gestisci i tuoi documenti con un'interfaccia semplice e riconoscibile.",
+        walletLabel: "Cerca e filtra",
+        detailsLabel: "Consulta i dettagli",
+        sharingLabel: "Condividi con QR o link",
+        organiseLabel: "Aggiungi ciò che serve",
+        walletAlt: "Portafoglio reale TesSa con ricerca e filtri per tipo di documento",
+        detailsAlt: "Dettaglio reale di un documento in TesSa",
+        sharingAlt: "Pannello reale di condivisione tramite codice QR in TesSa",
+        organiseAlt: "Menu reale di TesSa per aggiungere un documento",
+      },
+      faq: {
+        eyebrow: "Domande frequenti",
+        title: "Prima di mettere tutto in ordine.",
+        description: "Risposte chiare alle domande più comuni su TesSa.",
+        items: [
+          { question: "Quali documenti posso aggiungere a TesSa?", answer: "TesSa supporta Tessera Sanitaria, Carta d'Identità Elettronica (CIE) e patente di guida." },
+          { question: "Posso organizzare i documenti di più persone?", answer: "Sì. Puoi tenere sullo stesso dispositivo i documenti di più persone, per esempio quelli dei tuoi familiari. TesSa non richiede la creazione di un account." },
+          { question: "Dove conserva TesSa i dati dei miei documenti?", answer: "I dati del tuo portafoglio sono memorizzati localmente sul dispositivo. TesSa non li salva su un proprio servizio cloud." },
+          { question: "Come condivido un documento tramite codice QR o link?", answer: "Apri il documento in TesSa e scegli di condividerlo tramite codice QR o link. La condivisione parte sempre da una tua azione nell'app." },
+          { question: "Cosa devo sapere sui link condivisi?", answer: "Il link contiene i dati del documento condiviso e non è cifrato né protetto da password. Chi riceve il link può visualizzare le informazioni condivise: invialo quindi solo alla persona giusta e trattalo come un documento personale." },
+          { question: "Come funzionano backup e ripristino?", answer: "TesSa ti permette gratuitamente di creare un file di backup cifrato del tuo portafoglio. Puoi poi esportarlo manualmente per conservarne una copia dove preferisci e, quando serve, utilizzarlo per ripristinare il portafoglio. Il ripristino sostituisce i dati attuali solo dopo la tua conferma." },
+          { question: "Dove trovo il backup che ho creato?", answer: "Quando crei un backup, il file rimane nello spazio interno di TesSa e non compare automaticamente tra i file del dispositivo. Per conservarne una copia fuori dall'app, usa la funzione di esportazione e scegli dove salvarlo o condividerlo." },
+          { question: "Come posso proteggere l'accesso ai miei documenti?", answer: "Puoi proteggere l'accesso a TesSa con un PIN e, sui dispositivi compatibili, utilizzare anche l'autenticazione biometrica." },
+          { question: "TesSa è un'app ufficiale della Pubblica Amministrazione?", answer: "No. TesSa è un'app indipendente e non è un'app ufficiale della Pubblica Amministrazione. Ti aiuta a organizzare e consultare i dati dei tuoi documenti, ma non sostituisce i documenti originali." },
+          { question: "Su quali dispositivi posso usare TesSa?", answer: "TesSa è disponibile per Android e iOS." },
+        ],
+      },
+      finalCta: {
+        eyebrow: "Pronta per Android e iOS",
+        title: "Metti ordine nei tuoi documenti.",
+        description: "Scarica TesSa per Android o iOS.",
+      },
+      stores: {
+        googleAlt: "Scarica TesSa da Google Play",
+        appleAlt: "Scarica TesSa dall'App Store",
+      },
+      footer: {
+        description: "Il portafoglio locale per i documenti personali che usi ogni giorno.",
+        product: "Prodotto",
+        legal: "Informazioni legali",
+        copyright: "Baleen Developers. Tutti i diritti riservati.",
+      },
+    },
+    share: {
+      eyebrow: "Documento condiviso",
+      notice:
+        "Questo link contiene i dati del documento mostrato. Condividilo solo con persone di cui ti fidi e trattalo come un documento personale.",
+      loading: "Lettura della tessera condivisa…",
+      documentTypes: {
+        TS: "Tessera Sanitaria",
+        CIE: "Carta d'Identità Elettronica",
+        P: "Patente di guida",
+      },
+      actionTitles: {
+        TS: "Aggiungi questa Tessera Sanitaria al tuo portafoglio",
+        CIE: "Aggiungi questa CIE al tuo portafoglio",
+        P: "Aggiungi questa patente al tuo portafoglio",
+      },
+      actionDescriptions: {
+        TS: "Hai ricevuto la Tessera Sanitaria di {name}. Scarica TesSa per aggiungerla direttamente al tuo portafoglio.",
+        CIE: "Hai ricevuto la Carta d'Identità Elettronica di {name}. Scarica TesSa per aggiungerla direttamente al tuo portafoglio.",
+        P: "Hai ricevuto la patente di guida di {name}. Scarica TesSa per aggiungerla direttamente al tuo portafoglio.",
+      },
+      actionDescriptionsWithoutName: {
+        TS: "Hai ricevuto una Tessera Sanitaria condivisa. Scarica TesSa per aggiungerla direttamente al tuo portafoglio.",
+        CIE: "Hai ricevuto una Carta d'Identità Elettronica condivisa. Scarica TesSa per aggiungerla direttamente al tuo portafoglio.",
+        P: "Hai ricevuto una patente di guida condivisa. Scarica TesSa per aggiungerla direttamente al tuo portafoglio.",
+      },
+      states: {
+        missingTitle: "Nessuna tessera condivisa",
+        missingDescription:
+          "Apri il link completo creato da TesSa per visualizzare una tessera.",
+        malformedTitle: "Non riusciamo a leggere questo link",
+        malformedDescription:
+          "Il link potrebbe essere incompleto o danneggiato. Chiedi a chi lo ha condiviso di generarne uno nuovo.",
+        tooLargeTitle: "Questo link non può essere aperto",
+        tooLargeDescription:
+          "La quantità di dati nel link supera i limiti previsti per una tessera TesSa.",
+        unsupportedTitle: "Documento non supportato",
+        unsupportedDescription:
+          "Questa versione dell'anteprima non riconosce il tipo di documento contenuto nel link.",
+        legacyTitle: "Contenuto legacy non disponibile",
+        legacyDescription:
+          "Questo tipo di contenuto precedente non può essere visualizzato in questa anteprima.",
+        backHome: "Torna al sito TesSa",
+      },
+      fieldLabels: {
+        fiscalCode: "Codice fiscale",
+        surname: "Cognome",
+        givenName: "Nome",
+        birthPlace: "Luogo di nascita",
+        birthProvince: "Provincia",
+        birthDate: "Data di nascita",
+        birthPlaceDate: "Luogo e data di nascita",
+        sex: "Sesso",
+        expiryDate: "Data di scadenza",
+        issuingMunicipality: "Comune di rilascio",
+        serialNumber: "Numero documento",
+        height: "Statura",
+        nationality: "Cittadinanza",
+        issueDate: "Data di rilascio",
+        cardAccessNumber: "Numero di accesso (CAN)",
+        issuingAuthority: "Rilasciata da",
+        licenceNumber: "Numero patente",
+        categories: "Categorie",
+      },
+    },
+    legal: {
+      termsTitle: "Condizioni d'uso",
+      privacyTitle: "Informativa sulla privacy",
+      eyebrow: "Informazioni legali",
+      contentsLabel: "In questa pagina",
+      effectiveDateLabel: "In vigore dal",
+      backHome: "Torna a TesSa",
+    },
+    notFound: {
+      title: "Pagina non trovata",
+      description: "La pagina richiesta non è disponibile.",
+      action: "Torna a TesSa",
+    },
+  },
+  en: {
+    localeName: "English",
+    languageSwitchLabel: "Switch to Italian",
+    navigation: {
+      home: "Home",
+      terms: "Terms of Use",
+      privacy: "Privacy",
+    },
+    theme: {
+      switchToDark: "Switch to dark theme",
+      switchToLight: "Switch to light theme",
+    },
+    home: {
+      skipLink: "Skip to content",
+      navigation: {
+        documents: "Documents",
+        howItWorks: "How it works",
+        sharing: "Sharing",
+        privacy: "Privacy",
+        faq: "FAQ",
+        download: "Download",
+        menu: "Menu",
+        nextSection: "Go to the next section",
+        backToTop: "Back to the top",
+      },
+      hero: {
+        eyebrow: "TesSa for Android and iOS",
+        title: "Your documents, ready when you need them.",
+        description:
+          "TesSa is the mobile app for keeping your Italian health card, CIE and driving licence together on your device. Available for Android and iOS.",
+        platformNote: "No account is needed to organise your wallet.",
+        secondaryAction: "See how it works",
+        imageAlt:
+          "Real TesSa screen showing an Italian health card, CIE and other documents in the wallet",
+      },
+      wallet: {
+        eyebrow: "Your wallet",
+        title: "One wallet. The documents you actually use.",
+        description:
+          "Bring together your Italian health card, CIE and driving licence, then find them by person or type.",
+        cards: [
+          { short: "TS", name: "Italian health card", detail: "Details and supported barcodes" },
+          { short: "CIE", name: "Electronic Identity Card", detail: "Essential personal details" },
+          { short: "B", name: "Driving licence", detail: "Categories and expiry dates" },
+        ],
+        imageAlt: "Real compact TesSa wallet view showing documents for several people",
+      },
+      access: {
+        eyebrow: "Ready to use",
+        title: "What you need, in seconds.",
+        description:
+          "Open document details and supported barcodes without searching through photos and notes.",
+        detailsLabel: "Organised details",
+        barcodeLabel: "Full-screen barcodes",
+        detailsAlt: "Real screen showing organised Italian health card details in TesSa",
+        barcodeAlt: "Real TesSa screen showing a barcode at full size",
+      },
+      family: {
+        eyebrow: "Several people, one device",
+        title: "Your documents. And your family's.",
+        description:
+          "Organise documents for several people on the same device and find the right one quickly.",
+        imageAlt: "Real TesSa wallet screen organised for several people",
+      },
+      sharing: {
+        eyebrow: "A deliberate action",
+        title: "Share when you choose.",
+        description:
+          "Start a card transfer from TesSa using a QR code or link.",
+        qr: "QR code",
+        link: "Link",
+        note: "Sharing always starts with an action you take in the app.",
+        imageAlt: "Real TesSa screen showing a QR code used to share a card",
+      },
+      privacy: {
+        eyebrow: "Local by design",
+        title: "Your document records stay on your device.",
+        description:
+          "TesSa stores document records locally and does not use a proprietary cloud service to hold your wallet. You can protect access with a PIN or biometrics.",
+        local: "Local storage",
+        pin: "Optional PIN",
+        biometric: "Biometric access",
+        settingsAlt: "Real TesSa settings screen showing PIN, biometrics and backup",
+        pinAlt: "Real TesSa access screen protected by PIN and fingerprint",
+      },
+      backup: {
+        eyebrow: "Continuity on your terms",
+        title: "Take your wallet with you.",
+        description:
+          "Create an encrypted backup, export it wherever you choose and restore it when needed. Backup and restore are available free to everyone.",
+        create: "Create a backup",
+        manual: "Manual export",
+        encrypted: "Encrypted file stored in TesSa",
+        restore: "Restore when needed",
+        restoreNote:
+          "Restoring replaces the current wallet only after you confirm it.",
+      },
+      showcase: {
+        eyebrow: "The real product",
+        title: "TesSa in everyday use.",
+        description:
+          "Find, view, share and manage documents through a clear, familiar interface.",
+        walletLabel: "Search and filter",
+        detailsLabel: "View the details",
+        sharingLabel: "Share by QR code or link",
+        organiseLabel: "Add what you need",
+        walletAlt: "Real TesSa wallet with search and document-type filters",
+        detailsAlt: "Real document detail view in TesSa",
+        sharingAlt: "Real TesSa sharing panel with a QR code",
+        organiseAlt: "Real TesSa menu for adding a document",
+      },
+      faq: {
+        eyebrow: "Frequently asked questions",
+        title: "Before you bring everything together.",
+        description: "Clear answers to common questions about TesSa.",
+        items: [
+          { question: "Which documents can I add to TesSa?", answer: "TesSa supports the Italian health card, Electronic Identity Card (CIE) and driving licence." },
+          { question: "Can I organise documents for more than one person?", answer: "Yes. You can keep documents for several people on the same device, for example members of your family. TesSa does not require you to create an account." },
+          { question: "Where does TesSa store my document data?", answer: "Your wallet data is stored locally on your device. TesSa does not store it on its own cloud service." },
+          { question: "How do I share a document using a QR code or link?", answer: "Open the document in TesSa and choose to share it using a QR code or link. Sharing always starts with an action you take in the app." },
+          { question: "What should I know about shared links?", answer: "The link contains the data from the shared document and is not encrypted or password-protected. Anyone who receives the link can view the shared information, so send it only to the intended person and treat it like a personal document." },
+          { question: "How do backup and restore work?", answer: "TesSa lets you create an encrypted backup file of your wallet free of charge. You can then export it manually to keep a copy wherever you prefer and use it to restore your wallet when needed. Restoring replaces your current data only after you confirm." },
+          { question: "Where can I find the backup I created?", answer: "When you create a backup, the file remains in TesSa's internal app storage and does not automatically appear among the files on your device. To keep a copy outside the app, use the export function and choose where to save or share it." },
+          { question: "How can I protect access to my documents?", answer: "You can protect access to TesSa with a PIN and, on compatible devices, also use biometric authentication." },
+          { question: "Is TesSa an official Public Administration app?", answer: "No. TesSa is an independent app and is not an official Public Administration app. It helps you organise and view your document data, but it does not replace the original documents." },
+          { question: "Which devices can I use TesSa on?", answer: "TesSa is available for Android and iOS." },
+        ],
+      },
+      finalCta: {
+        eyebrow: "Ready for Android and iOS",
+        title: "Bring your documents together.",
+        description: "Download TesSa for Android or iOS.",
+      },
+      stores: {
+        googleAlt: "Get TesSa on Google Play",
+        appleAlt: "Download TesSa on the App Store",
+      },
+      footer: {
+        description: "The local-first wallet for the personal documents you use every day.",
+        product: "Product",
+        legal: "Legal information",
+        copyright: "Baleen Developers. All rights reserved.",
+      },
+    },
+    share: {
+      eyebrow: "Shared document",
+      notice:
+        "This link contains the document data shown here. Share it only with people you trust and treat it like a personal document.",
+      loading: "Reading the shared card…",
+      documentTypes: {
+        TS: "Italian health card",
+        CIE: "Electronic Identity Card (CIE)",
+        P: "Driving licence",
+      },
+      actionTitles: {
+        TS: "Add this Italian health card to your wallet",
+        CIE: "Add this CIE to your wallet",
+        P: "Add this driving licence to your wallet",
+      },
+      actionDescriptions: {
+        TS: "You received an Italian health card for {name}. Download TesSa to add it directly to your wallet.",
+        CIE: "You received an Electronic Identity Card (CIE) for {name}. Download TesSa to add it directly to your wallet.",
+        P: "You received a driving licence for {name}. Download TesSa to add it directly to your wallet.",
+      },
+      actionDescriptionsWithoutName: {
+        TS: "You received a shared Italian health card. Download TesSa to add it directly to your wallet.",
+        CIE: "You received a shared Electronic Identity Card (CIE). Download TesSa to add it directly to your wallet.",
+        P: "You received a shared driving licence. Download TesSa to add it directly to your wallet.",
+      },
+      states: {
+        missingTitle: "No shared card found",
+        missingDescription:
+          "Open the complete link created by TesSa to view a shared card.",
+        malformedTitle: "We can't read this link",
+        malformedDescription:
+          "The link may be incomplete or damaged. Ask the sender to create a new one.",
+        tooLargeTitle: "This link can't be opened",
+        tooLargeDescription:
+          "The link contains more data than a TesSa shared card is expected to contain.",
+        unsupportedTitle: "Unsupported document",
+        unsupportedDescription:
+          "This version of the preview does not recognise the document type in the link.",
+        legacyTitle: "Legacy content unavailable",
+        legacyDescription:
+          "This earlier content type cannot be displayed in this preview.",
+        backHome: "Return to the TesSa website",
+      },
+      fieldLabels: {
+        fiscalCode: "Tax code (Codice Fiscale)",
+        surname: "Surname",
+        givenName: "Given name",
+        birthPlace: "Place of birth",
+        birthProvince: "Province",
+        birthDate: "Date of birth",
+        birthPlaceDate: "Place and date of birth",
+        sex: "Sex",
+        expiryDate: "Expiry date",
+        issuingMunicipality: "Issuing municipality",
+        serialNumber: "Document number",
+        height: "Height",
+        nationality: "Nationality",
+        issueDate: "Issue date",
+        cardAccessNumber: "Card access number (CAN)",
+        issuingAuthority: "Issuing authority",
+        licenceNumber: "Licence number",
+        categories: "Categories",
+      },
+    },
+    legal: {
+      termsTitle: "Terms of Use",
+      privacyTitle: "Privacy Policy",
+      eyebrow: "Legal information",
+      contentsLabel: "On this page",
+      effectiveDateLabel: "Effective from",
+      backHome: "Return to TesSa",
+    },
+    notFound: {
+      title: "Page not found",
+      description: "The requested page is not available.",
+      action: "Return to TesSa",
+    },
+  },
+};
+
+export function getDictionary(locale: Locale): Dictionary {
+  return dictionaries[locale];
+}
