@@ -5,6 +5,11 @@ import {
   outputAliases,
   requiredOutputFiles,
 } from "./static-routes.mjs";
+import {
+  absoluteRoute,
+  SITE_BASE_PATH,
+  SITE_URL,
+} from "../src/lib/site.ts";
 
 const projectRoot = fileURLToPath(new URL("../", import.meta.url));
 const outputRoot = resolve(projectRoot, "out");
@@ -164,39 +169,39 @@ for (const file of ["index.html", "en.html", "en/index.html"]) {
 const informationalRoutes = [
   {
     file: "index.html",
-    canonical: "https://baleendevs.github.io/tessa/",
-    italian: "https://baleendevs.github.io/tessa/",
-    english: "https://baleendevs.github.io/tessa/en/",
+    canonical: absoluteRoute("it", "home"),
+    italian: absoluteRoute("it", "home"),
+    english: absoluteRoute("en", "home"),
   },
   {
     file: "en.html",
-    canonical: "https://baleendevs.github.io/tessa/en/",
-    italian: "https://baleendevs.github.io/tessa/",
-    english: "https://baleendevs.github.io/tessa/en/",
+    canonical: absoluteRoute("en", "home"),
+    italian: absoluteRoute("it", "home"),
+    english: absoluteRoute("en", "home"),
   },
   {
     file: "terms.html",
-    canonical: "https://baleendevs.github.io/tessa/terms",
-    italian: "https://baleendevs.github.io/tessa/terms",
-    english: "https://baleendevs.github.io/tessa/en/terms",
+    canonical: absoluteRoute("it", "terms"),
+    italian: absoluteRoute("it", "terms"),
+    english: absoluteRoute("en", "terms"),
   },
   {
     file: "en/terms.html",
-    canonical: "https://baleendevs.github.io/tessa/en/terms",
-    italian: "https://baleendevs.github.io/tessa/terms",
-    english: "https://baleendevs.github.io/tessa/en/terms",
+    canonical: absoluteRoute("en", "terms"),
+    italian: absoluteRoute("it", "terms"),
+    english: absoluteRoute("en", "terms"),
   },
   {
     file: "privacy.html",
-    canonical: "https://baleendevs.github.io/tessa/privacy",
-    italian: "https://baleendevs.github.io/tessa/privacy",
-    english: "https://baleendevs.github.io/tessa/en/privacy",
+    canonical: absoluteRoute("it", "privacy"),
+    italian: absoluteRoute("it", "privacy"),
+    english: absoluteRoute("en", "privacy"),
   },
   {
     file: "en/privacy.html",
-    canonical: "https://baleendevs.github.io/tessa/en/privacy",
-    italian: "https://baleendevs.github.io/tessa/privacy",
-    english: "https://baleendevs.github.io/tessa/en/privacy",
+    canonical: absoluteRoute("en", "privacy"),
+    italian: absoluteRoute("it", "privacy"),
+    english: absoluteRoute("en", "privacy"),
   },
 ];
 
@@ -207,11 +212,11 @@ for (const route of informationalRoutes) {
     `hrefLang="it" href="${route.italian}"`,
     `hrefLang="en-GB" href="${route.english}"`,
     `hrefLang="x-default" href="${route.italian}"`,
-    'property="og:image" content="https://baleendevs.github.io/tessa/media/social/tessa-social.png"',
+    `property="og:image" content="${SITE_URL}/media/social/tessa-social.png"`,
     'property="og:image:width" content="1200"',
     'property="og:image:height" content="630"',
     'name="twitter:card" content="summary_large_image"',
-    'href="/tessa/icons/site.webmanifest"',
+    `href="${SITE_BASE_PATH}/icons/site.webmanifest"`,
   ];
   for (const expected of expectedHeadValues) {
     if (!html.includes(expected)) fail(`${route.file} is missing metadata: ${expected}`);
@@ -289,9 +294,9 @@ if ((sitemap.match(/hreflang="x-default"/g) ?? []).length !== 6) {
 
 const robots = await readFile(resolve(outputRoot, "robots.txt"), "utf8");
 for (const directive of [
-  "Disallow: /tessa/share",
-  "Disallow: /tessa/en/share",
-  "Sitemap: https://baleendevs.github.io/tessa/sitemap.xml",
+  `Disallow: ${SITE_BASE_PATH}/share`,
+  `Disallow: ${SITE_BASE_PATH}/en/share`,
+  `Sitemap: ${SITE_URL}/sitemap.xml`,
 ]) {
   if (!robots.includes(directive)) fail(`robots.txt is missing ${directive}`);
 }
@@ -300,8 +305,8 @@ const manifest = JSON.parse(
   await readFile(resolve(outputRoot, "icons/site.webmanifest"), "utf8"),
 );
 if (
-  manifest.start_url !== "/tessa/" ||
-  manifest.scope !== "/tessa/" ||
+  manifest.start_url !== `${SITE_BASE_PATH}/` ||
+  manifest.scope !== `${SITE_BASE_PATH}/` ||
   manifest.display !== "browser"
 ) {
   fail("web manifest is not scoped to the static GitHub Pages base path");
@@ -311,14 +316,14 @@ const browserConfig = await readFile(
   resolve(outputRoot, "icons/browserconfig.xml"),
   "utf8",
 );
-if (!browserConfig.includes('src="/tessa/icons/mstile-150x150.png"')) {
+if (!browserConfig.includes(`src="${SITE_BASE_PATH}/icons/mstile-150x150.png"`)) {
   fail("browserconfig.xml does not use the /tessa base path for its tile icon");
 }
 
 const notFound = await readFile(resolve(outputRoot, "404.html"), "utf8");
 for (const expected of [
   'name="robots" content="noindex, nofollow"',
-  'href="/tessa/"',
+  `href="${SITE_BASE_PATH}/"`,
   "Pagina non trovata",
   "TesSa · 404",
 ]) {

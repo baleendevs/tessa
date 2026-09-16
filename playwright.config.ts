@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { SITE_BASE_PATH } from "./src/lib/site";
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -12,7 +13,7 @@ export default defineConfig({
   },
   webServer: {
     command: "node scripts/serve-static.mjs",
-    url: "http://127.0.0.1:4173/tessa/",
+    url: `http://127.0.0.1:4173${SITE_BASE_PATH}/`,
     reuseExistingServer: !process.env.CI,
   },
   projects: [

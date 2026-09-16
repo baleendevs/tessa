@@ -50,7 +50,43 @@ function Field({ name, value }: { name: string; value: string | null }) {
   );
 }
 
+function AccessibleFieldList({
+  fields,
+}: {
+  fields: Array<{ label: string; value: string | null }>;
+}) {
+  const activeFields = fields.filter(
+    (field): field is { label: string; value: string } => Boolean(field.value),
+  );
+
+  return (
+    <dl
+      className="sr-only"
+      data-testid="accessible-document-fields"
+    >
+      {activeFields.map((field) => (
+        <div key={field.label}>
+          <dt>{field.label}</dt>
+          <dd>{field.value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 function HealthCardPreview({ card, dictionary }: PreviewProps<SharedHealthCard>) {
+  const labels = dictionary.share.fieldLabels;
+  const fields = [
+    { label: labels.fiscalCode, value: previewValue(card.fiscalCode) },
+    { label: labels.surname, value: previewValue(card.surname) },
+    { label: labels.givenName, value: previewValue(card.givenName) },
+    { label: labels.birthPlace, value: previewValue(card.birthPlace) },
+    { label: labels.birthProvince, value: previewValue(card.birthProvince) },
+    { label: labels.birthDate, value: previewValue(card.birthDate) },
+    { label: labels.sex, value: previewValue(card.sex) },
+    { label: labels.expiryDate, value: previewValue(card.expiryDate) },
+  ];
+
   return (
     <article
       aria-label={accessibleDocumentName(card, dictionary.share.documentTypes.TS)}
@@ -69,6 +105,7 @@ function HealthCardPreview({ card, dictionary }: PreviewProps<SharedHealthCard>)
         <Field name="sex" value={previewValue(card.sex)} />
         <Field name="expiry-date" value={previewValue(card.expiryDate)} />
       </div>
+      <AccessibleFieldList fields={fields} />
     </article>
   );
 }
@@ -77,12 +114,26 @@ function IdentityCardPreview({
   card,
   dictionary,
 }: PreviewProps<SharedIdentityCard>) {
+  const labels = dictionary.share.fieldLabels;
   const birth = [previewValue(card.birthPlace), previewValue(card.birthProvince) ? `(${previewValue(card.birthProvince)})` : null, previewValue(card.birthDate)]
     .filter(Boolean)
     .join(" ");
   const artwork = card.sex.trim().toUpperCase() === "F"
     ? "/img/cie_card_bg_female.jpg"
     : "/img/cie_card_bg_male.jpg";
+  const fields = [
+    { label: labels.issuingMunicipality, value: previewValue(card.issuingMunicipality) },
+    { label: labels.serialNumber, value: previewValue(card.serialNumber) },
+    { label: labels.surname, value: previewValue(card.surname) },
+    { label: labels.givenName, value: previewValue(card.givenName) },
+    { label: labels.birthPlaceDate, value: birth || null },
+    { label: labels.sex, value: previewValue(card.sex) },
+    { label: labels.height, value: previewValue(card.height) },
+    { label: labels.nationality, value: previewValue(card.nationality) },
+    { label: labels.issueDate, value: previewValue(card.issueDate) },
+    { label: labels.expiryDate, value: previewValue(card.expiryDate) },
+    { label: labels.cardAccessNumber, value: previewValue(card.cardAccessNumber) },
+  ];
 
   return (
     <article
@@ -105,6 +156,7 @@ function IdentityCardPreview({
         <Field name="expiry-date" value={previewValue(card.expiryDate)} />
         <Field name="access-number" value={previewValue(card.cardAccessNumber)} />
       </div>
+      <AccessibleFieldList fields={fields} />
     </article>
   );
 }
@@ -113,6 +165,7 @@ function DrivingLicencePreview({
   card,
   dictionary,
 }: PreviewProps<SharedDrivingLicence>) {
+  const labels = dictionary.share.fieldLabels;
   const birth = [previewValue(card.birthDate), previewValue(card.birthPlace), previewValue(card.birthProvince) ? `(${previewValue(card.birthProvince)})` : null]
     .filter(Boolean)
     .join("     ");
@@ -120,6 +173,16 @@ function DrivingLicencePreview({
     .map((category) => previewValue(category.type))
     .filter(Boolean)
     .join(" ");
+  const fields = [
+    { label: labels.surname, value: previewValue(card.surname) },
+    { label: labels.givenName, value: previewValue(card.givenName) },
+    { label: labels.birthPlaceDate, value: birth || null },
+    { label: labels.issueDate, value: previewValue(card.issueDate) },
+    { label: labels.issuingAuthority, value: previewValue(card.issuingAuthority) },
+    { label: labels.expiryDate, value: previewValue(card.expiryDate) },
+    { label: labels.licenceNumber, value: previewValue(card.licenceNumber) },
+    { label: labels.categories, value: categories || null },
+  ];
 
   return (
     <article
@@ -139,6 +202,7 @@ function DrivingLicencePreview({
         <Field name="document-number" value={previewValue(card.licenceNumber)} />
         <Field name="categories" value={categories || null} />
       </div>
+      <AccessibleFieldList fields={fields} />
     </article>
   );
 }

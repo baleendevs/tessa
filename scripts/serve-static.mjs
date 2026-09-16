@@ -3,10 +3,11 @@ import { access, stat } from "node:fs/promises";
 import { createServer } from "node:http";
 import { extname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+import { SITE_BASE_PATH } from "../src/lib/site.ts";
 
 const projectRoot = fileURLToPath(new URL("../", import.meta.url));
 const outputRoot = resolve(projectRoot, "out");
-const basePath = "/tessa";
+const basePath = SITE_BASE_PATH;
 const port = 4173;
 
 const contentTypes = {

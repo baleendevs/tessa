@@ -23,6 +23,9 @@ describe("localisation foundation", () => {
     expect(Object.keys(dictionaries.it.share.states)).toEqual(
       Object.keys(dictionaries.en.share.states),
     );
+    expect(Object.keys(dictionaries.it.share.fieldLabels)).toEqual(
+      Object.keys(dictionaries.en.share.fieldLabels),
+    );
     expect(Object.keys(dictionaries.it.home)).toEqual(
       Object.keys(dictionaries.en.home),
     );

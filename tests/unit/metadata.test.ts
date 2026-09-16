@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createPageMetadata } from "../../src/lib/metadata";
-import { APP_STORE_URL, GOOGLE_PLAY_URL } from "../../src/lib/site";
+import { APP_STORE_URL, GOOGLE_PLAY_URL, SITE_BASE_PATH, SITE_URL } from "../../src/lib/site";
 
 describe("public metadata", () => {
   it("creates canonical and reciprocal locale metadata", () => {
@@ -12,14 +12,14 @@ describe("public metadata", () => {
     });
 
     expect(metadata.alternates).toEqual({
-      canonical: "https://baleendevs.github.io/tessa/en/privacy",
+      canonical: `${SITE_URL}/en/privacy`,
       languages: {
-        it: "https://baleendevs.github.io/tessa/privacy",
-        "en-GB": "https://baleendevs.github.io/tessa/en/privacy",
-        "x-default": "https://baleendevs.github.io/tessa/privacy",
+        it: `${SITE_URL}/privacy`,
+        "en-GB": `${SITE_URL}/en/privacy`,
+        "x-default": `${SITE_URL}/privacy`,
       },
     });
-    expect(metadata.manifest).toBe("/tessa/icons/site.webmanifest");
+    expect(metadata.manifest).toBe(`${SITE_BASE_PATH}/icons/site.webmanifest`);
   });
 
   it("keeps share metadata private, generic and manifest-free", () => {

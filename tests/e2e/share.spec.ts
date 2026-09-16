@@ -62,7 +62,7 @@ test("renders current and legacy document shapes", async ({ page }) => {
 
   await page.goto(`/tessa/share?card=${encodeFixture(drivingLicence)}`);
   await expect(page.getByText(drivingLicence.rD).last()).toBeVisible();
-  await expect(page.getByText("B AM", { exact: true })).toBeVisible();
+  await expect(page.getByText("B AM", { exact: true }).first()).toBeVisible();
 });
 
 test("renders UTF-8 text and repairs query-decoded plus signs", async ({
@@ -249,6 +249,17 @@ test("uses one import-focused CTA without a duplicated details panel", async ({ 
   await expect(page.locator(".store-badges a")).toHaveCount(2);
   await expect(page.locator("body")).not.toContainText("Dettagli condivisi");
   await expect(page.locator("body")).not.toContainText("Porta i tuoi documenti con te");
+});
+
+test("exposes document fields to assistive technologies via an accessible definition list", async ({ page }) => {
+  await page.goto(`/tessa/share?card=${healthCardPayload}`);
+
+  const details = page.getByTestId("accessible-document-fields");
+  await expect(details).toHaveClass(/sr-only/);
+  await expect(details.getByText("TSTPLA80A01H000X")).toBeAttached();
+  await expect(details.getByText("PAOLA")).toBeAttached();
+  await expect(details.getByText("ESEMPIO")).toBeAttached();
+  await expect(details.getByText("31/12/2030")).toBeAttached();
 });
 
 test("keeps document artwork unchanged across light and dark themes", async ({ page }) => {

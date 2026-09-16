@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import { italianPrivacyDocument } from "./privacy-it";
 
 export { italianPrivacyDocument };
@@ -87,7 +88,7 @@ export const termsDocument: LegalDocument = {
       blocks: [
         {
           type: "paragraph",
-          text: "These Terms of Use govern the TesSa: tessere e documenti mobile application (the “App”), the related website at https://baleendevs.github.io/tessa (the “Site”) and the features made available through them (together, the “Services”). The Services are made available by Carlo Andreotti, an independent individual developer operating under the name Baleen Developers, Via dei Boschi 30, 15072 Casal Cermelli (AL), Italy (“Baleen Developers”, “we”, “us” or “our”).",
+          text: `These Terms of Use govern the TesSa: tessere e documenti mobile application (the “App”), the related website at ${SITE_URL} (the “Site”) and the features made available through them (together, the “Services”). The Services are made available by Carlo Andreotti, an independent individual developer operating under the name Baleen Developers, Via dei Boschi 30, 15072 Casal Cermelli (AL), Italy (“Baleen Developers”, “we”, “us” or “our”).`,
         },
         {
           type: "paragraph",
@@ -240,7 +241,7 @@ export const termsDocument: LegalDocument = {
           items: [
             {
               label: "TesSa Privacy Policy",
-              url: "https://baleendevs.github.io/tessa/en/privacy",
+              url: `${SITE_URL}/en/privacy`,
             },
           ],
         },
@@ -356,7 +357,7 @@ export const privacyDocument: LegalDocument = {
       blocks: [
         {
           type: "paragraph",
-          text: "This Privacy Policy explains how personal data is processed in connection with the TesSa: tessere e documenti mobile application (the “App”), the related website at https://baleendevs.github.io/tessa (the “Site”) and the features made available through them (together, the “Services”).",
+          text: `This Privacy Policy explains how personal data is processed in connection with the TesSa: tessere e documenti mobile application (the “App”), the related website at ${SITE_URL} (the “Site”) and the features made available through them (together, the “Services”).`,
         },
         {
           type: "paragraph",
@@ -728,7 +729,7 @@ export const italianTermsDocument: LegalDocument = {
       blocks: [
         {
           type: "paragraph",
-          text: "Le presenti Condizioni d’uso disciplinano l’applicazione mobile TesSa: tessere e documenti (l’“App”), il sito collegato disponibile all’indirizzo https://baleendevs.github.io/tessa (il “Sito”) e le funzionalità offerte tramite essi (congiuntamente, i “Servizi”). I Servizi sono messi a disposizione da Carlo Andreotti, sviluppatore indipendente persona fisica operante con il nome Baleen Developers, Via dei Boschi 30, 15072 Casal Cermelli (AL), Italia (“Baleen Developers”, “noi”, “ci” o “nostro”).",
+          text: `Le presenti Condizioni d’uso disciplinano l’applicazione mobile TesSa: tessere e documenti (l’“App”), il sito collegato disponibile all’indirizzo ${SITE_URL} (il “Sito”) e le funzionalità offerte tramite essi (congiuntamente, i “Servizi”). I Servizi sono messi a disposizione da Carlo Andreotti, sviluppatore indipendente persona fisica operante con il nome Baleen Developers, Via dei Boschi 30, 15072 Casal Cermelli (AL), Italia (“Baleen Developers”, “noi”, “ci” o “nostro”).`,
         },
         {
           type: "paragraph",
@@ -881,7 +882,7 @@ export const italianTermsDocument: LegalDocument = {
           items: [
             {
               label: "Informativa sulla privacy di TesSa",
-              url: "https://baleendevs.github.io/tessa/privacy",
+              url: `${SITE_URL}/privacy`,
             },
           ],
         },

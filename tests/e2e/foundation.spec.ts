@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import type { Page } from "@playwright/test";
+import { SITE_BASE_PATH, SITE_URL } from "../../src/lib/site";
 
 async function setTheme(page: Page, theme: "light" | "dark") {
   if ((await page.locator("html").getAttribute("data-theme")) !== theme) {
@@ -391,19 +392,19 @@ test("keeps all localised legal pages responsive and their contents navigable", 
 
 test("publishes canonical, hreflang and social metadata", async ({ page }) => {
   const cases = [
-    ["/tessa/", "https://baleendevs.github.io/tessa/", "https://baleendevs.github.io/tessa/en/"],
-    ["/tessa/en/terms", "https://baleendevs.github.io/tessa/en/terms", "https://baleendevs.github.io/tessa/en/terms"],
-    ["/tessa/privacy", "https://baleendevs.github.io/tessa/privacy", "https://baleendevs.github.io/tessa/en/privacy"],
+    [`${SITE_BASE_PATH}/`, `${SITE_URL}/`, `${SITE_URL}/en/`],
+    [`${SITE_BASE_PATH}/en/terms`, `${SITE_URL}/en/terms`, `${SITE_URL}/en/terms`],
+    [`${SITE_BASE_PATH}/privacy`, `${SITE_URL}/privacy`, `${SITE_URL}/en/privacy`],
   ];
 
   for (const [path, canonical, english] of cases) {
     await page.goto(path);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", canonical);
     await expect(page.locator('link[rel="alternate"][hreflang="en-GB"]')).toHaveAttribute("href", english);
-    await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveAttribute("href", /\/tessa\//);
+    await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveAttribute("href", new RegExp(`${SITE_BASE_PATH}/`));
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
       "content",
-      "https://baleendevs.github.io/tessa/media/social/tessa-social.png",
+      `${SITE_URL}/media/social/tessa-social.png`,
     );
     await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
     await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "630");
@@ -430,14 +431,14 @@ test("publishes verified SoftwareApplication structured data", async ({ page }) 
 });
 
 test("keeps private share routes out of discovery files", async ({ request }) => {
-  const sitemap = await (await request.get("/tessa/sitemap.xml")).text();
-  expect(sitemap).toContain("https://baleendevs.github.io/tessa/en/privacy");
+  const sitemap = await (await request.get(`${SITE_BASE_PATH}/sitemap.xml`)).text();
+  expect(sitemap).toContain(`${SITE_URL}/en/privacy`);
   expect(sitemap).toContain('hreflang="x-default"');
   expect(sitemap).not.toContain("/share");
 
-  const robots = await (await request.get("/tessa/robots.txt")).text();
-  expect(robots).toContain("Disallow: /tessa/share");
-  expect(robots).toContain("Disallow: /tessa/en/share");
+  const robots = await (await request.get(`${SITE_BASE_PATH}/robots.txt`)).text();
+  expect(robots).toContain(`Disallow: ${SITE_BASE_PATH}/share`);
+  expect(robots).toContain(`Disallow: ${SITE_BASE_PATH}/en/share`);
 });
 
 test("serves a branded, base-path-safe and analytics-free 404", async ({ request }) => {

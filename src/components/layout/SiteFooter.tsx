@@ -49,7 +49,7 @@ export function SiteFooter({ currentRoute, dictionary, locale }: SiteFooterProps
           </nav>
         </div>
       </div>
-      <p className="site-footer__copyright">
+      <p className="site-footer__copyright" suppressHydrationWarning>
         © {new Date().getFullYear()} {home.footer.copyright}
       </p>
     </footer>

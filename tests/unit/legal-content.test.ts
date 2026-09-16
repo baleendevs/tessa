@@ -5,6 +5,7 @@ import {
   legalDocuments,
   type LegalDocument,
 } from "../../src/content/legal";
+import { SITE_URL } from "../../src/lib/site";
 
 function allText(route: keyof typeof legalDocuments): string {
   return legalDocuments[route].sections
@@ -91,7 +92,7 @@ describe("legal content", () => {
         .find((section) => section.id === "privacy")
         ?.blocks.find((block) => block.type === "links"),
     ).toMatchObject({
-      items: [{ url: "https://baleendevs.github.io/tessa/en/privacy" }],
+      items: [{ url: `${SITE_URL}/en/privacy` }],
     });
   });
 

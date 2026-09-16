@@ -124,6 +124,26 @@ export type Dictionary = {
       legacyDescription: string;
       backHome: string;
     };
+    fieldLabels: {
+      fiscalCode: string;
+      surname: string;
+      givenName: string;
+      birthPlace: string;
+      birthProvince: string;
+      birthDate: string;
+      birthPlaceDate: string;
+      sex: string;
+      expiryDate: string;
+      issuingMunicipality: string;
+      serialNumber: string;
+      height: string;
+      nationality: string;
+      issueDate: string;
+      cardAccessNumber: string;
+      issuingAuthority: string;
+      licenceNumber: string;
+      categories: string;
+    };
   };
   legal: {
     termsTitle: string;
@@ -328,6 +348,26 @@ export const dictionaries: Record<Locale, Dictionary> = {
           "Questo tipo di contenuto precedente non può essere visualizzato in questa anteprima.",
         backHome: "Torna al sito TesSa",
       },
+      fieldLabels: {
+        fiscalCode: "Codice fiscale",
+        surname: "Cognome",
+        givenName: "Nome",
+        birthPlace: "Luogo di nascita",
+        birthProvince: "Provincia",
+        birthDate: "Data di nascita",
+        birthPlaceDate: "Luogo e data di nascita",
+        sex: "Sesso",
+        expiryDate: "Data di scadenza",
+        issuingMunicipality: "Comune di rilascio",
+        serialNumber: "Numero documento",
+        height: "Statura",
+        nationality: "Cittadinanza",
+        issueDate: "Data di rilascio",
+        cardAccessNumber: "Numero di accesso (CAN)",
+        issuingAuthority: "Rilasciata da",
+        licenceNumber: "Numero patente",
+        categories: "Categorie",
+      },
     },
     legal: {
       termsTitle: "Condizioni d'uso",
@@ -529,6 +569,26 @@ export const dictionaries: Record<Locale, Dictionary> = {
         legacyDescription:
           "This earlier content type cannot be displayed in this preview.",
         backHome: "Return to the TesSa website",
+      },
+      fieldLabels: {
+        fiscalCode: "Tax code (Codice Fiscale)",
+        surname: "Surname",
+        givenName: "Given name",
+        birthPlace: "Place of birth",
+        birthProvince: "Province",
+        birthDate: "Date of birth",
+        birthPlaceDate: "Place and date of birth",
+        sex: "Sex",
+        expiryDate: "Expiry date",
+        issuingMunicipality: "Issuing municipality",
+        serialNumber: "Document number",
+        height: "Height",
+        nationality: "Nationality",
+        issueDate: "Issue date",
+        cardAccessNumber: "Card access number (CAN)",
+        issuingAuthority: "Issuing authority",
+        licenceNumber: "Licence number",
+        categories: "Categories",
       },
     },
     legal: {

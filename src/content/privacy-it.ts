@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { LegalDocument, LegalLink } from "./legal";
 
 const thirdPartyPrivacy: LegalLink[] = [
@@ -25,7 +26,7 @@ export const italianPrivacyDocument: LegalDocument = {
       blocks: [
         {
           type: "paragraph",
-          text: "La presente Informativa sulla privacy spiega come vengono trattati i dati personali in relazione all’applicazione mobile TesSa: tessere e documenti (l’“App”), al sito collegato disponibile all’indirizzo https://baleendevs.github.io/tessa (il “Sito”) e alle funzionalità offerte tramite essi (congiuntamente, i “Servizi”).",
+          text: `La presente Informativa sulla privacy spiega come vengono trattati i dati personali in relazione all’applicazione mobile TesSa: tessere e documenti (l’“App”), al sito collegato disponibile all’indirizzo ${SITE_URL} (il “Sito”) e alle funzionalità offerte tramite essi (congiuntamente, i “Servizi”).`,
         },
         {
           type: "paragraph",
