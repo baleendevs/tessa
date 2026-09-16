@@ -221,15 +221,15 @@ for (const route of informationalRoutes) {
   }
 }
 
-for (const { file, effectiveDateLabel } of [
-  { file: "terms.html", effectiveDateLabel: "In vigore dal" },
-  { file: "privacy.html", effectiveDateLabel: "In vigore dal" },
-  { file: "en/terms.html", effectiveDateLabel: "Effective from" },
-  { file: "en/privacy.html", effectiveDateLabel: "Effective from" },
+for (const { file, effectiveDate, effectiveDateLabel } of [
+  { file: "terms.html", effectiveDate: "2026-09-16", effectiveDateLabel: "In vigore dal" },
+  { file: "privacy.html", effectiveDate: "2020-09-30", effectiveDateLabel: "In vigore dal" },
+  { file: "en/terms.html", effectiveDate: "2026-09-16", effectiveDateLabel: "Effective from" },
+  { file: "en/privacy.html", effectiveDate: "2020-09-30", effectiveDateLabel: "Effective from" },
 ]) {
   const html = await readFile(resolve(outputRoot, file), "utf8");
-  if (!html.includes('dateTime="2020-09-30"')) {
-    fail(`${file} does not expose the existing effective date`);
+  if (!html.includes(`dateTime="${effectiveDate}"`)) {
+    fail(`${file} does not expose the expected effective date`);
   }
   if (!html.includes(effectiveDateLabel)) {
     fail(`${file} does not expose the localised effective-date label`);

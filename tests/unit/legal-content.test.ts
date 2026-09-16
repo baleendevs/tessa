@@ -51,7 +51,7 @@ function expectStructurallyAligned(
         expect(italianBlock.items).toHaveLength(englishBlock.items.length);
       }
       if (englishBlock.type === "links" && italianBlock.type === "links") {
-        expect(italianBlock.items).toEqual(englishBlock.items);
+        expect(italianBlock.items).toHaveLength(englishBlock.items.length);
       }
       if (
         englishBlock.type === "attribution" &&
@@ -63,23 +63,36 @@ function expectStructurallyAligned(
   });
 }
 
-describe("preserved legal source", () => {
-  it("keeps the existing effective dates", () => {
+describe("legal content", () => {
+  it("uses the publication date for the revised Terms and preserves the Privacy date", () => {
     expect(legalDocuments.terms).toMatchObject({
-      effectiveDate: "2020-09-30",
+      effectiveDate: "2026-09-16",
     });
     expect(legalDocuments.privacy).toMatchObject({
       effectiveDate: "2020-09-30",
     });
   });
 
-  it("preserves the material legacy Terms content and providers", () => {
+  it("describes the material TesSa features and safeguards in the revised Terms", () => {
     const text = allText("terms");
-    expect(text).toContain("By downloading or using the app, these terms will automatically apply to you");
-    expect(text).toContain("Baleen Developers accepts no liability for any loss, direct or indirect");
-    expect(text).toContain("These terms and conditions are effective as of 2020-09-30");
-    expect(text).toContain("baleendevs@gmail.com");
+    expect(text).toContain("operating under the name Baleen Developers");
+    expect(text).toContain("primarily stored locally on your device");
+    expect(text).toContain("it is not encrypted");
+    expect(text).toContain("one-time, non-consumable PRO in-app purchase");
+    expect(text).toContain("do not provide an account, cloud storage or cloud backup service");
+    expect(text).toContain("mandatory consumer law");
+    expect(text).toContain("provided on an “as is” and “as available” basis");
+    expect(text).toContain("death or personal injury caused by our act or omission");
+    expect(text).toContain("baleen.devs@gmail.com");
+    expect(text).toContain("Apple Standard End User License Agreement");
     expect(text).toContain("Google Analytics for Firebase");
+    expect(
+      legalDocuments.terms.sections
+        .find((section) => section.id === "privacy")
+        ?.blocks.find((block) => block.type === "links"),
+    ).toMatchObject({
+      items: [{ url: "https://baleendevs.github.io/tessa/en/privacy" }],
+    });
   });
 
   it("preserves the material legacy Privacy content and disclosures", () => {
@@ -96,23 +109,29 @@ describe("preserved legal source", () => {
     expectStructurallyAligned(legalDocuments.privacy, italianPrivacyDocument);
   });
 
-  it("faithfully preserves dates, providers, contacts, and named services in Italian", () => {
+  it("provides the revised safeguards in Italian and preserves the Privacy disclosures", () => {
     const terms = documentText(italianTermsDocument);
     const privacy = documentText(italianPrivacyDocument);
 
-    expect(terms).toContain("Scaricando o utilizzando l'app");
-    expect(terms).toContain("perdite, dirette o indirette");
-    expect(terms).toContain("I presenti termini e condizioni sono in vigore dal 2020-09-30");
+    expect(terms).toContain("operante con il nome Baleen Developers");
+    expect(terms).toContain("conservate principalmente in locale sul tuo dispositivo");
+    expect(terms).toContain("non sono cifrati");
+    expect(terms).toContain("acquisto in-app PRO opzionale, una tantum e non consumabile");
+    expect(terms).toContain("normativa inderogabile a tutela dei consumatori");
+    expect(terms).toContain("forniti “così come sono” e “secondo disponibilità”");
+    expect(terms).toContain("morte o danni alla persona");
+    expect(terms).toContain("baleen.devs@gmail.com");
     expect(privacy).toContain("app supportata dalla pubblicità");
     expect(privacy).toContain("saranno conservate sul tuo dispositivo e non saranno raccolte da me");
     expect(privacy).toContain("La presente informativa è in vigore dal 2020-09-30");
 
     for (const text of [terms, privacy]) {
       expect(text).toContain("Baleen Developers");
-      expect(text).toContain("baleendevs@gmail.com");
       expect(text).toContain("Google Play Services");
       expect(text).toContain("AdMob");
       expect(text).toContain("Google Analytics for Firebase");
     }
+
+    expect(privacy).toContain("baleendevs@gmail.com");
   });
 });

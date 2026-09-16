@@ -59,7 +59,10 @@ export function LegalFoundation({ locale, route }: LegalFoundationProps) {
   const title = route === "terms"
     ? dictionary.legal.termsTitle
     : dictionary.legal.privacyTitle;
-  const effectiveDate = locale === "it" ? "30 settembre 2020" : "30 September 2020";
+  const effectiveDate = new Intl.DateTimeFormat(locale === "it" ? "it-IT" : "en-GB", {
+    dateStyle: "long",
+    timeZone: "UTC",
+  }).format(new Date(`${document.effectiveDate}T00:00:00Z`));
 
   return (
     <>

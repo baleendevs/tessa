@@ -29,6 +29,17 @@ const thirdPartyTerms: LegalLink[] = [
   },
 ];
 
+const storeTerms: LegalLink[] = [
+  {
+    label: "Apple Standard End User License Agreement",
+    url: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/",
+  },
+  {
+    label: "Google Play Terms of Service",
+    url: "https://play.google.com/about/play-terms/",
+  },
+];
+
 const thirdPartyPrivacy: LegalLink[] = [
   {
     label: "Google Play Services",
@@ -45,104 +56,268 @@ const thirdPartyPrivacy: LegalLink[] = [
 ];
 
 export const termsDocument: LegalDocument = {
-  effectiveDate: "2020-09-30",
+  effectiveDate: "2026-09-16",
   sections: [
     {
-      id: "terms-and-intellectual-property",
-      title: "Terms and intellectual property",
+      id: "operator-and-scope",
+      title: "Operator and scope",
       blocks: [
         {
           type: "paragraph",
-          text: "By downloading or using the app, these terms will automatically apply to you – you should make sure therefore that you read them carefully before using the app. You’re not allowed to copy, or modify the app, any part of the app, or our trademarks in any way. You’re not allowed to attempt to extract the source code of the app, and you also shouldn’t try to translate the app into other languages, or make derivative versions. The app itself, and all the trade marks, copyright, database rights and other intellectual property rights related to it, still belong to Baleen Developers.",
+          text: "These Terms of Use govern the TesSa: tessere e documenti mobile application (the “App”), the related website at https://baleendevs.github.io/tessa (the “Site”) and the features made available through them (together, the “Services”). The Services are made available by Carlo Andreotti, an independent individual developer operating under the name Baleen Developers, Via dei Boschi 30, 15072 Casal Cermelli (AL), Italy (“Baleen Developers”, “we”, “us” or “our”).",
         },
         {
           type: "paragraph",
-          text: "Baleen Developers is committed to ensuring that the app is as useful and efficient as possible. For that reason, we reserve the right to make changes to the app or to charge for its services, at any time and for any reason. We will never charge you for the app or its services without making it very clear to you exactly what you’re paying for.",
+          text: "By downloading, accessing or using the Services, you agree to these Terms. If you do not agree, do not use the Services. Any mandatory rights you have under applicable consumer law remain unaffected.",
+        },
+      ],
+    },
+    {
+      id: "eligibility",
+      title: "Eligibility",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "The Services are intended for users who are at least 18 years old. A person under 18 must not use the Services independently. An adult may use the App to manage information relating to a minor or another person only where the adult is legally authorised to do so.",
+        },
+      ],
+    },
+    {
+      id: "purpose-and-official-status",
+      title: "Purpose of the App and no official status",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "The App allows you to create, store and display digital representations of Italian health cards, identity documents, driving licences and other supported documents, and to scan or display barcodes and QR codes. TesSa is an independent application. It is not issued, operated, endorsed or approved by the Italian Government, the Ministry of Health, any public authority or any document issuer.",
         },
         {
           type: "paragraph",
-          text: "The TesSa app stores and processes personal data that you have provided to us, in order to provide my Service. It’s your responsibility to keep your phone and access to the app secure. We therefore recommend that you do not jailbreak or root your phone, which is the process of removing software restrictions and limitations imposed by the official operating system of your device. It could make your phone vulnerable to malware/viruses/malicious programs, compromise your phone’s security features and it could mean that the TesSa app won’t work properly or at all.",
+          text: "A digital representation, image, barcode or QR code displayed by the App does not replace the original document and may not be accepted by authorities, healthcare providers, businesses or other third parties. The App does not independently verify the authenticity, accuracy, validity, expiry date or legal status of information that you enter, import or scan. You are responsible for checking that information is correct and current, retaining the original document where required and complying with the rules governing its presentation and use.",
+        },
+        {
+          type: "paragraph",
+          text: "The App is a personal convenience tool only. It is not an identity, certification, healthcare, medical, legal, emergency or public-administration service. Do not rely on it where failure, unavailability or rejection of a digital representation could affect your health, safety, identity verification, access to treatment or public services, compliance with a deadline or exercise of a legal right. Always retain and use the original document or the relevant official channel when required.",
+        },
+      ],
+    },
+    {
+      id: "licence-and-intellectual-property",
+      title: "Licence and intellectual property",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "The App is licensed, not sold. Subject to these Terms and the applicable app-store rules, you receive a personal, limited, non-exclusive, non-transferable and revocable licence to use the App on devices that you own or control, solely for lawful personal use. For an App obtained through Apple’s App Store, Apple’s Standard End User License Agreement also applies. Your use of Google Play is subject to the Google Play Terms of Service.",
+        },
+        {
+          type: "paragraph",
+          text: "The App, Site, Baleen Developers and TesSa names and logos, visual design, text and other original materials are protected by intellectual-property laws and belong to us or our licensors. Except where applicable law or an open-source licence expressly permits it, you may not copy, modify, distribute, sell, sublicense, reverse engineer, decompile or create derivative works from the Services.",
+        },
+        { type: "links", items: storeTerms },
+      ],
+    },
+    {
+      id: "acceptable-use",
+      title: "Acceptable use",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "You must use the Services lawfully and must not:",
+        },
+        {
+          type: "list",
+          items: [
+            "create, store, display or share personal or document data unless you are authorised to do so;",
+            "use a digital representation or sharing link to impersonate another person, commit fraud or present it as an official or legally valid document;",
+            "infringe another person’s privacy, intellectual-property or other rights;",
+            "interfere with, damage, bypass or test the security of the Services, or introduce malicious code;",
+            "use the Services for any unlawful, harmful or misleading purpose.",
+          ],
+        },
+        {
+          type: "paragraph",
+          text: "To the extent permitted by law, you are responsible for reasonable losses and costs directly caused to us by your intentional, fraudulent or otherwise unlawful use of the Services, including substantiated third-party claims resulting from that use.",
+        },
+      ],
+    },
+    {
+      id: "local-storage-and-backups",
+      title: "Local storage, device security and backups",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Information, document images and digital representations created or imported in the App are primarily stored locally on your device. We do not provide an account, cloud storage or cloud backup service for this information. You are responsible for securing your device and access to the App, keeping sufficient storage available and exporting any backup you wish to retain before uninstalling the App, resetting the device or changing devices.",
+        },
+        {
+          type: "paragraph",
+          text: "Backup files may contain sensitive personal and document data. Once a backup is exported, copied, uploaded to a third-party service or otherwise shared outside the App, you are responsible for its security, storage, transmission and deletion. The App uses technical safeguards intended to protect locally stored data and backups, but no electronic storage or encryption method can be guaranteed to be completely secure. Rooting, jailbreaking or otherwise weakening the device’s security may compromise the App and its data.",
+        },
+        {
+          type: "paragraph",
+          text: "The App is not a backup, archival or disaster-recovery service. We cannot recover information that remains only on your device or in a backup controlled by you. You assume the risk of irreversible loss caused by deletion, uninstalling, device loss or damage, insufficient storage, operating-system actions, failed migration, a lost password or encryption key, or failure to keep an independent usable backup.",
+        },
+      ],
+    },
+    {
+      id: "sharing",
+      title: "Sharing links and third-party data",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "The App may let you generate and share links or QR codes containing selected document data. The selected data is encoded in the link for transmission, but it is not encrypted. Anyone who obtains the link may be able to read the information it contains. Links are not protected by a TesSa account or password and cannot be revoked through the App. Review the included information before sharing and send links only to trusted recipients through appropriate channels.",
+        },
+        {
+          type: "paragraph",
+          text: "You may create, store, display or share information relating to another person only where you are legally authorised to do so. You are responsible for obtaining any required permission and for complying with applicable law. We do not control how recipients, messaging services, browsers, cloud-storage providers or other third parties store, use or redistribute information after you choose to share it.",
+        },
+        {
+          type: "paragraph",
+          text: "Creating or sending a sharing link is a disclosure initiated by you. You assume the risks of choosing the wrong data, recipient or communication channel, forwarding by a recipient, interception, copying, screenshots, browser or messaging history and any later use of the information by persons who obtain the link.",
+        },
+      ],
+    },
+    {
+      id: "pro-purchase",
+      title: "TesSa PRO purchase",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "TesSa may offer an optional one-time, non-consumable PRO in-app purchase that removes advertising and unlocks additional features. It is not a subscription. The price and any applicable taxes are shown by Apple’s App Store or Google Play before purchase. The relevant store processes the payment; we do not directly collect your payment-card details.",
+        },
+        {
+          type: "paragraph",
+          text: "Purchase confirmation, restoration, cancellation and refund requests are handled under the rules and procedures of the store through which you purchased PRO. Access may depend on the store account used for the purchase and on the store’s restoration mechanisms. Nothing in these Terms limits any refund, conformity or other remedy available to you under mandatory consumer law.",
         },
       ],
     },
     {
       id: "third-party-services",
-      title: "Third-party services",
+      title: "Advertising and third-party services",
       blocks: [
         {
           type: "paragraph",
-          text: "The app does use third party services that declare their own Terms and Conditions.",
+          text: "The free version of the App may display advertising supplied by third parties. The App and Site also rely on third-party components or services, and may contain links to services that we do not control. Their own terms and privacy notices apply. We are responsible for our choice and integration of third-party components to the extent required by law, but we do not control independent third-party content, availability or practices.",
         },
         {
           type: "paragraph",
-          text: "Link to Terms and Conditions of third party service providers used by the app",
+          text: "Some features require an internet connection. Your network provider’s terms and charges, including roaming charges, may apply.",
         },
         { type: "links", items: thirdPartyTerms },
       ],
     },
     {
-      id: "connectivity-and-responsibility",
-      title: "Connectivity and responsibility",
+      id: "privacy",
+      title: "Privacy",
       blocks: [
         {
           type: "paragraph",
-          text: "You should be aware that there are certain things that Baleen Developers will not take responsibility for. Certain functions of the app will require the app to have an active internet connection. The connection can be Wi-Fi, or provided by your mobile network provider, but Baleen Developers cannot take responsibility for the app not working at full functionality if you don’t have access to Wi-Fi, and you don’t have any of your data allowance left.",
+          text: "Our Privacy Policy explains how personal data is processed when you use the App and Site. It also describes the distinction between information kept locally in the App and data processed by third-party services.",
         },
         {
-          type: "paragraph",
-          text: "If you’re using the app outside of an area with Wi-Fi, you should remember that your terms of the agreement with your mobile network provider will still apply. As a result, you may be charged by your mobile provider for the cost of data for the duration of the connection while accessing the app, or other third party charges. In using the app, you’re accepting responsibility for any such charges, including roaming data charges if you use the app outside of your home territory (i.e. region or country) without turning off data roaming. If you are not the bill payer for the device on which you’re using the app, please be aware that we assume that you have received permission from the bill payer for using the app.",
-        },
-        {
-          type: "paragraph",
-          text: "Along the same lines, Baleen Developers cannot always take responsibility for the way you use the app i.e. You need to make sure that your device stays charged – if it runs out of battery and you can’t turn it on to avail the Service, Baleen Developers cannot accept responsibility.",
-        },
-        {
-          type: "paragraph",
-          text: "With respect to Baleen Developers’s responsibility for your use of the app, when you’re using the app, it’s important to bear in mind that although we endeavour to ensure that it is updated and correct at all times, we do rely on third parties to provide information to us so that we can make it available to you. Baleen Developers accepts no liability for any loss, direct or indirect, you experience as a result of relying wholly on this functionality of the app.",
+          type: "links",
+          items: [
+            {
+              label: "TesSa Privacy Policy",
+              url: "https://baleendevs.github.io/tessa/en/privacy",
+            },
+          ],
         },
       ],
     },
     {
-      id: "updates-and-termination",
-      title: "Updates and termination",
+      id: "availability-and-updates",
+      title: "Availability, compatibility and updates",
       blocks: [
         {
           type: "paragraph",
-          text: "At some point, we may wish to update the app. The app is currently available on Android & iOS – the requirements for both systems(and for any additional systems we decide to extend the availability of the app to) may change, and you’ll need to download the updates if you want to keep using the app. Baleen Developers does not promise that it will always update the app so that it is relevant to you and/or works with the Android & iOS version that you have installed on your device. However, you promise to always accept updates to the application when offered to you, We may also wish to stop providing the app, and may terminate use of it at any time without giving notice of termination to you. Unless we tell you otherwise, upon any termination, (a) the rights and licenses granted to you in these terms will end; (b) you must stop using the app, and (if needed) delete it from your device.",
+          text: "We may maintain, correct, improve or change the Services and their technical requirements. We will provide updates, including security updates, where and for as long as required by applicable law. You should install updates made available through the relevant app store within a reasonable time. Where the law permits, we are not responsible for a problem caused solely by your failure to install an update after you were informed of its availability and the consequences of not installing it.",
+        },
+        {
+          type: "paragraph",
+          text: "We do not guarantee that every feature will remain compatible with every device or operating-system version, or that the Services will always be uninterrupted or error-free. We may suspend or discontinue all or part of the Services for legal, security, technical or commercial reasons, giving reasonable notice where practicable and respecting rights attached to purchases and other mandatory consumer rights.",
+        },
+        {
+          type: "paragraph",
+          text: "Availability may also be affected by app stores, operating-system providers, device manufacturers, network operators and events beyond our reasonable control. To the extent permitted by law, we are not responsible for delay, interruption or inability to perform caused by such events.",
+        },
+      ],
+    },
+    {
+      id: "responsibility",
+      title: "Responsibility",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "You are responsible for the information you enter or import, the people whose information you manage, the recipients you choose, the security and availability of your device and backups, and your compliance with applicable law. Do not rely on the App as the sole place where you keep information or as a substitute for an original document.",
+        },
+        {
+          type: "paragraph",
+          text: "Except for guarantees and warranties that cannot lawfully be excluded, the Services are provided on an “as is” and “as available” basis. We do not make additional warranties that the Services will be uninterrupted, error-free, secure, compatible with every device or system, that scans, barcodes, QR codes or user-entered data will be accurate, or that any digital representation will be accepted for a particular purpose.",
+        },
+        {
+          type: "paragraph",
+          text: "To the maximum extent permitted by law, we are not responsible for loss caused by unauthorised, improper or unlawful use of the Services; inaccurate, incomplete or outdated user-supplied data; reliance on a digital representation instead of an original or official channel; loss or compromise of a device, local data or exported backup; disclosure of a sharing link by you or a recipient; failure of an independent third-party service; or failure to maintain connectivity, storage, credentials, backups or a supported operating system. These exclusions apply only where the loss is not attributable to our breach of an applicable legal duty.",
+        },
+        {
+          type: "paragraph",
+          text: "To the maximum extent permitted by law, we are not liable for indirect, incidental, special or consequential loss, loss or corruption of data, loss of profit, revenue, opportunity or reputation, missed deadlines or appointments, denial of access to a benefit or service, or the cost of obtaining substitute services, where such loss was not a reasonably foreseeable consequence of our breach or results from a risk placed under your responsibility by these Terms.",
+        },
+        {
+          type: "paragraph",
+          text: "Nothing in these Terms excludes or limits liability that cannot lawfully be excluded or limited, including liability for fraud, wilful misconduct or gross negligence, death or personal injury caused by our act or omission, violations of public-order obligations, or any rights and remedies granted to consumers by mandatory law.",
+        },
+      ],
+    },
+    {
+      id: "termination",
+      title: "Ending use of the Services",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "You may stop using the Services and uninstall the App at any time. Export any backup you wish to keep before uninstalling or deleting local data. Your licence to use the App ends automatically if you materially breach these Terms, subject to any notice or remedy period required by law. Provisions that by their nature should continue after termination, including those on intellectual property, responsibility, governing law and disputes, will remain in effect.",
         },
       ],
     },
     {
       id: "changes",
-      title: "Changes to This Terms and Conditions",
+      title: "Changes to these Terms",
       blocks: [
         {
           type: "paragraph",
-          text: "I may update our Terms and Conditions from time to time. Thus, you are advised to review this page periodically for any changes. I will notify you of any changes by posting the new Terms and Conditions on this page.",
+          text: "We may update these Terms to reflect changes to the Services, the law, security requirements or our business. The updated version will be posted on this page with a new effective date. Where required by law, or where a change materially and adversely affects paid functionality, we will provide additional notice through an appropriate channel before the change takes effect. Changes apply prospectively and do not remove rights already acquired under mandatory law.",
+        },
+      ],
+    },
+    {
+      id: "governing-law",
+      title: "Governing law and disputes",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "These Terms are governed by Italian law. If you are a consumer, this choice does not deprive you of the protection of mandatory provisions of the country in which you habitually reside, and disputes may be brought before the courts competent under applicable consumer law, including the court of your place of residence or domicile where provided. In other cases, the courts of Alessandria, Italy, have exclusive jurisdiction.",
         },
         {
           type: "paragraph",
-          text: "These terms and conditions are effective as of 2020-09-30",
+          text: "Before starting formal proceedings, you may contact us so that we can try to resolve the matter informally. This does not restrict your right to seek a judicial or other remedy available under applicable law.",
+        },
+      ],
+    },
+    {
+      id: "general",
+      title: "General provisions",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "If any provision of these Terms is found invalid or unenforceable, the remaining provisions remain in effect, and the affected provision will apply to the maximum extent permitted by law. A failure to enforce a provision is not a waiver. These Terms, together with any applicable store terms and the Privacy Policy, form the agreement governing your use of the Services; mandatory law prevails in the event of conflict.",
         },
       ],
     },
     {
       id: "contact",
-      title: "Contact Us",
+      title: "Contact",
       blocks: [
         {
           type: "paragraph",
-          text: "If you have any questions or suggestions about my Terms and Conditions, do not hesitate to contact me at baleendevs@gmail.com.",
-        },
-        {
-          type: "attribution",
-          before: "This Terms and Conditions page was generated by ",
-          links: [
-            {
-              label: "App Privacy Policy Generator",
-              url: "https://app-privacy-policy-generator.firebaseapp.com/",
-            },
-          ],
+          text: "For questions, complaints or support concerning these Terms or the Services, contact Carlo Andreotti, operating under the name Baleen Developers, at baleen.devs@gmail.com or by post at Via dei Boschi 30, 15072 Casal Cermelli (AL), Italy.",
         },
       ],
     },
@@ -310,84 +485,258 @@ export const privacyDocument: LegalDocument = {
 };
 
 export const italianTermsDocument: LegalDocument = {
-  effectiveDate: "2020-09-30",
+  effectiveDate: "2026-09-16",
   sections: [
     {
-      id: "terms-and-intellectual-property",
-      title: "Termini e proprietà intellettuale",
+      id: "operator-and-scope",
+      title: "Titolare e ambito di applicazione",
       blocks: [
         {
           type: "paragraph",
-          text: "Scaricando o utilizzando l'app, i presenti termini si applicheranno automaticamente all'utente; è pertanto necessario leggerli attentamente prima di utilizzare l'app. Non è consentito copiare o modificare l'app, alcuna parte dell'app o i nostri marchi in alcun modo. Non è consentito tentare di estrarre il codice sorgente dell'app, né provare a tradurre l'app in altre lingue o a crearne versioni derivate. L'app stessa, nonché tutti i marchi, i diritti d'autore, i diritti sulle banche dati e gli altri diritti di proprietà intellettuale a essa relativi, continuano ad appartenere a Baleen Developers.",
+          text: "Le presenti Condizioni d’uso disciplinano l’applicazione mobile TesSa: tessere e documenti (l’“App”), il sito collegato disponibile all’indirizzo https://baleendevs.github.io/tessa (il “Sito”) e le funzionalità offerte tramite essi (congiuntamente, i “Servizi”). I Servizi sono messi a disposizione da Carlo Andreotti, sviluppatore indipendente persona fisica operante con il nome Baleen Developers, Via dei Boschi 30, 15072 Casal Cermelli (AL), Italia (“Baleen Developers”, “noi”, “ci” o “nostro”).",
         },
         {
           type: "paragraph",
-          text: "Baleen Developers si impegna a fare in modo che l'app sia il più utile ed efficiente possibile. Per questo motivo, ci riserviamo il diritto di apportare modifiche all'app o di addebitare costi per i suoi servizi, in qualsiasi momento e per qualsiasi ragione. Non verrà mai addebitato alcun costo per l'app o per i suoi servizi senza indicare con assoluta chiarezza per cosa si sta pagando.",
+          text: "Scaricando, accedendo o utilizzando i Servizi accetti le presenti Condizioni. Se non le accetti, non utilizzare i Servizi. Restano impregiudicati tutti i diritti inderogabili riconosciuti dalla normativa applicabile a tutela dei consumatori.",
+        },
+      ],
+    },
+    {
+      id: "eligibility",
+      title: "Requisiti di età",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "I Servizi sono destinati a utenti che abbiano compiuto 18 anni. Una persona di età inferiore a 18 anni non deve utilizzare autonomamente i Servizi. Un adulto può utilizzare l’App per gestire informazioni relative a un minore o a un’altra persona soltanto se legalmente autorizzato a farlo.",
+        },
+      ],
+    },
+    {
+      id: "purpose-and-official-status",
+      title: "Finalità dell’App e assenza di valore ufficiale",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "L’App consente di creare, conservare e visualizzare rappresentazioni digitali di tessere sanitarie italiane, documenti d’identità, patenti e altri documenti supportati, nonché di acquisire o visualizzare codici a barre e codici QR. TesSa è un’applicazione indipendente: non è emessa, gestita, approvata o patrocinata dal Governo italiano, dal Ministero della Salute, da autorità pubbliche o dagli enti che rilasciano i documenti.",
         },
         {
           type: "paragraph",
-          text: "L'app TesSa memorizza e tratta i dati personali che ci hai fornito al fine di erogare il mio Servizio. È tua responsabilità mantenere sicuri il telefono e l'accesso all'app. Raccomandiamo pertanto di non effettuare il jailbreak o il root del telefono, ossia il processo di rimozione delle restrizioni e delle limitazioni software imposte dal sistema operativo ufficiale del dispositivo. Ciò potrebbe rendere il telefono vulnerabile a malware, virus o programmi dannosi, compromettere le funzioni di sicurezza del telefono e comportare il funzionamento non corretto o il mancato funzionamento dell'app TesSa.",
+          text: "Le rappresentazioni digitali, le immagini, i codici a barre e i codici QR mostrati dall’App non sostituiscono i documenti originali e potrebbero non essere accettati da autorità, strutture sanitarie, imprese o altri soggetti. L’App non verifica autonomamente autenticità, esattezza, validità, scadenza o valore giuridico delle informazioni inserite, importate o acquisite. È tua responsabilità verificarne la correttezza e l’aggiornamento, conservare il documento originale quando richiesto e rispettare le regole applicabili alla sua esibizione e al suo utilizzo.",
+        },
+        {
+          type: "paragraph",
+          text: "L’App è esclusivamente uno strumento personale di comodità. Non costituisce un servizio di identificazione, certificazione, assistenza sanitaria, consulenza medica o legale, emergenza o pubblica amministrazione. Non fare affidamento sull’App quando un malfunzionamento, l’indisponibilità o il rifiuto di una rappresentazione digitale potrebbe incidere su salute, sicurezza, identificazione, accesso a cure o servizi pubblici, rispetto di una scadenza o esercizio di un diritto. Conserva e utilizza sempre il documento originale o il canale ufficiale pertinente quando richiesto.",
+        },
+      ],
+    },
+    {
+      id: "licence-and-intellectual-property",
+      title: "Licenza e proprietà intellettuale",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "L’App è concessa in licenza e non venduta. Nel rispetto delle presenti Condizioni e delle regole dello store applicabile, ti viene concessa una licenza personale, limitata, non esclusiva, non trasferibile e revocabile per utilizzare l’App sui dispositivi che possiedi o controlli, esclusivamente per finalità personali lecite. Per l’App ottenuta tramite App Store si applica anche la Licenza standard per l’utente finale di Apple. L’utilizzo di Google Play è soggetto ai Termini di servizio di Google Play.",
+        },
+        {
+          type: "paragraph",
+          text: "L’App, il Sito, i nomi e i loghi Baleen Developers e TesSa, la grafica, i testi e gli altri materiali originali sono tutelati dalle norme sulla proprietà intellettuale e appartengono a noi o ai nostri licenzianti. Salvo quanto espressamente consentito dalla legge applicabile o da una licenza open source, non puoi copiare, modificare, distribuire, vendere, concedere in sublicenza, effettuare reverse engineering, decompilare o creare opere derivate dai Servizi.",
+        },
+        { type: "links", items: storeTerms },
+      ],
+    },
+    {
+      id: "acceptable-use",
+      title: "Uso consentito",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Devi utilizzare i Servizi nel rispetto della legge e non puoi:",
+        },
+        {
+          type: "list",
+          items: [
+            "creare, conservare, mostrare o condividere dati personali o documentali senza esserne autorizzato;",
+            "utilizzare una rappresentazione digitale o un link di condivisione per impersonare un’altra persona, commettere frodi o presentarla come documento ufficiale o giuridicamente valido;",
+            "violare la riservatezza, la proprietà intellettuale o altri diritti altrui;",
+            "interferire con i Servizi, danneggiarli, aggirarne o verificarne senza autorizzazione le misure di sicurezza oppure introdurre codice dannoso;",
+            "utilizzare i Servizi per finalità illecite, dannose o ingannevoli.",
+          ],
+        },
+        {
+          type: "paragraph",
+          text: "Nei limiti consentiti dalla legge, sei responsabile delle perdite e dei costi ragionevoli direttamente causati a noi dal tuo utilizzo intenzionale, fraudolento o comunque illecito dei Servizi, incluse le pretese documentate di terzi derivanti da tale utilizzo.",
+        },
+      ],
+    },
+    {
+      id: "local-storage-and-backups",
+      title: "Archiviazione locale, sicurezza e backup",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Le informazioni, le immagini dei documenti e le rappresentazioni digitali create o importate nell’App sono conservate principalmente in locale sul tuo dispositivo. Non forniamo account, archiviazione cloud o un servizio di backup cloud per tali informazioni. Sei responsabile della sicurezza del dispositivo e dell’accesso all’App, dello spazio di archiviazione disponibile e dell’esportazione degli eventuali backup che desideri conservare prima di disinstallare l’App, reimpostare il dispositivo o cambiarlo.",
+        },
+        {
+          type: "paragraph",
+          text: "I file di backup possono contenere dati personali e documentali sensibili. Dopo l’esportazione, la copia, il caricamento su un servizio di terzi o altra condivisione al di fuori dell’App, sei responsabile della loro sicurezza, conservazione, trasmissione e cancellazione. L’App adotta misure tecniche volte a proteggere i dati locali e i backup, ma nessun metodo di archiviazione elettronica o cifratura può essere garantito come completamente sicuro. Il root, il jailbreak o altre modifiche che indeboliscono la sicurezza del dispositivo possono compromettere l’App e i suoi dati.",
+        },
+        {
+          type: "paragraph",
+          text: "L’App non è un servizio di backup, archiviazione o ripristino di emergenza. Non possiamo recuperare informazioni rimaste soltanto sul tuo dispositivo o in un backup sotto il tuo controllo. Assumi il rischio della perdita irreversibile causata da cancellazione, disinstallazione, perdita o danneggiamento del dispositivo, spazio insufficiente, operazioni del sistema operativo, migrazione non riuscita, smarrimento di password o chiavi di cifratura o mancata conservazione di un backup indipendente e utilizzabile.",
+        },
+      ],
+    },
+    {
+      id: "sharing",
+      title: "Link di condivisione e dati di terzi",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "L’App può consentirti di generare e condividere link o codici QR contenenti dati documentali selezionati. I dati scelti sono codificati nel link per la trasmissione, ma non sono cifrati. Chiunque ottenga il link potrebbe leggere le informazioni che contiene. I link non sono protetti da un account o da una password TesSa e non possono essere revocati tramite l’App. Controlla le informazioni incluse prima di condividerle e invia i link soltanto a destinatari fidati, attraverso canali appropriati.",
+        },
+        {
+          type: "paragraph",
+          text: "Puoi creare, conservare, mostrare o condividere informazioni relative a un’altra persona soltanto se sei legalmente autorizzato a farlo. Sei responsabile dell’ottenimento degli eventuali consensi o autorizzazioni necessari e del rispetto della normativa applicabile. Non controlliamo il modo in cui destinatari, servizi di messaggistica, browser, servizi di archiviazione cloud o altri terzi conservano, utilizzano o ridistribuiscono le informazioni dopo che hai scelto di condividerle.",
+        },
+        {
+          type: "paragraph",
+          text: "La creazione o l’invio di un link costituisce una comunicazione di dati avviata da te. Assumi i rischi derivanti dalla scelta di dati, destinatario o canale errati, dall’inoltro da parte del destinatario, dall’intercettazione, dalla copia, dagli screenshot, dalla cronologia del browser o della messaggistica e da qualsiasi successivo utilizzo delle informazioni da parte di chi ottenga il link.",
+        },
+      ],
+    },
+    {
+      id: "pro-purchase",
+      title: "Acquisto di TesSa PRO",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "TesSa può offrire un acquisto in-app PRO opzionale, una tantum e non consumabile, che rimuove la pubblicità e sblocca funzionalità aggiuntive. Non si tratta di un abbonamento. Il prezzo e le eventuali imposte sono mostrati da App Store o Google Play prima dell’acquisto. Il pagamento è elaborato dallo store interessato; non raccogliamo direttamente i dati della tua carta di pagamento.",
+        },
+        {
+          type: "paragraph",
+          text: "Conferma, ripristino, annullamento e richieste di rimborso dell’acquisto sono gestiti secondo le regole e le procedure dello store tramite il quale hai acquistato PRO. L’accesso può dipendere dall’account dello store utilizzato e dai relativi meccanismi di ripristino. Le presenti Condizioni non limitano il diritto a rimborsi, rimedi per difetto di conformità o altri rimedi riconosciuti dalla normativa inderogabile a tutela dei consumatori.",
         },
       ],
     },
     {
       id: "third-party-services",
-      title: "Servizi di terze parti",
+      title: "Pubblicità e servizi di terze parti",
       blocks: [
         {
           type: "paragraph",
-          text: "L'app utilizza servizi di terze parti che dichiarano i propri Termini e condizioni.",
+          text: "La versione gratuita dell’App può mostrare pubblicità fornita da terzi. L’App e il Sito utilizzano inoltre componenti o servizi di terze parti e possono contenere collegamenti a servizi che non controlliamo. A tali servizi si applicano le rispettive condizioni e informative sulla privacy. Rispondiamo della scelta e dell’integrazione dei componenti di terzi nella misura prevista dalla legge, ma non controlliamo i contenuti, la disponibilità o le pratiche indipendenti di tali soggetti.",
         },
         {
           type: "paragraph",
-          text: "Link ai Termini e condizioni dei fornitori di servizi terzi utilizzati dall'app",
+          text: "Alcune funzionalità richiedono una connessione Internet. Possono applicarsi le condizioni e i costi del tuo operatore di rete, inclusi quelli di roaming.",
         },
         { type: "links", items: thirdPartyTerms },
       ],
     },
     {
-      id: "connectivity-and-responsibility",
-      title: "Connettività e responsabilità",
+      id: "privacy",
+      title: "Privacy",
       blocks: [
         {
           type: "paragraph",
-          text: "È opportuno essere consapevoli che vi sono determinate circostanze per le quali Baleen Developers non si assume responsabilità. Alcune funzioni dell'app richiederanno che l'app disponga di una connessione Internet attiva. La connessione può avvenire tramite Wi-Fi o essere fornita dall'operatore di rete mobile, ma Baleen Developers non può assumersi la responsabilità del mancato funzionamento dell'app con tutte le sue funzionalità se non si dispone dell'accesso al Wi-Fi e si è esaurito il traffico dati disponibile.",
+          text: "La nostra Informativa sulla privacy spiega come vengono trattati i dati personali durante l’utilizzo dell’App e del Sito. Descrive inoltre la distinzione tra le informazioni conservate localmente nell’App e i dati trattati dai servizi di terze parti.",
         },
         {
-          type: "paragraph",
-          text: "Se utilizzi l'app al di fuori di un'area coperta dal Wi-Fi, ricorda che continueranno ad applicarsi i termini dell'accordo con il tuo operatore di rete mobile. Di conseguenza, l'operatore di telefonia mobile potrebbe addebitarti il costo dei dati per la durata della connessione durante l'accesso all'app, o potrebbero esserti addebitati altri costi da terze parti. Utilizzando l'app, accetti la responsabilità di tali costi, inclusi i costi per il traffico dati in roaming qualora utilizzi l'app al di fuori del tuo territorio di residenza (ossia regione o Paese) senza disattivare il roaming dati. Se non sei la persona che paga la fattura del dispositivo sul quale utilizzi l'app, tieni presente che presumiamo che tu abbia ottenuto il permesso di utilizzare l'app da parte di chi paga la fattura.",
-        },
-        {
-          type: "paragraph",
-          text: "Analogamente, Baleen Developers non può sempre assumersi la responsabilità del modo in cui utilizzi l'app. Ad esempio, devi assicurarti che il dispositivo rimanga carico: se la batteria si esaurisce e non riesci ad accenderlo per usufruire del Servizio, Baleen Developers non può assumersene la responsabilità.",
-        },
-        {
-          type: "paragraph",
-          text: "Per quanto riguarda la responsabilità di Baleen Developers in relazione al tuo utilizzo dell'app, è importante tenere presente che, sebbene ci impegniamo a garantire che sia sempre aggiornata e corretta, ci affidiamo a terze parti affinché ci forniscano informazioni da mettere a tua disposizione. Baleen Developers non si assume alcuna responsabilità per eventuali perdite, dirette o indirette, subite per aver fatto totale affidamento su questa funzionalità dell'app.",
+          type: "links",
+          items: [
+            {
+              label: "Informativa sulla privacy di TesSa",
+              url: "https://baleendevs.github.io/tessa/privacy",
+            },
+          ],
         },
       ],
     },
     {
-      id: "updates-and-termination",
-      title: "Aggiornamenti e cessazione",
+      id: "availability-and-updates",
+      title: "Disponibilità, compatibilità e aggiornamenti",
       blocks: [
         {
           type: "paragraph",
-          text: "A un certo punto potremmo voler aggiornare l'app. L'app è attualmente disponibile su Android e iOS; i requisiti di entrambi i sistemi, e di eventuali ulteriori sistemi ai quali decidessimo di estendere la disponibilità dell'app, potrebbero cambiare e, per continuare a utilizzare l'app, dovrai scaricare gli aggiornamenti. Baleen Developers non promette che aggiornerà sempre l'app affinché rimanga pertinente per te e/o funzioni con la versione di Android o iOS installata sul tuo dispositivo. Ti impegni tuttavia ad accettare sempre gli aggiornamenti dell'applicazione quando ti vengono proposti. Potremmo inoltre decidere di interrompere la fornitura dell'app e potremmo cessarne l'utilizzo in qualsiasi momento senza darti preavviso. Salvo diversa comunicazione, in caso di cessazione: (a) i diritti e le licenze concessi ai sensi dei presenti termini cesseranno; (b) dovrai smettere di utilizzare l'app e, se necessario, eliminarla dal tuo dispositivo.",
+          text: "Possiamo mantenere, correggere, migliorare o modificare i Servizi e i relativi requisiti tecnici. Forniremo gli aggiornamenti, inclusi quelli di sicurezza, nei casi e per il periodo previsti dalla legge applicabile. Devi installare entro un termine ragionevole gli aggiornamenti resi disponibili tramite lo store pertinente. Nei limiti consentiti dalla legge, non rispondiamo di un problema causato esclusivamente dalla mancata installazione di un aggiornamento dopo che sei stato informato della sua disponibilità e delle conseguenze della mancata installazione.",
+        },
+        {
+          type: "paragraph",
+          text: "Non garantiamo che ogni funzionalità rimanga compatibile con qualsiasi dispositivo o versione del sistema operativo, né che i Servizi siano sempre ininterrotti o privi di errori. Possiamo sospendere o interrompere tutti o parte dei Servizi per ragioni legali, di sicurezza, tecniche o commerciali, fornendo un preavviso ragionevole ove possibile e rispettando i diritti connessi agli acquisti e gli altri diritti inderogabili dei consumatori.",
+        },
+        {
+          type: "paragraph",
+          text: "La disponibilità può inoltre dipendere da store, fornitori dei sistemi operativi, produttori dei dispositivi, operatori di rete ed eventi al di fuori del nostro ragionevole controllo. Nei limiti consentiti dalla legge, non rispondiamo di ritardi, interruzioni o impossibilità di adempiere causati da tali eventi.",
+        },
+      ],
+    },
+    {
+      id: "responsibility",
+      title: "Responsabilità",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Sei responsabile delle informazioni che inserisci o importi, delle persone di cui gestisci le informazioni, dei destinatari che scegli, della sicurezza e disponibilità del dispositivo e dei backup e del rispetto della legge applicabile. Non fare affidamento sull’App come unico luogo di conservazione delle informazioni o come sostituto del documento originale.",
+        },
+        {
+          type: "paragraph",
+          text: "Fatte salve le garanzie che non possono essere escluse per legge, i Servizi sono forniti “così come sono” e “secondo disponibilità”. Non prestiamo ulteriori garanzie circa continuità, assenza di errori, sicurezza, compatibilità con ogni dispositivo o sistema, esattezza delle acquisizioni, dei codici a barre, dei codici QR o dei dati inseriti dall’utente, né circa l’accettazione di una rappresentazione digitale per uno scopo particolare.",
+        },
+        {
+          type: "paragraph",
+          text: "Nella misura massima consentita dalla legge, non rispondiamo delle perdite causate da uso non autorizzato, improprio o illecito dei Servizi; dati inesatti, incompleti o non aggiornati forniti dall’utente; affidamento su una rappresentazione digitale anziché sull’originale o sul canale ufficiale; perdita o compromissione del dispositivo, dei dati locali o di un backup esportato; divulgazione di un link da parte tua o di un destinatario; malfunzionamento di un servizio indipendente di terzi; oppure mancata disponibilità di connessione, spazio, credenziali, backup o sistema operativo supportato. Tali esclusioni si applicano soltanto quando la perdita non è imputabile alla violazione di un nostro obbligo di legge.",
+        },
+        {
+          type: "paragraph",
+          text: "Nella misura massima consentita dalla legge, non rispondiamo di danni indiretti, incidentali, speciali o consequenziali, perdita o corruzione di dati, perdita di profitti, ricavi, opportunità o reputazione, scadenze o appuntamenti mancati, negato accesso a benefici o servizi o costi sostenuti per servizi sostitutivi, quando tali conseguenze non erano ragionevolmente prevedibili in caso di nostro inadempimento o derivano da un rischio posto a tuo carico dalle presenti Condizioni.",
+        },
+        {
+          type: "paragraph",
+          text: "Nessuna disposizione delle presenti Condizioni esclude o limita responsabilità che non possono essere escluse o limitate per legge, incluse quelle derivanti da frode, dolo o colpa grave, morte o danni alla persona causati da un nostro fatto od omissione, violazione di obblighi di ordine pubblico, né i diritti e i rimedi riconosciuti ai consumatori da norme inderogabili.",
+        },
+      ],
+    },
+    {
+      id: "termination",
+      title: "Cessazione dell’utilizzo",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Puoi interrompere l’utilizzo dei Servizi e disinstallare l’App in qualsiasi momento. Prima della disinstallazione o della cancellazione dei dati locali, esporta gli eventuali backup che desideri conservare. La licenza d’uso termina automaticamente in caso di violazione sostanziale delle presenti Condizioni, fatti salvi il preavviso o il termine per porre rimedio eventualmente richiesti dalla legge. Le disposizioni che per loro natura devono continuare a produrre effetti, incluse quelle in materia di proprietà intellettuale, responsabilità, legge applicabile e controversie, restano efficaci.",
         },
       ],
     },
     {
       id: "changes",
-      title: "Modifiche ai presenti Termini e condizioni",
+      title: "Modifiche alle Condizioni",
       blocks: [
         {
           type: "paragraph",
-          text: "Potrei aggiornare periodicamente i nostri Termini e condizioni. Ti consigliamo pertanto di consultare periodicamente questa pagina per verificare eventuali modifiche. Ti informerò di qualsiasi modifica pubblicando i nuovi Termini e condizioni su questa pagina.",
+          text: "Possiamo aggiornare le presenti Condizioni per riflettere modifiche ai Servizi, alla legge, ai requisiti di sicurezza o alla nostra attività. La versione aggiornata sarà pubblicata su questa pagina con una nuova data di entrata in vigore. Quando richiesto dalla legge, o se una modifica incide in modo sostanziale e sfavorevole su funzionalità a pagamento, forniremo un ulteriore avviso tramite un canale appropriato prima della sua efficacia. Le modifiche valgono per il futuro e non eliminano diritti già acquisiti in base a norme inderogabili.",
+        },
+      ],
+    },
+    {
+      id: "governing-law",
+      title: "Legge applicabile e controversie",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Le presenti Condizioni sono regolate dalla legge italiana. Se sei un consumatore, tale scelta non ti priva della tutela assicurata dalle norme inderogabili del Paese in cui risiedi abitualmente e le controversie possono essere proposte davanti ai giudici competenti ai sensi della normativa applicabile a tutela dei consumatori, incluso, quando previsto, il foro del tuo luogo di residenza o domicilio. Negli altri casi è competente in via esclusiva il Foro di Alessandria.",
         },
         {
           type: "paragraph",
-          text: "I presenti termini e condizioni sono in vigore dal 2020-09-30",
+          text: "Prima di avviare un procedimento formale puoi contattarci per tentare una soluzione informale. Ciò non limita il tuo diritto di ricorrere all’autorità giudiziaria o ad altri rimedi previsti dalla legge applicabile.",
+        },
+      ],
+    },
+    {
+      id: "general",
+      title: "Disposizioni generali",
+      blocks: [
+        {
+          type: "paragraph",
+          text: "Se una disposizione delle presenti Condizioni è ritenuta invalida o inefficace, le restanti disposizioni rimangono efficaci e quella interessata si applica nella misura massima consentita dalla legge. Il mancato esercizio di un diritto non costituisce rinuncia. Le presenti Condizioni, insieme alle eventuali condizioni dello store applicabile e all’Informativa sulla privacy, costituiscono l’accordo che disciplina l’utilizzo dei Servizi; in caso di contrasto prevalgono le norme inderogabili.",
         },
       ],
     },
@@ -397,17 +746,7 @@ export const italianTermsDocument: LegalDocument = {
       blocks: [
         {
           type: "paragraph",
-          text: "In caso di domande o suggerimenti riguardo ai miei Termini e condizioni, non esitare a contattarmi all'indirizzo baleendevs@gmail.com.",
-        },
-        {
-          type: "attribution",
-          before: "Questa pagina dei Termini e condizioni è stata generata da ",
-          links: [
-            {
-              label: "App Privacy Policy Generator",
-              url: "https://app-privacy-policy-generator.firebaseapp.com/",
-            },
-          ],
+          text: "Per domande, reclami o assistenza relativi alle presenti Condizioni o ai Servizi, puoi contattare Carlo Andreotti, operante con il nome Baleen Developers, all’indirizzo baleen.devs@gmail.com oppure per posta a Via dei Boschi 30, 15072 Casal Cermelli (AL), Italia.",
         },
       ],
     },
