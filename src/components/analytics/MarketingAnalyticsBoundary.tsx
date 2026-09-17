@@ -1,46 +1,19 @@
 "use client";
 
-import Script from "next/script";
-import { useEffect } from "react";
 import type { Locale } from "@/lib/site";
+import { GoogleAnalytics } from "./GoogleAnalytics";
+import { CookieConsentBanner } from "@/components/consent/CookieConsentBanner";
 
-/** ShinyStat is intentionally opt-in through marketing layouts only. */
+/**
+ * MarketingAnalyticsBoundary coordinates Google Analytics 4 and the custom
+ * Cookie Consent Banner strictly within marketing and informational layouts.
+ * Utility layouts (/share) and 404 remain completely isolated and analytics-free.
+ */
 export function MarketingAnalyticsBoundary({ locale }: { locale: Locale }) {
-  useEffect(() => {
-    const hideInjectedBadge = () => {
-      document
-        .querySelectorAll<HTMLElement>(
-          'a[href*="shinystat"], img[src*="shinystat"]',
-        )
-        .forEach((element) => {
-          element.hidden = true;
-          element.setAttribute("aria-hidden", "true");
-          if (element instanceof HTMLAnchorElement) element.tabIndex = -1;
-          if (element instanceof HTMLImageElement) element.alt = "";
-        });
-    };
-
-    const observer = new MutationObserver(hideInjectedBadge);
-    observer.observe(document.body, { childList: true, subtree: true });
-    hideInjectedBadge();
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <>
-      <Script
-        data-marketing-analytics="shinystat"
-        id="tessa-shinystat"
-        src="https://codice.shinystat.com/cgi-bin/getcod.cgi?USER=TesSa"
-        strategy="afterInteractive"
-      />
-      <noscript>
-        <span className="sr-only">
-          {locale === "it"
-            ? "Statistiche JavaScript non disponibili."
-            : "JavaScript analytics unavailable."}
-        </span>
-      </noscript>
+      <GoogleAnalytics />
+      <CookieConsentBanner locale={locale} />
     </>
   );
 }

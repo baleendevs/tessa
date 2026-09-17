@@ -142,17 +142,60 @@ test("positions every desktop navigation target below the sticky header", async 
   }
 });
 
-test("isolates ShinyStat to marketing output", async ({ page }) => {
+test("isolates Google Analytics 4 and custom cookie banner to marketing output", async ({ page, context }) => {
   await page.goto("/tessa/");
-  await expect(page.locator('script[data-marketing-analytics="shinystat"]')).toHaveCount(1);
+  await expect(page.locator('script[data-marketing-analytics="ga4"]')).toHaveCount(1);
   const homeHtml = await page.content();
-  expect(homeHtml).toContain("https://codice.shinystat.com/cgi-bin/getcod.cgi?USER=TesSa");
+  expect(homeHtml).toContain("googletagmanager.com/gtag/js?id=");
+  expect(homeHtml.toLowerCase()).not.toContain("shinystat");
 
-  await page.goto("/tessa/share");
-  expect((await page.content()).toLowerCase()).not.toContain("shinystat");
+  const banner = page.locator('[data-testid="cookie-consent-banner"]');
+  await expect(banner).toBeVisible();
+  await expect(banner.getByRole("button", { name: "Accetta", exact: true })).toBeVisible();
+  await expect(banner.getByRole("button", { name: "Rifiuta", exact: true })).toBeVisible();
+  await expect(banner.getByRole("button", { name: /chiudi/i })).toBeVisible();
+
+  const initialCookies = await context.cookies();
+  expect(initialCookies.some((cookie) => cookie.name.startsWith("_ga"))).toBe(false);
+
+  await banner.getByRole("button", { name: "Rifiuta", exact: true }).click();
+  await expect(banner).toBeHidden();
+
+  const storedConsent = await page.evaluate(() => localStorage.getItem("tessa-cookie-consent"));
+  expect(storedConsent).not.toBeNull();
+  expect(JSON.parse(storedConsent ?? "{}").status).toBe("denied");
+
+  const afterRejectCookies = await context.cookies();
+  expect(afterRejectCookies.some((cookie) => cookie.name.startsWith("_ga"))).toBe(false);
+
+  await page.reload();
+  await expect(page.locator('[data-testid="cookie-consent-banner"]')).toBeHidden();
+
+  const footerPreferences = page.locator('[data-testid="cookie-preferences-button"]');
+  await expect(footerPreferences).toBeVisible();
+  await footerPreferences.click();
+
+  const preferencesModal = page.locator('[data-testid="cookie-preferences-modal"]');
+  await expect(preferencesModal).toBeVisible();
+  await expect(preferencesModal).toContainText("Consenso negato");
+
+  await preferencesModal.getByRole("button", { name: "Accetta", exact: true }).click();
+  await expect(preferencesModal).toBeHidden();
+
+  const updatedConsent = await page.evaluate(() => localStorage.getItem("tessa-cookie-consent"));
+  expect(JSON.parse(updatedConsent ?? "{}").status).toBe("granted");
 
   await page.goto("/tessa/privacy");
-  await expect(page.locator('script[data-marketing-analytics="shinystat"]')).toHaveCount(1);
+  await expect(page.locator('script[data-marketing-analytics="ga4"]')).toHaveCount(1);
+  await expect(page.locator('[data-testid="cookie-preferences-button"]')).toBeVisible();
+
+  await page.goto("/tessa/share");
+  const shareHtml = (await page.content()).toLowerCase();
+  expect(shareHtml).not.toContain("googletag");
+  expect(shareHtml).not.toContain("google-analytics");
+  expect(shareHtml).not.toContain("shinystat");
+  await expect(page.locator('[data-testid="cookie-consent-banner"]')).toHaveCount(0);
+  await expect(page.locator('[data-testid="cookie-preferences-button"]')).toHaveCount(0);
 });
 
 test("renders localised legal documents with public-facing metadata", async ({ page }) => {
@@ -171,7 +214,8 @@ test("renders localised legal documents with public-facing metadata", async ({ p
   await expect(page.locator("time")).toHaveAttribute("datetime", "2026-09-16");
   await expect(page.locator("article.legal-copy")).toHaveAttribute("lang", "it");
   await expect(page.locator("article.legal-copy")).toContainText("database cifrato sul dispositivo");
-  await expect(page.locator("article.legal-copy")).toContainText("ShinyStat");
+  await expect(page.locator("article.legal-copy")).toContainText("Google Analytics 4");
+  await expect(page.locator("article.legal-copy")).not.toContainText("ShinyStat");
   await expect(page.locator("article.legal-copy")).toContainText("Google Analytics for Firebase");
 
   await page.goto("/tessa/en/terms");
@@ -185,6 +229,8 @@ test("renders localised legal documents with public-facing metadata", async ({ p
   await expect(page.locator("article.legal-copy")).toHaveAttribute("lang", "en");
   await expect(page.locator("time")).toHaveAttribute("datetime", "2026-09-16");
   await expect(page.locator("article.legal-copy")).toContainText("encrypted database on the user’s device");
+  await expect(page.locator("article.legal-copy")).toContainText("Google Analytics 4");
+  await expect(page.locator("article.legal-copy")).not.toContainText("ShinyStat");
   await expect(page.locator("article.legal-copy")).toContainText("Google Analytics for Firebase");
 });
 
@@ -452,6 +498,8 @@ test("serves a branded, base-path-safe and analytics-free 404", async ({ request
   expect(html).toContain('href="/tessa/"');
   expect(html).toContain('name="robots" content="noindex, nofollow"');
   expect(html.toLowerCase()).not.toContain("shinystat");
+  expect(html.toLowerCase()).not.toContain("googletag");
+  expect(html.toLowerCase()).not.toContain("google-analytics");
   expect(html).not.toContain("/_next/");
 });
 
@@ -505,6 +553,10 @@ test("reflows the homepage at 320 CSS pixels and enlarged text", async ({ page }
   await page.evaluate(() => { document.documentElement.style.fontSize = "200%"; });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
   await expect(page.getByRole("heading", { name: /Your documents, ready/i })).toBeVisible();
+  const banner = page.locator('[data-testid="cookie-consent-banner"]');
+  if (await banner.isVisible()) {
+    await banner.getByRole("button", { name: /^(rifiuta|decline)$/i }).click();
+  }
   const faq = page.locator(".faq-list");
   for (const index of [1, 4, 5, 6]) {
     await faq.locator("summary").nth(index).click();
@@ -650,6 +702,10 @@ test("has no horizontal overflow across the required responsive widths", async (
   for (const width of [320, 390, 768, 1024, 1280, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/tessa/");
+    const banner = page.locator('[data-testid="cookie-consent-banner"]');
+    if (await banner.isVisible()) {
+      await banner.getByRole("button", { name: /^(rifiuta|decline)$/i }).click();
+    }
     const faq = page.locator(".faq-list");
     await faq.scrollIntoViewIfNeeded();
     for (const index of [1, 4, 6]) {
@@ -681,6 +737,10 @@ test("has no horizontal overflow across the required responsive widths", async (
 
   await page.setViewportSize({ width: 320, height: 900 });
   await page.goto("/tessa/en/");
+  const enBanner = page.locator('[data-testid="cookie-consent-banner"]');
+  if (await enBanner.isVisible()) {
+    await enBanner.getByRole("button", { name: /^(rifiuta|decline)$/i }).click();
+  }
   for (const index of [1, 4, 5, 6]) {
     await page.locator(".faq-list summary").nth(index).click();
   }
@@ -1451,6 +1511,10 @@ test("moves every showcase card upward by the same hover delta", async ({ page }
   for (const width of [1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/tessa/");
+    const banner = page.locator('[data-testid="cookie-consent-banner"]');
+    if (await banner.isVisible()) {
+      await banner.getByRole("button", { name: /^(rifiuta|decline)$/i }).click();
+    }
     const cards = page.locator(".showcase-card");
     await cards.first().scrollIntoViewIfNeeded();
     const hasFineHover = await page.evaluate(() =>

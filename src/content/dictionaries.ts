@@ -158,6 +158,21 @@ export type Dictionary = {
     description: string;
     action: string;
   };
+  consent: {
+    title: string;
+    description: string;
+    accept: string;
+    reject: string;
+    close: string;
+    privacyPolicy: string;
+    footerPreferences: string;
+    preferencesTitle: string;
+    preferencesDescription: string;
+    statusGranted: string;
+    statusDenied: string;
+    statusUnset: string;
+    savePreferences: string;
+  };
 };
 
 export const dictionaries: Record<Locale, Dictionary> = {
@@ -382,6 +397,23 @@ export const dictionaries: Record<Locale, Dictionary> = {
       description: "La pagina richiesta non è disponibile.",
       action: "Torna a TesSa",
     },
+    consent: {
+      title: "Gestione dei cookie e della privacy",
+      description:
+        "Utilizziamo cookie analitici (Google Analytics 4) esclusivamente per misurare in forma aggregata il numero di visite al sito e migliorare le informazioni sui nostri servizi. Puoi accettare o rifiutare senza alcuna limitazione d'uso.",
+      accept: "Accetta",
+      reject: "Rifiuta",
+      close: "Chiudi e rifiuta",
+      privacyPolicy: "Informativa sulla privacy",
+      footerPreferences: "Preferenze cookie",
+      preferencesTitle: "Preferenze sui cookie",
+      preferencesDescription:
+        "Puoi modificare la tua scelta in qualsiasi momento. Il rifiuto dei cookie analitici non limita in alcun modo l'accesso al sito e ai suoi contenuti.",
+      statusGranted: "Consenso attivo (cookie analitici abilitati)",
+      statusDenied: "Consenso negato (cookie analitici disabilitati)",
+      statusUnset: "Nessuna preferenza espressa (default: disabilitati)",
+      savePreferences: "Salva preferenze",
+    },
   },
   en: {
     localeName: "English",
@@ -603,6 +635,23 @@ export const dictionaries: Record<Locale, Dictionary> = {
       title: "Page not found",
       description: "The requested page is not available.",
       action: "Return to TesSa",
+    },
+    consent: {
+      title: "Cookie and privacy choices",
+      description:
+        "We use analytics cookies (Google Analytics 4) solely to measure aggregate visits to the site and improve our services. You can accept or decline without any loss of functionality.",
+      accept: "Accept",
+      reject: "Decline",
+      close: "Close and decline",
+      privacyPolicy: "Privacy Policy",
+      footerPreferences: "Cookie preferences",
+      preferencesTitle: "Cookie preferences",
+      preferencesDescription:
+        "You can update your choice at any time. Declining analytics cookies does not limit your access to the site or its content.",
+      statusGranted: "Consent granted (analytics cookies enabled)",
+      statusDenied: "Consent declined (analytics cookies disabled)",
+      statusUnset: "No preference saved (default: disabled)",
+      savePreferences: "Save preferences",
     },
   },
 };

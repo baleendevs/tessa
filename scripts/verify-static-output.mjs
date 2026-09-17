@@ -155,7 +155,7 @@ for (const file of auditTextFiles) {
 
 for (const file of ["index.html", "en.html", "en/index.html"]) {
   const html = (await readFile(resolve(outputRoot, file), "utf8")).toLowerCase();
-  if (!html.includes("shinystat.com/cgi-bin/getcod.cgi?user=tessa")) {
+  if (!html.includes("googletagmanager.com/gtag/js")) {
     fail(`${file} is missing the approved marketing analytics boundary`);
   }
   if (html.includes("green pass")) {
@@ -225,7 +225,7 @@ for (const route of informationalRoutes) {
   for (const expected of expectedHeadValues) {
     if (!html.includes(expected)) fail(`${route.file} is missing metadata: ${expected}`);
   }
-  if (!html.toLowerCase().includes("shinystat.com/cgi-bin/getcod.cgi?user=tessa")) {
+  if (!html.toLowerCase().includes("googletagmanager.com/gtag/js")) {
     fail(`${route.file} is missing the informational analytics boundary`);
   }
 }
@@ -334,7 +334,12 @@ for (const expected of [
 ]) {
   if (!notFound.includes(expected)) fail(`404.html is missing ${expected}`);
 }
-if (notFound.toLowerCase().includes("shinystat") || notFound.includes("/_next/")) {
+if (
+  notFound.toLowerCase().includes("shinystat") ||
+  notFound.toLowerCase().includes("googletag") ||
+  notFound.toLowerCase().includes("google-analytics") ||
+  notFound.includes("/_next/")
+) {
   fail("404.html is not standalone and analytics-free");
 }
 

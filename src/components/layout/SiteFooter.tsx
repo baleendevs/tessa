@@ -1,4 +1,5 @@
 import type { Dictionary } from "@/content/dictionaries";
+import { CookiePreferencesButton } from "@/components/consent/CookiePreferencesButton";
 import { HOME_SECTION_IDS } from "@/lib/home-navigation";
 import { routePath, type Locale, type RouteKey } from "@/lib/site";
 import { SiteBrand } from "./SiteBrand";
@@ -46,6 +47,9 @@ export function SiteFooter({ currentRoute, dictionary, locale }: SiteFooterProps
             >
               {dictionary.navigation.privacy}
             </a>
+            {currentRoute !== "share" && (
+              <CookiePreferencesButton label={dictionary.consent.footerPreferences} />
+            )}
           </nav>
         </div>
       </div>

@@ -71,6 +71,6 @@ const server = createServer(async (request, response) => {
   createReadStream(file).pipe(response);
 });
 
-server.listen(port, "127.0.0.1", () => {
-  console.log(`Serving static TesSa output at http://127.0.0.1:${port}${basePath}/`);
+server.listen(port, "0.0.0.0", () => {
+  console.log(`Serving static TesSa output at http://0.0.0.0:${port}${basePath}/`);
 });

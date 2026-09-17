@@ -101,7 +101,9 @@ describe("legal content", () => {
     expect(text).toContain("stored locally in an encrypted database on the user’s device");
     expect(text).toContain("does not provide user accounts");
     expect(text).toContain("Google Analytics for Firebase is currently included on Android");
-    expect(text).toContain("ShinyStat is used only to measure aggregate visits");
+    expect(text).toContain("Google Analytics 4 (provided by Google Ireland Limited / Google LLC) is used solely to measure aggregate visits");
+    expect(text).toContain("Analytics cookies are set only if you provide your explicit consent through the cookie banner");
+    expect(text).not.toContain("ShinyStat");
     expect(text).toContain("encoded, including through Base64 encoding, but is not encrypted");
     expect(text).toContain("do not sell or rent personal data");
     expect(text).toContain("baleen.devs@gmail.com");
@@ -127,7 +129,9 @@ describe("legal content", () => {
     expect(privacy).toContain("conservati localmente in un database cifrato sul dispositivo dell’utente");
     expect(privacy).toContain("non fornisce account utente");
     expect(privacy).toContain("Google Analytics for Firebase è attualmente incluso su Android");
-    expect(privacy).toContain("ShinyStat è utilizzato esclusivamente per misurare gli accessi in forma aggregata");
+    expect(privacy).toContain("Google Analytics 4 (fornito da Google Ireland Limited / Google LLC) è utilizzato esclusivamente per misurare gli accessi");
+    expect(privacy).toContain("cookie analitici vengono impostati soltanto previo consenso esplicito dell'utente tramite il banner cookie");
+    expect(privacy).not.toContain("ShinyStat");
     expect(privacy).toContain("codifica Base64, ma non sono cifrati");
     expect(privacy).toContain("non vendiamo né concediamo in locazione dati personali");
 
@@ -138,7 +142,7 @@ describe("legal content", () => {
     }
 
     expect(privacy).toContain("GitHub");
-    expect(privacy).toContain("ShinyStat");
+    expect(privacy).toContain("Google Analytics 4");
     expect(privacy).toContain("baleen.devs@gmail.com");
   });
 });

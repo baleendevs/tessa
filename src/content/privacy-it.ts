@@ -7,7 +7,7 @@ const thirdPartyPrivacy: LegalLink[] = [
   { label: "Privacy e sicurezza in Firebase", url: "https://firebase.google.com/support/privacy?hl=it" },
   { label: "Informativa sulla privacy di Apple", url: "https://www.apple.com/it/legal/privacy/it/" },
   { label: "Informativa sulla privacy di GitHub", url: "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" },
-  { label: "Informativa sulla privacy di ShinyStat", url: "https://www.shinystat.com/it/informativa_privacy_generale.html?id=6" },
+  { label: "Termini di servizio e privacy di Google Analytics", url: "https://marketingplatform.google.com/about/analytics/terms/it/" },
 ];
 
 const privacyRightsLinks: LegalLink[] = [
@@ -101,7 +101,7 @@ export const italianPrivacyDocument: LegalDocument = {
         },
         {
           type: "paragraph",
-          text: "TesSa non crea profili comportamentali personalizzati né registri di utilizzo personalizzati. Google Analytics for Firebase è attualmente incluso su Android e può registrare automaticamente eventi e proprietà del dispositivo; Firebase Analytics è attualmente disabilitato nella configurazione iOS. Google Mobile Ads può registrare automaticamente eventi pubblicitari su entrambe le piattaforme supportate. Il Sito utilizza ShinyStat per statistiche aggregate sugli accessi e GitHub Pages, in qualità di fornitore di hosting del Sito, registra gli indirizzi IP dei visitatori per finalità di sicurezza.",
+          text: "TesSa non crea profili comportamentali personalizzati né registri di utilizzo personalizzati. Google Analytics for Firebase è attualmente incluso su Android e può registrare automaticamente eventi e proprietà del dispositivo; Firebase Analytics è attualmente disabilitato nella configurazione iOS. Google Mobile Ads può registrare automaticamente eventi pubblicitari su entrambe le piattaforme supportate. Il Sito utilizza Google Analytics 4 per statistiche aggregate sugli accessi (previo consenso) e GitHub Pages, in qualità di fornitore di hosting del Sito, registra gli indirizzi IP dei visitatori per finalità di sicurezza.",
         },
       ],
     },
@@ -164,7 +164,7 @@ export const italianPrivacyDocument: LegalDocument = {
         },
         {
           type: "paragraph",
-          text: "Sul Sito, ShinyStat è utilizzato esclusivamente per misurare gli accessi in forma aggregata. Secondo ShinyStat, gli indirizzi IP e i dati di navigazione sono anonimizzati e aggregati in tempo reale e gli indirizzi IP completi e i log di navigazione non aggregati non vengono memorizzati su disco dal relativo sistema analitico. ShinyStat può utilizzare cookie analitici o tecnologie analoghe e mette a disposizione ulteriori informazioni e un meccanismo di opt-out nella propria pagina privacy.",
+          text: "Sul Sito, Google Analytics 4 (fornito da Google Ireland Limited / Google LLC) è utilizzato esclusivamente per misurare gli accessi e le visualizzazioni in forma aggregata. I cookie analitici vengono impostati soltanto previo consenso esplicito dell'utente tramite il banner cookie. La conservazione dei dati degli eventi è impostata a 2 mesi. Le pagine di visualizzazione dei documenti (/share) non contengono alcun codice analitico e i dati dei documenti non vengono mai comunicati a Google. Ulteriori informazioni e il componente aggiuntivo del browser per l'opt-out sono disponibili nelle pagine privacy di Google.",
         },
         { type: "links", items: thirdPartyPrivacy },
       ],
@@ -225,7 +225,7 @@ export const italianPrivacyDocument: LegalDocument = {
           items: [
             "Google, inclusi AdMob, Google Analytics for Firebase, Google Play e il servizio email utilizzato per l’assistenza;",
             "Apple, per la distribuzione tramite App Store, l’elaborazione degli acquisti in-app e i servizi di piattaforma;",
-            "Sevendata S.p.A., tramite ShinyStat, per la misurazione aggregata degli accessi al Sito;",
+            "Google, tramite Google Analytics 4, per la misurazione aggregata degli accessi al Sito (previo consenso);",
             "GitHub, tramite GitHub Pages, per l’hosting statico del Sito e i log di sicurezza dell’hosting;",
             "autorità pubbliche, organi giudiziari, consulenti professionali o altri soggetti quando la comunicazione è imposta dalla legge o ragionevolmente necessaria per accertare, esercitare o difendere un diritto in sede giudiziaria.",
           ],
@@ -325,7 +325,7 @@ export const italianPrivacyDocument: LegalDocument = {
         },
         {
           type: "paragraph",
-          text: "Non possiamo accedere, esportare, rettificare o eliminare da remoto i dati dei documenti presenti soltanto sul dispositivo dell’utente. L’utente può gestire tali dati direttamente nell’App. Le richieste riguardanti dati controllati autonomamente da Apple, Google, GitHub, ShinyStat o da un servizio scelto dall’utente potrebbero dover essere presentate al relativo fornitore.",
+          text: "Non possiamo accedere, esportare, rettificare o eliminare da remoto i dati dei documenti presenti soltanto sul dispositivo dell’utente. L’utente può gestire tali dati direttamente nell’App. Le richieste riguardanti dati controllati autonomamente da Apple, Google, GitHub o da un servizio scelto dall’utente potrebbero dover essere presentate al relativo fornitore.",
         },
         {
           type: "paragraph",
@@ -344,7 +344,7 @@ export const italianPrivacyDocument: LegalDocument = {
         },
         {
           type: "paragraph",
-          text: "Il Sito utilizza cookie analitici di ShinyStat o tecnologie analoghe per il conteggio aggregato degli accessi. Gli utenti possono gestire i cookie tramite il browser e utilizzare l’eventuale opt-out disponibile nella pagina privacy di ShinyStat. Il blocco delle tecnologie facoltative può ridurre la misurazione o la pertinenza della pubblicità, ma non dovrebbe impedire l’accesso alle funzioni locali principali dell’App.",
+          text: "Il Sito utilizza cookie di Google Analytics 4 per il conteggio aggregato degli accessi esclusivamente previo consenso espresso tramite il banner cookie. Gli utenti possono gestire o revocare le proprie preferenze in qualsiasi momento tramite il link “Preferenze cookie” nel footer o attraverso le impostazioni del browser. Il rifiuto dei cookie facoltativi non impedisce in alcun modo l'accesso al Sito o alle funzioni principali dell'App.",
         },
         {
           type: "paragraph",

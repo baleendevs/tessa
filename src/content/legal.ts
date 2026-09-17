@@ -67,8 +67,8 @@ const thirdPartyPrivacy: LegalLink[] = [
     url: "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
   },
   {
-    label: "ShinyStat privacy information",
-    url: "https://www.shinystat.com/en/informativa_privacy_generale.html?id=6",
+    label: "Google Analytics Terms of Service and Privacy",
+    url: "https://marketingplatform.google.com/about/analytics/terms/gb/",
   },
 ];
 
@@ -432,7 +432,7 @@ export const privacyDocument: LegalDocument = {
         },
         {
           type: "paragraph",
-          text: "TesSa does not create custom behavioural profiles or custom usage logs. Google Analytics for Firebase is currently included on Android and may automatically record events and device properties; Firebase Analytics is currently disabled in the iOS configuration. Google Mobile Ads may automatically record advertising events on both supported platforms. The Site uses ShinyStat for aggregate access statistics, and GitHub Pages, as the Site host, logs visitor IP addresses for security purposes.",
+          text: "TesSa does not create custom behavioural profiles or custom usage logs. Google Analytics for Firebase is currently included on Android and may automatically record events and device properties; Firebase Analytics is currently disabled in the iOS configuration. Google Mobile Ads may automatically record advertising events on both supported platforms. The Site uses Google Analytics 4 for aggregate access statistics (subject to prior consent), and GitHub Pages, as the Site host, logs visitor IP addresses for security purposes.",
         },
       ],
     },
@@ -495,7 +495,7 @@ export const privacyDocument: LegalDocument = {
         },
         {
           type: "paragraph",
-          text: "On the Site, ShinyStat is used only to measure aggregate visits. According to ShinyStat, IP addresses and navigation data are anonymised and aggregated in real time and complete IP addresses and non-aggregated navigation logs are not stored on disk by its analytics system. ShinyStat may use analytics cookies or similar technology and provides further information and an opt-out through its privacy page.",
+          text: "On the Site, Google Analytics 4 (provided by Google Ireland Limited / Google LLC) is used solely to measure aggregate visits and page views. Analytics cookies are set only if you provide your explicit consent through the cookie banner. Event data retention is set to 2 months. Document viewing pages (/share) do not contain any analytics code and document data is never transmitted to Google. Further information and an opt-out browser add-on are available on Google's privacy pages.",
         },
         { type: "links", items: thirdPartyPrivacy },
       ],
@@ -556,7 +556,7 @@ export const privacyDocument: LegalDocument = {
           items: [
             "Google, including AdMob, Google Analytics for Firebase, Google Play and the email service used for support;",
             "Apple, for App Store distribution, in-app purchase processing and platform services;",
-            "Sevendata S.p.A., through ShinyStat, for aggregate Site access measurement;",
+            "Google, through Google Analytics 4, for aggregate Site access measurement (subject to consent);",
             "GitHub, through GitHub Pages, for static Site hosting and hosting security logs;",
             "public authorities, courts, professional advisers or other persons where disclosure is required by law or reasonably necessary to establish, exercise or defend legal claims.",
           ],
@@ -656,7 +656,7 @@ export const privacyDocument: LegalDocument = {
         },
         {
           type: "paragraph",
-          text: "We cannot access, export, correct or remotely delete document data that exists only on a user’s device. The user can manage that data directly in the App. Requests concerning data controlled independently by Apple, Google, GitHub, ShinyStat or a service chosen by the user may need to be submitted to that provider.",
+          text: "We cannot access, export, correct or remotely delete document data that exists only on a user’s device. The user can manage that data directly in the App. Requests concerning data controlled independently by Apple, Google, GitHub or a service chosen by the user may need to be submitted to that provider.",
         },
         {
           type: "paragraph",
@@ -675,7 +675,7 @@ export const privacyDocument: LegalDocument = {
         },
         {
           type: "paragraph",
-          text: "The Site uses ShinyStat analytics cookies or similar technology for aggregate access counting. Users can manage cookies through their browser and use any opt-out made available on ShinyStat’s privacy page. Blocking optional technology may reduce measurement or advertising relevance but should not prevent access to the App’s core local functions.",
+          text: "The Site uses Google Analytics 4 cookies solely for aggregate access measurement, subject to your prior consent via our cookie banner. Users can manage or revoke their cookie preferences at any time via the “Cookie preferences” link in the footer or through browser settings. Blocking optional technology does not prevent access to the Site or the App's core functions.",
         },
         {
           type: "paragraph",

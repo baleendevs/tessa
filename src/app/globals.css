@@ -243,7 +243,8 @@ img {
 }
 
 .marketing-nav a,
-.site-footer__links a {
+.site-footer__links a,
+.site-footer__links button {
   color: var(--tessa-on-surface-muted);
   font-size: 0.9rem;
   font-weight: 650;
@@ -251,7 +252,8 @@ img {
 }
 
 .marketing-nav a:hover,
-.site-footer__links a:hover {
+.site-footer__links a:hover,
+.site-footer__links button:hover {
   color: var(--tessa-primary);
 }
 
@@ -790,7 +792,23 @@ img {
 .site-footer__links { display: grid; gap: 2rem; grid-template-columns: 1fr 1fr; }
 .site-footer__links nav { display: flex; flex-direction: column; gap: 0.8rem; min-width: 0; }
 .site-footer__links strong { font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; }
-.site-footer__links a { align-items: center; display: inline-flex; min-height: 3rem; }
+.site-footer__links a,
+.site-footer__links button {
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  min-height: 3rem;
+  padding: 0;
+  text-align: left;
+}
+.site-footer__links button:focus-visible {
+  outline: 2px solid var(--tessa-focus-ring);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
 .site-footer__links a[aria-current="page"] { color: var(--tessa-primary); }
 .site-footer__copyright { color: var(--tessa-on-surface-muted); font-size: 0.78rem; margin-top: 3rem; }
 
@@ -960,7 +978,8 @@ img {
   .site-footer__inner { gap: 2.5rem; grid-template-columns: minmax(0, 1fr); }
   .site-footer__links { gap: clamp(1.5rem, 7vw, 4rem); }
   .site-footer__links nav { gap: 0.4rem; }
-  .site-footer__links a { min-height: 2.75rem; }
+  .site-footer__links a,
+  .site-footer__links button { min-height: 2.75rem; }
   .site-footer__copyright { margin-top: 2.25rem; }
   .privacy-story__heading { align-items: start; gap: 1.5rem; grid-template-columns: 1fr; }
   .privacy-story__heading .feature-pills { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: flex-start; }
@@ -1261,6 +1280,11 @@ img {
     background-color var(--motion-duration-direct) ease,
     border-color var(--motion-duration-direct) ease,
     color var(--motion-duration-direct) ease;
+}
+
+:root[data-theme-ready="true"] [data-testid="cookie-consent-banner"] *,
+:root[data-theme-ready="true"] [data-testid="cookie-preferences-modal"] * {
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
